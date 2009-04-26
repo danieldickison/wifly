@@ -9,12 +9,18 @@
 @protocol FlipsideViewControllerDelegate;
 
 
-@interface FlipsideViewController : UIViewController {
+@interface FlipsideViewController : UIViewController
+{
 	id <FlipsideViewControllerDelegate> delegate;
+    UITextField *ipField;
+    UITextField *portField;
 }
 
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
+@property (nonatomic, retain) IBOutlet UITextField *ipField;
+@property (nonatomic, retain) IBOutlet UITextField *portField;
 - (IBAction)done;
+
 
 @end
 

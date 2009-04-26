@@ -11,6 +11,7 @@
 
 
 @class MainViewController;
+@class AsyncUdpSocket;
 
 @interface iX_YokeAppDelegate : NSObject <UIApplicationDelegate, UIAccelerometerDelegate>
 {
@@ -23,10 +24,17 @@
     
     float pitchOffset;
     float rollOffset;
+    
+    NSString *hostAddress;
+    unsigned hostPort;
+    AsyncUdpSocket *socket;
+    unsigned long packetTag;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) MainViewController *mainViewController;
+@property (nonatomic, copy) NSString *hostAddress;
+@property (nonatomic, assign) unsigned hostPort;
 
 // Sets the current tilt as the "center".
 - (void)resetCalibration;
