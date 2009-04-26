@@ -7,48 +7,39 @@
 //
 
 #import "FlipsideViewController.h"
+#import "iX_YokeAppDelegate.h"
 
 
 @implementation FlipsideViewController
 
-@synthesize delegate;
+@synthesize delegate, ipField, portField;
 
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];      
+- (void)dealloc
+{
+    self.ipField = nil;
+    self.portField = nil;
+    [super dealloc];
 }
 
 
-- (IBAction)done {
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    ipField.text = SharedAppDelegate.hostAddress;
+    portField.text =
+        (SharedAppDelegate.hostPort == 0 ? nil
+         : [NSString stringWithFormat:@"%d", SharedAppDelegate.hostPort]);
+}
+
+
+- (IBAction)done
+{
+    SharedAppDelegate.hostAddress = ipField.text;
+    SharedAppDelegate.hostPort = [portField.text intValue];
 	[self.delegate flipsideViewControllerDidFinish:self];	
 }
 
-
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
-
-- (void)dealloc {
-    [super dealloc];
-}
 
 
 @end
