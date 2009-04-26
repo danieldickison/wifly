@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "MainView.h"
+#import "iX_YokeAppDelegate.h"
 
 
 @implementation MainViewController
@@ -55,6 +56,12 @@
     rollIndicator.progress = (roll + M_PI_2) / M_PI;
     pitchLabel.text = [NSString stringWithFormat:@"%d%C", (int)(180*pitch/M_PI), 0xB0];
     rollLabel.text = [NSString stringWithFormat:@"%d%C", (int)(180*roll/M_PI), 0xB0];
+}
+
+
+- (IBAction)resetCalibration
+{
+    [SharedAppDelegate resetCalibration];
 }
 
 

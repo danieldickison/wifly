@@ -6,6 +6,10 @@
 //  Copyright Daniel_Dickison 2009. All rights reserved.
 //
 
+
+#define SharedAppDelegate ((iX_YokeAppDelegate *)[UIApplication sharedApplication].delegate)
+
+
 @class MainViewController;
 
 @interface iX_YokeAppDelegate : NSObject <UIApplicationDelegate, UIAccelerometerDelegate>
@@ -13,15 +17,19 @@
     UIWindow *window;
     MainViewController *mainViewController;
     
-    double xAvg;
-    double yAvg;
-    double zAvg;
-    double pitch;
-    double roll;
+    float xAvg;
+    float yAvg;
+    float zAvg;
+    
+    float pitchOffset;
+    float rollOffset;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) MainViewController *mainViewController;
+
+// Sets the current tilt as the "center".
+- (void)resetCalibration;
 
 @end
 
