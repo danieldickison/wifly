@@ -89,7 +89,7 @@
         bytes[2] = 2; //tag for roll;
         bytes[3] = 180*roll/M_PI;
         NSData *data = [[NSData alloc] initWithBytes:bytes length:4];
-        [socket sendData:data toHost:hostAddress port:hostPort withTimeout:MAXFLOAT tag:packetTag++];
+        [socket sendData:data toHost:hostAddress port:hostPort withTimeout:-1 tag:0];
         [data release];
     }
 }

@@ -28,7 +28,6 @@
     NSString *hostAddress;
     unsigned hostPort;
     AsyncUdpSocket *socket;
-    unsigned long packetTag;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

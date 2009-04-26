@@ -8,7 +8,6 @@
 	AsyncSocket *listenSocket;
 	NSMutableArray *connectedSockets;
     AsyncUdpSocket *udpSocket;
-    long udpPacketTag;
 	
 	BOOL isRunning;
 	

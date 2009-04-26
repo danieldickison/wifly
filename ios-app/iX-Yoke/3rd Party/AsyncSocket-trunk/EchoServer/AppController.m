@@ -128,7 +128,7 @@
                 [self logError:FORMAT(@"Error starting UDP server: %@", error)];
                 return;
             }
-            [udpSocket receiveWithTimeout:MAXFLOAT tag:udpPacketTag++];
+            [udpSocket receiveWithTimeout:-1 tag:0];
             [self logInfo:FORMAT(@"Echo server started on port %hu", [udpSocket localPort])];
         }
         
@@ -225,8 +225,8 @@
 - (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
 {
     [self logMessage:[data description]];
-    [sock sendData:data toHost:host port:port withTimeout:MAXFLOAT tag:udpPacketTag++];
-    [sock receiveWithTimeout:MAXFLOAT tag:0];
+    [sock sendData:data toHost:host port:port withTimeout:-1 tag:0];
+    [sock receiveWithTimeout:-1 tag:0];
     return YES;
 }
 
