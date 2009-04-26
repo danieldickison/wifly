@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B08BE260FA44EE000BAF947 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B08BE250FA44EE000BAF947 /* AsyncUdpSocket.m */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -17,6 +18,8 @@
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0B08BE240FA44EE000BAF947 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncUdpSocket.h; path = ../AsyncUdpSocket.h; sourceTree = SOURCE_ROOT; };
+		0B08BE250FA44EE000BAF947 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncUdpSocket.m; path = ../AsyncUdpSocket.m; sourceTree = SOURCE_ROOT; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -49,6 +52,8 @@
 			children = (
 				DC50DAB40E4673830071BAD9 /* AsyncSocket.h */,
 				DC50DAB50E4673910071BAD9 /* AsyncSocket.m */,
+				0B08BE240FA44EE000BAF947 /* AsyncUdpSocket.h */,
+				0B08BE250FA44EE000BAF947 /* AsyncUdpSocket.m */,
 				DC7619030E26F49700A77CA5 /* AppController.h */,
 				DC7619040E26F49700A77CA5 /* AppController.m */,
 			);
@@ -179,6 +184,7 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				DC7619050E26F49700A77CA5 /* AppController.m in Sources */,
 				DC50DAB60E4673910071BAD9 /* AsyncSocket.m in Sources */,
+				0B08BE260FA44EE000BAF947 /* AsyncUdpSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

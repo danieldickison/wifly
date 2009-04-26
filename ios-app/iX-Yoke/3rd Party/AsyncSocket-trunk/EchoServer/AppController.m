@@ -1,5 +1,6 @@
 #import "AppController.h"
 #import "AsyncSocket.h"
+#import "AsyncUdpSocket.h"
 
 #define WELCOME_MSG  0
 #define ECHO_MSG     1
@@ -21,6 +22,7 @@
 	{
 		listenSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		connectedSockets = [[NSMutableArray alloc] initWithCapacity:1];
+        udpSocket = nil;
 		
 		isRunning = NO;
 	}
@@ -97,6 +99,7 @@
 
 - (IBAction)startStop:(id)sender
 {
+    BOOL isTCP = [[protocolRadioMatrix selectedCell] tag] == 1;
 	if(!isRunning)
 	{
 		int port = [portField intValue];
@@ -107,37 +110,61 @@
 		}
 		
 		NSError *error = nil;
-		if(![listenSocket acceptOnPort:port error:&error])
-		{
-			[self logError:FORMAT(@"Error starting server: %@", error)];
-			return;
+        if (isTCP)
+        {
+            if(![listenSocket acceptOnPort:port error:&error])
+            {
+                [self logError:FORMAT(@"Error starting server: %@", error)];
+                return;
+            }
+            [self logInfo:FORMAT(@"Echo server started on port %hu", [listenSocket localPort])];
 		}
-		
-		[self logInfo:FORMAT(@"Echo server started on port %hu", [listenSocket localPort])];
+        else
+        {
+            [udpSocket release];
+            udpSocket = [[AsyncUdpSocket alloc] initWithDelegate:self];
+            if (![udpSocket bindToPort:port error:&error])
+            {
+                [self logError:FORMAT(@"Error starting UDP server: %@", error)];
+                return;
+            }
+            [udpSocket receiveWithTimeout:MAXFLOAT tag:udpPacketTag++];
+            [self logInfo:FORMAT(@"Echo server started on port %hu", [udpSocket localPort])];
+        }
+        
 		isRunning = YES;
 		
 		[portField setEnabled:NO];
+        [protocolRadioMatrix setEnabled:NO];
 		[startStopButton setTitle:@"Stop"];
 	}
 	else
 	{
-		// Stop accepting connections
-		[listenSocket disconnect];
-			
-		// Stop any client connections
-		int i;
-		for(i = 0; i < [connectedSockets count]; i++)
-		{
-			// Call disconnect on the socket,
-			// which will invoke the onSocketDidDisconnect: method,
-			// which will remove the socket from the list.
-			[[connectedSockets objectAtIndex:i] disconnect];
-		}
+        if (isTCP)
+        {
+            // Stop accepting connections
+            [listenSocket disconnect];
+                
+            // Stop any client connections
+            int i;
+            for(i = 0; i < [connectedSockets count]; i++)
+            {
+                // Call disconnect on the socket,
+                // which will invoke the onSocketDidDisconnect: method,
+                // which will remove the socket from the list.
+                [[connectedSockets objectAtIndex:i] disconnect];
+            }
+        }
+        else
+        {
+            [udpSocket close];
+        }
 		
 		[self logInfo:@"Stopped Echo server"];
 		isRunning = false;
 		
 		[portField setEnabled:YES];
+        [protocolRadioMatrix setEnabled:YES];
 		[startStopButton setTitle:@"Start"];
 	}
 }
@@ -193,5 +220,20 @@
 {
 	[connectedSockets removeObject:sock];
 }
+
+
+- (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
+{
+    [self logMessage:[data description]];
+    [sock sendData:data toHost:host port:port withTimeout:MAXFLOAT tag:udpPacketTag++];
+    [sock receiveWithTimeout:MAXFLOAT tag:0];
+    return YES;
+}
+
+- (void)onUdpSocket:(AsyncUdpSocket *)sock didNotReceiveDataWithTag:(long)tag dueToError:(NSError *)error
+{
+    [self logError:[error description]];
+}
+
 
 @end
