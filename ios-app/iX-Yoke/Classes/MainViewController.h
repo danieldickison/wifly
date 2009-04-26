@@ -22,6 +22,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *pitchLabel;
 
 - (IBAction)showInfo;
+- (IBAction)resetCalibration;
 
 - (void)updatePitch:(float)pitch roll:(float)roll;
 

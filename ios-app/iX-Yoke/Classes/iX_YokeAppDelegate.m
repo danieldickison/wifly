@@ -10,7 +10,7 @@
 #import "MainViewController.h"
 
 #define kUpdateFrequency 20  // Hz
-#define kFilteringFactor 0.2
+#define kFilteringFactor 0.2f
 
 
 @implementation iX_YokeAppDelegate
@@ -47,18 +47,25 @@
 {
     // Use a basic low-pass filter to only keep the gravity in the accelerometer values for the X and Y axes
     // See the BubbleLevel Apple example.
-    xAvg = acceleration.x * kFilteringFactor + xAvg * (1.0 - kFilteringFactor);
-    yAvg = acceleration.y * kFilteringFactor + yAvg * (1.0 - kFilteringFactor);
-    zAvg = acceleration.z * kFilteringFactor + zAvg * (1.0 - kFilteringFactor);
+    xAvg = (float)acceleration.x * kFilteringFactor + xAvg * (1.0f - kFilteringFactor);
+    yAvg = (float)acceleration.y * kFilteringFactor + yAvg * (1.0f - kFilteringFactor);
+    zAvg = (float)acceleration.z * kFilteringFactor + zAvg * (1.0f - kFilteringFactor);
     
     // This method gives a range of +/- 90 degrees on each axis, but only if you're rotating about one axis at a time.  If you try to tilt on both axes, then it maxes out at +/- 45 degrees.  It would probably be nicer if the range is kept constant regardless of whether you're tilting in one or two axes.
-    double ySqr = yAvg*yAvg;
-    pitch = atan2(zAvg, sqrt(ySqr + xAvg*xAvg));
-    roll = atan2(xAvg, sqrt(ySqr + zAvg*zAvg));
+    float ySqr = yAvg*yAvg;
+    float pitch = pitchOffset + atan2f(zAvg, sqrtf(ySqr + xAvg*xAvg));
+    float roll = rollOffset + atan2f(xAvg, sqrtf(ySqr + zAvg*zAvg));
     
     [mainViewController updatePitch:pitch roll:roll];
 }
 
+
+- (void)resetCalibration
+{
+    float ySqr = yAvg*yAvg;
+    pitchOffset = -atan2f(zAvg, sqrtf(ySqr + xAvg*xAvg));
+    rollOffset = -atan2f(xAvg, sqrtf(ySqr + zAvg*zAvg));
+}
 
 
 @end
