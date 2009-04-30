@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0B08BDE40FA447AA00BAF947 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */; };
+		0B6340110FA8960000C511A9 /* LinearWheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6340100FA8960000C511A9 /* LinearWheelControl.m */; };
+		0B63404C0FA8A4C100C511A9 /* Default Linear Wheel BG.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */; };
+		0B63404D0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B63404B0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png */; };
+		0B63426B0FA91BC200C511A9 /* TrackPadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B63426A0FA91BC200C511A9 /* TrackPadControl.m */; };
 		1D3623260D0F684500981E51 /* iX_YokeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -24,6 +28,13 @@
 /* Begin PBXFileReference section */
 		0B08BDE20FA447AA00BAF947 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncUdpSocket.h; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.h"; sourceTree = "<group>"; };
 		0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncUdpSocket.m; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.m"; sourceTree = "<group>"; };
+		0B63400F0FA8960000C511A9 /* LinearWheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinearWheelControl.h; path = Classes/LinearWheelControl.h; sourceTree = "<group>"; };
+		0B6340100FA8960000C511A9 /* LinearWheelControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinearWheelControl.m; path = Classes/LinearWheelControl.m; sourceTree = "<group>"; };
+		0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default Linear Wheel BG.png"; path = "Images/Default Linear Wheel BG.png"; sourceTree = "<group>"; };
+		0B63404B0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default Linear Wheel Thumb.png"; path = "Images/Default Linear Wheel Thumb.png"; sourceTree = "<group>"; };
+		0B63415C0FA8D37100C511A9 /* iX_Yoke_Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iX_Yoke_Network.h; path = "../iX-Yoke-plugin/iX_Yoke_Network.h"; sourceTree = "<group>"; };
+		0B6342690FA91BC200C511A9 /* TrackPadControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrackPadControl.h; path = Classes/TrackPadControl.h; sourceTree = "<group>"; };
+		0B63426A0FA91BC200C511A9 /* TrackPadControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrackPadControl.m; path = Classes/TrackPadControl.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iX_YokeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iX_YokeAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iX_YokeAppDelegate.m; sourceTree = "<group>"; };
@@ -71,6 +82,7 @@
 		0B08BD2D0FA3CFE300BAF947 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				0B63400C0FA8959F00C511A9 /* Views */,
 				289233A00DB2D0730083E9F9 /* Main View */,
 				281C6CD70DB2D82200F60ACC /* Flipside View */,
 				080E96DDFE201D6D7F000001 /* Application Delegate */,
@@ -85,6 +97,17 @@
 				0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */,
 			);
 			name = "3rd Party";
+			sourceTree = "<group>";
+		};
+		0B63400C0FA8959F00C511A9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0B63400F0FA8960000C511A9 /* LinearWheelControl.h */,
+				0B6340100FA8960000C511A9 /* LinearWheelControl.m */,
+				0B6342690FA91BC200C511A9 /* TrackPadControl.h */,
+				0B63426A0FA91BC200C511A9 /* TrackPadControl.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -131,6 +154,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				0B63415C0FA8D37100C511A9 /* iX_Yoke_Network.h */,
 				32CA4F630368D1EE00C91783 /* iX_Yoke_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -140,6 +164,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */,
+				0B63404B0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png */,
 				280E754A0DD40C5E005A515E /* FlipsideView.xib */,
 				280E754B0DD40C5E005A515E /* MainView.xib */,
 				280E754C0DD40C5E005A515E /* MainWindow.xib */,
@@ -210,6 +236,8 @@
 				280E754D0DD40C5E005A515E /* FlipsideView.xib in Resources */,
 				280E754E0DD40C5E005A515E /* MainView.xib in Resources */,
 				280E754F0DD40C5E005A515E /* MainWindow.xib in Resources */,
+				0B63404C0FA8A4C100C511A9 /* Default Linear Wheel BG.png in Resources */,
+				0B63404D0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +254,8 @@
 				289233AE0DB2D0DB0083E9F9 /* MainViewController.m in Sources */,
 				289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */,
 				0B08BDE40FA447AA00BAF947 /* AsyncUdpSocket.m in Sources */,
+				0B6340110FA8960000C511A9 /* LinearWheelControl.m in Sources */,
+				0B63426B0FA91BC200C511A9 /* TrackPadControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

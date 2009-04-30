@@ -8,22 +8,18 @@
 
 #import "FlipsideViewController.h"
 
+@class TrackPadControl;
+
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate>
 {
-    UIProgressView *rollIndicator;
-    UIProgressView *pitchIndicator;
-    UILabel *rollLabel;
-    UILabel *pitchLabel;
+    TrackPadControl *calibrationTrackPad;
+    TrackPadControl *controlTrackPad;
 }
 
-@property (nonatomic, retain) IBOutlet UIProgressView *rollIndicator;
-@property (nonatomic, retain) IBOutlet UIProgressView *pitchIndicator;
-@property (nonatomic, retain) IBOutlet UILabel *rollLabel;
-@property (nonatomic, retain) IBOutlet UILabel *pitchLabel;
-
 - (IBAction)showInfo;
-- (IBAction)resetCalibration;
+- (IBAction)toggleSuspend:(UISwitch *)sender;
+- (IBAction)switchTrackPad:(UISegmentedControl *)sender;
 
-- (void)updatePitch:(float)pitch roll:(float)roll;
+- (void)updatePitch:(float *)ioPitch roll:(float *)ioRoll;
 
 @end

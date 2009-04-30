@@ -22,20 +22,32 @@
 #include "XPLMProcessing.h"
 #include "XPLMUtilities.h"
 
+#include "iX_Yoke_Network.h"
 
-#define kServerPort 56244
+/*
+typedef struct {
+    XPLMDataRef dataref;
+    int is_specified;
+    float value;
+} DataRefSetting;
 
-enum {
-    kServerKillTag = 0,
-    kPitchTag = 1,
-    kRollTag = 2
-};
 
-
+// The network loop will write to the first, then atomically swap it with the handoff set when it's done.  When the flight loop is ready to read settings, it'll atomically swap the handoff set with the read set.  If I'm not mistaken, I think this ensures a lock-free but consistent state.
+// server loop -> writeSettings <--> handoffSettings <--> readSettings -> flight loop.
+DataRefSetting writeSettings[kNumTags];
+DataRefSetting handoffSettings[kNumTags];
+DataRefSettings readSettings[kNumTags];
+*/
 
 XPLMDataRef gOverrideRef = NULL;
 XPLMDataRef gPitchRef = NULL;
 XPLMDataRef gRollRef = NULL;
+XPLMDataRef gYawRef = NULL;
+XPLMDataRef gThrottleOverrideRef = NULL;
+XPLMDataRef gThrottleRef = NULL;
+XPLMDataRef gPropRef = NULL;
+XPLMDataRef gFlapRef = NULL;
+
 
 
 pthread_t server_thread = NULL;
@@ -50,6 +62,10 @@ float flight_loop_callback(float inElapsedSinceLastCall,
 
 float current_pitch = 0.0f;
 float current_roll = 0.0f;
+float current_yaw = 0.0f;
+float current_throttle = 0.0f; //[8] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+float current_prop = 0.0f; //[8] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+float current_flap = 0.0f;
 char *server_msg = NULL;
 
 
@@ -78,9 +94,15 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
 	gOverrideRef = XPLMFindDataRef("sim/operation/override/override_joystick");
 	gPitchRef = XPLMFindDataRef("sim/joystick/yolk_pitch_ratio");
 	gRollRef = XPLMFindDataRef("sim/joystick/yolk_roll_ratio");
+	gYawRef = XPLMFindDataRef("sim/joystick/yolk_heading_ratio");
+    gThrottleOverrideRef = XPLMFindDataRef("sim/operation/override/override_throttles");
+    //gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro_use");
+    gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro");
+    gFlapRef = XPLMFindDataRef("sim/flightmodel/controls/flaprqst");
+    gPropRef = XPLMFindDataRef("sim/flightmodel/engine/POINT_pitch_deg");
     
     XPLMRegisterFlightLoopCallback(flight_loop_callback,
-                                   0.1, //10Hz...we really want every frame?
+                                   1.0, // Start in a second...
                                    NULL);
     
 	return 1;
@@ -113,6 +135,7 @@ PLUGIN_API int XPluginEnable(void)
 PLUGIN_API void XPluginDisable(void)
 {
     XPLMSetDatai(gOverrideRef, 0);
+    XPLMSetDatai(gThrottleOverrideRef, 0);
     
     debug("Stopping server");
     
@@ -165,15 +188,31 @@ float flight_loop_callback(float inElapsedSinceLastCall,
                            int inCounter,
                            void *inRefcon)
 {
+    /*
+    if (inCounter % 60 == 0)
+    {
+        char str[64];
+        sprintf(str, "throttle[0]: %f", current_throttle);
+        debug(str);
+    }
+     */
+    
     XPLMSetDatai(gOverrideRef, 1);
     XPLMSetDataf(gPitchRef, current_pitch);
     XPLMSetDataf(gRollRef, current_roll);
+    XPLMSetDataf(gYawRef, current_yaw);
+    
+    //XPLMSetDatai(gThrottleOverrideRef, 1);
+    // commented out throttle to experiment with helicopters that use FADEC..
+    XPLMSetDatavf(gThrottleRef, &current_throttle, 0, 1);
+    XPLMSetDatavf(gPropRef, &current_prop, 0, 1);
+    //XPLMSetDataf(gFlapRef, current_flap); //No flap UI yet.
     if (server_msg != NULL)
     {
         debug(server_msg);
         server_msg = NULL;
     }
-    return 0.1;
+    return 0.05; //20Hz -- is this ok?
 }
 
 
@@ -185,7 +224,7 @@ void *server_loop(void *arg)
     int sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
     
     struct sockaddr_in addr; 
-    SInt8 buffer[4096];
+    UInt8 buffer[kPacketSizeLimit];
     size_t recv_size;
     
     memset(&addr, 0, sizeof(addr));
@@ -203,27 +242,62 @@ void *server_loop(void *arg)
     
     for (;;) 
     {
-        recv_size = recvfrom(sock, (void *)buffer, 4096, 0, NULL, NULL);
+        recv_size = recvfrom(sock, (void *)buffer, kPacketSizeLimit, 0, NULL, NULL);
         if (recv_size < 0)
         {
             server_msg = strerror(errno);
             goto stop_server;
         }
+        /*
+        char debugstr[64];
+        sprintf(debugstr, "Recv throttle %f", throt);
+        server_msg = debugstr;
+         */
         
         int i = 0;
         while (i < recv_size)
         {
-            SInt8 tag = buffer[i++];
+            UInt8 tag = ix_get_tag(buffer, &i);
             switch (tag)
             {
+                case kPacketEndTag:
+                    i = 0x7fff; // Force exit the loop.
+                    break;
                 case kServerKillTag:
-                    server_msg = "Server kill received.";
+                    server_msg = "Server kill received";
                     goto stop_server;
                 case kPitchTag:
-                    current_pitch = (float)buffer[i++] / 90.0f;
+                    current_pitch = ix_get_ratio(buffer, &i);
                     break;
                 case kRollTag:
-                    current_roll = (float)buffer[i++] / 90.0f;
+                    current_roll = ix_get_ratio(buffer, &i);
+                    break;
+                case kYawTag:
+                    current_yaw = ix_get_ratio(buffer, &i);
+                    break;
+                case kThrottleTag:
+                {
+                    current_throttle = ix_get_ratio(buffer, &i);
+                    /* Why doesn't this work?
+                    for (int j = 0; j < 8; j++)
+                    {
+                        current_throttle[i] = throt;
+                    }*/
+                    break;
+                }
+                case kPropTag:
+                {
+                    current_prop = 15.0f * ix_get_ratio(buffer, &i);
+                    /*
+                    for (int j = 0; j < 8; j++)
+                    {
+                        current_prop[i] = prop;
+                    }
+                     */
+                    break;
+                }
+                case kFlapTag:
+                    current_flap = ix_get_ratio(buffer, &i);
                     break;
             }
         }

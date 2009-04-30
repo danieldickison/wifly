@@ -9,18 +9,18 @@
 #import "MainViewController.h"
 #import "MainView.h"
 #import "iX_YokeAppDelegate.h"
+#import "TrackPadControl.h"
+
+
+#define kTrackPadTag 562
 
 
 @implementation MainViewController
 
-@synthesize rollIndicator, pitchIndicator, rollLabel, pitchLabel;
-
 -(void)dealloc
 {
-    self.rollIndicator = nil;
-    self.pitchIndicator = nil;
-    self.rollLabel = nil;
-    self.pitchLabel = nil;
+    [calibrationTrackPad release];
+    [controlTrackPad release];
     [super dealloc];
 }
 
@@ -28,7 +28,21 @@
  - (void)viewDidLoad
 {
     [super viewDidLoad];
-    pitchIndicator.transform = CGAffineTransformMakeRotation(-M_PI_2);
+    
+    calibrationTrackPad = [[TrackPadControl alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+    [calibrationTrackPad setMinX:-1 maxX:1 minY:1 maxY:-1];
+    calibrationTrackPad.tag = kTrackPadTag;
+    [calibrationTrackPad addTarget:self action:@selector(calibrationUpdated) forControlEvents:UIControlEventValueChanged];
+    calibrationTrackPad.multipleTouchEnabled = YES;
+    [self.view addSubview:calibrationTrackPad];
+    
+    controlTrackPad = [[TrackPadControl alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+    [controlTrackPad setMinX:-1 maxX:1 minY:0 maxY:1];
+    controlTrackPad.xValue = SharedAppDelegate.yaw;
+    controlTrackPad.yValue = SharedAppDelegate.throttle;
+    controlTrackPad.tag = kTrackPadTag;
+    [controlTrackPad addTarget:self action:@selector(controlUpdated) forControlEvents:UIControlEventValueChanged];
+    controlTrackPad.multipleTouchEnabled = YES;
 }
 
 
@@ -50,29 +64,42 @@
 }
 
 
-- (void)updatePitch:(float)pitch roll:(float)roll
+- (void)updatePitch:(float *)ioPitch roll:(float *)ioRoll
 {
-    pitchIndicator.progress = (pitch + M_PI_2) / M_PI;
-    rollIndicator.progress = (roll + M_PI_2) / M_PI;
-    pitchLabel.text = [NSString stringWithFormat:@"%d%C", (int)(180*pitch/M_PI), 0xB0];
-    rollLabel.text = [NSString stringWithFormat:@"%d%C", (int)(180*roll/M_PI), 0xB0];
+    // Use the trackpad to calibrate pitch and roll.
+    calibrationTrackPad.xValue = *ioRoll;
+    calibrationTrackPad.yValue = *ioPitch;
+    *ioRoll = calibrationTrackPad.xValue;
+    *ioPitch = calibrationTrackPad.yValue;
+    //pitchLabel.text = [NSString stringWithFormat:@"%d%C", (int)(90*pitch), 0xB0];
+    //rollLabel.text = [NSString stringWithFormat:@"%d%C", (int)(90*roll), 0xB0];
 }
 
 
-- (IBAction)resetCalibration
+- (IBAction)toggleSuspend:(UISwitch *)sender
 {
-    [SharedAppDelegate resetCalibration];
+    SharedAppDelegate.suspended = sender.on;
+}
+
+- (IBAction)switchTrackPad:(UISegmentedControl *)sender
+{
+    [[self.view viewWithTag:kTrackPadTag] removeFromSuperview];
+    [self.view addSubview:(sender.selectedSegmentIndex == 0
+                           ? calibrationTrackPad
+                           : controlTrackPad)];
 }
 
 
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
+- (void)calibrationUpdated
+{
+}
 
+
+- (void)controlUpdated
+{
+    SharedAppDelegate.yaw = controlTrackPad.xValue;
+    SharedAppDelegate.throttle = controlTrackPad.yValue;
+}
 
 
 

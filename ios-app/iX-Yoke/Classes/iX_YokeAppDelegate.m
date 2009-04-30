@@ -9,16 +9,17 @@
 #import "iX_YokeAppDelegate.h"
 #import "MainViewController.h"
 #import "AsyncUdpSocket.h"
+#include "iX_Yoke_Network.h"
 
-#define kUpdateFrequency 15  // Hz
-#define kFilteringFactor 0.3f
+#define kUpdateFrequency 20  // Hz
+#define kFilteringFactor 0.25f
 
 
 @implementation iX_YokeAppDelegate
 
 
 @synthesize window;
-@synthesize mainViewController, hostAddress, hostPort;
+@synthesize mainViewController, hostAddress, hostPort, yaw, throttle, flap, prop, suspended;
 
 
 - (void)setHostAddress:(NSString *)addr
@@ -76,19 +77,32 @@
     
     // This method gives a range of +/- 90 degrees on each axis, but only if you're rotating about one axis at a time.  If you try to tilt on both axes, then it maxes out at +/- 45 degrees.  It would probably be nicer if the range is kept constant regardless of whether you're tilting in one or two axes.
     float ySqr = yAvg*yAvg;
-    float pitch = pitchOffset + atan2f(zAvg, sqrtf(ySqr + xAvg*xAvg));
-    float roll = rollOffset + atan2f(xAvg, sqrtf(ySqr + zAvg*zAvg));
+    float pitchRad = pitchOffset + atan2f(zAvg, sqrtf(ySqr + xAvg*xAvg));
+    float rollRad = rollOffset + atan2f(xAvg, sqrtf(ySqr + zAvg*zAvg));
+    float pitch = pitchRad / M_PI_2;
+    float roll = rollRad / M_PI_2;
     
-    [mainViewController updatePitch:pitch roll:roll];
+    // The view controller handles calibration via its trackpad.
+    [mainViewController updatePitch:&pitch roll:&roll];
     
-    if (hostAddress)
+    if (hostAddress && !suspended)
     {
-        SInt8 bytes[4];
-        bytes[0] = 1; //tag for pitch;
-        bytes[1] = 180*pitch/M_PI;
-        bytes[2] = 2; //tag for roll;
-        bytes[3] = 180*roll/M_PI;
-        NSData *data = [[NSData alloc] initWithBytes:bytes length:4];
+        UInt8 buffer[128];
+        int i = 0;
+        ix_put_tag(buffer, &i, kPitchTag);
+        ix_put_ratio(buffer, &i, pitch);
+        ix_put_tag(buffer, &i, kRollTag);
+        ix_put_ratio(buffer, &i, roll);
+        ix_put_tag(buffer, &i, kYawTag);
+        ix_put_ratio(buffer, &i, yaw);
+        ix_put_tag(buffer, &i, kThrottleTag);
+        ix_put_ratio(buffer, &i, throttle);
+        ix_put_tag(buffer, &i, kFlapTag);
+        ix_put_ratio(buffer, &i, flap);
+        ix_put_tag(buffer, &i, kPropTag);
+        ix_put_ratio(buffer, &i, prop);
+        ix_put_tag(buffer, &i, kPacketEndTag);
+        NSData *data = [[NSData alloc] initWithBytes:buffer length:i];
         [socket sendData:data toHost:hostAddress port:hostPort withTimeout:-1 tag:0];
         [data release];
     }
