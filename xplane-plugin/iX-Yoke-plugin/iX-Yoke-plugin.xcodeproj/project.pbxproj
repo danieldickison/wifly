@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B6341490FA8C64000C511A9 /* iX_Yoke_Network.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B6341480FA8C64000C511A9 /* iX_Yoke_Network.h */; };
 		4AED38EB0DCCE6F700B89CAC /* iX-Yoke-plugin.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AED38EA0DCCE6F700B89CAC /* iX-Yoke-plugin.c */; };
 		D2AAC0B105546B7500DB518D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB77AAFE841565C02AAC07 /* Carbon.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		0B6341480FA8C64000C511A9 /* iX_Yoke_Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iX_Yoke_Network.h; sourceTree = "<group>"; };
 		32BAE0B70371A74B00C91783 /* iX-Yoke-plugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iX-Yoke-plugin_Prefix.pch"; sourceTree = "<group>"; };
 		4AED38EA0DCCE6F700B89CAC /* iX-Yoke-plugin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "iX-Yoke-plugin.c"; sourceTree = "<group>"; };
 		D2AAC09D05546B4700DB518D /* iX-Yoke-plugin.xpl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "iX-Yoke-plugin.xpl"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,6 +43,7 @@
 		0867D691FE84028FC02AAC07 /* iX-Yoke-plugin */ = {
 			isa = PBXGroup;
 			children = (
+				0B6341480FA8C64000C511A9 /* iX_Yoke_Network.h */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DDFF38A45A11DB9C8B /* Products */,
@@ -72,6 +75,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6341490FA8C64000C511A9 /* iX_Yoke_Network.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +204,7 @@
 		1DEB916508733D950010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -214,6 +219,7 @@
 					ppc,
 					i386,
 				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

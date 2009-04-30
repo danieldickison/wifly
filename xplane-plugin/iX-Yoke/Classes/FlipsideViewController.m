@@ -9,6 +9,8 @@
 #import "FlipsideViewController.h"
 #import "iX_YokeAppDelegate.h"
 
+#import "TrackPadControl.h"
+
 
 @implementation FlipsideViewController
 
