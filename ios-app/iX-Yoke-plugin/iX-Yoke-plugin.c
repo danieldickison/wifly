@@ -24,20 +24,6 @@
 
 #include "iX_Yoke_Network.h"
 
-/*
-typedef struct {
-    XPLMDataRef dataref;
-    int is_specified;
-    float value;
-} DataRefSetting;
-
-
-// The network loop will write to the first, then atomically swap it with the handoff set when it's done.  When the flight loop is ready to read settings, it'll atomically swap the handoff set with the read set.  If I'm not mistaken, I think this ensures a lock-free but consistent state.
-// server loop -> writeSettings <--> handoffSettings <--> readSettings -> flight loop.
-DataRefSetting writeSettings[kNumTags];
-DataRefSetting handoffSettings[kNumTags];
-DataRefSettings readSettings[kNumTags];
-*/
 
 XPLMDataRef gOverrideRef = NULL;
 XPLMDataRef gPitchRef = NULL;
@@ -60,12 +46,11 @@ float flight_loop_callback(float inElapsedSinceLastCall,
                            void *inRefcon); 
 
 
-float current_pitch = 0.0f;
-float current_roll = 0.0f;
-float current_yaw = 0.0f;
-float current_throttle = 0.0f; //[8] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
-float current_prop = 0.0f; //[8] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
-float current_flap = 0.0f;
+float tilt_x = 0.0f;
+float tilt_y = 0.0f;
+float touch_x = 0.0f;
+float touch_y = 0.0f;
+
 char *server_msg = NULL;
 
 
@@ -198,14 +183,15 @@ float flight_loop_callback(float inElapsedSinceLastCall,
      */
     
     XPLMSetDatai(gOverrideRef, 1);
-    XPLMSetDataf(gPitchRef, current_pitch);
-    XPLMSetDataf(gRollRef, current_roll);
-    XPLMSetDataf(gYawRef, current_yaw);
+    XPLMSetDataf(gRollRef, tilt_x);
+    XPLMSetDataf(gPitchRef, tilt_y);
+    XPLMSetDataf(gYawRef, touch_x);
     
     //XPLMSetDatai(gThrottleOverrideRef, 1);
     // commented out throttle to experiment with helicopters that use FADEC..
-    XPLMSetDatavf(gThrottleRef, &current_throttle, 0, 1);
-    XPLMSetDatavf(gPropRef, &current_prop, 0, 1);
+    //XPLMSetDatavf(gThrottleRef, &current_throttle, 0, 1);
+    float prop_deg = 3.8 - 4.0f * touch_y; // range = [-0.2, 7.8]
+    XPLMSetDatavf(gPropRef, &prop_deg, 0, 1);
     //XPLMSetDataf(gFlapRef, current_flap); //No flap UI yet.
     if (server_msg != NULL)
     {
@@ -258,48 +244,19 @@ void *server_loop(void *arg)
         while (i < recv_size)
         {
             UInt8 tag = ix_get_tag(buffer, &i);
-            switch (tag)
+            if (tag == kServerKillTag)
             {
-                case kPacketEndTag:
-                    i = 0x7fff; // Force exit the loop.
-                    break;
-                case kServerKillTag:
-                    server_msg = "Server kill received";
-                    goto stop_server;
-                case kPitchTag:
-                    current_pitch = ix_get_ratio(buffer, &i);
-                    break;
-                case kRollTag:
-                    current_roll = ix_get_ratio(buffer, &i);
-                    break;
-                case kYawTag:
-                    current_yaw = ix_get_ratio(buffer, &i);
-                    break;
-                case kThrottleTag:
-                {
-                    current_throttle = ix_get_ratio(buffer, &i);
-                    /* Why doesn't this work?
-                    for (int j = 0; j < 8; j++)
-                    {
-                        current_throttle[i] = throt;
-                    }*/
-                    break;
-                }
-                case kPropTag:
-                {
-                    current_prop = 15.0f * ix_get_ratio(buffer, &i);
-                    /*
-                    for (int j = 0; j < 8; j++)
-                    {
-                        current_prop[i] = prop;
-                    }
-                     */
-                    break;
-                }
-                case kFlapTag:
-                    current_flap = ix_get_ratio(buffer, &i);
-                    break;
+                server_msg = "Server kill received";
+                goto stop_server;
             }
+            else if (tag == kProtocolVersion1Tag)
+            {
+                tilt_x = ix_get_ratio(buffer, &i);
+                tilt_y = ix_get_ratio(buffer, &i);
+                touch_x = ix_get_ratio(buffer, &i);
+                touch_y = ix_get_ratio(buffer, &i);
+            }
+            // else ignore packet
         }
     }
     

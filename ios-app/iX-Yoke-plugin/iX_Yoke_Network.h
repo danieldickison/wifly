@@ -15,17 +15,9 @@
 #define kServerPort 56244
 #define kPacketSizeLimit 1024
 
-
 enum {
-    kServerKillTag = 0,
-    kPacketEndTag,
-    kPitchTag,
-    kRollTag,
-    kYawTag,
-    kThrottleTag,
-    kFlapTag,
-    kPropTag,
-    kNumTags
+    kServerKillTag,
+    kProtocolVersion1Tag
 };
 
 

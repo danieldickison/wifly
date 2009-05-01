@@ -11,6 +11,8 @@
 @interface TrackPadControl ()
 
 @property (readonly) CGPoint constrainedPoint;
+@property (readonly) CGRect effectiveTrackingBounds;
+- (void)setSingleTouchPoint:(CGPoint)point;
 
 @end
 
@@ -18,8 +20,8 @@
 
 @implementation TrackPadControl
 
-@synthesize trackingBounds, absoluteTracking;
-@dynamic xValue, yValue, constrainedPoint;
+@synthesize trackingBounds, absoluteTracking, singleTouchCenters;
+@dynamic xValue, yValue, constrainedPoint, effectiveTrackingBounds;
 
 
 // Tracking bounds mirrors view bounds unless subsequently overridden.
@@ -70,13 +72,62 @@
 // If the point is outside the tracking bounds, we'll compute where the line from the center of the tracking bounds to the unconstrained point intersects the bounding box.
 - (CGPoint)constrainedPoint
 {
-    if (CGRectContainsPoint(trackingBounds, valuePoint))
+    CGRect effectiveBounds = self.effectiveTrackingBounds;
+    if (CGRectContainsPoint(effectiveBounds, valuePoint))
         return valuePoint;
     
-    return CGPointMake(MIN(MAX(valuePoint.x, CGRectGetMinX(trackingBounds)),
-                           CGRectGetMaxX(trackingBounds)),
-                       MIN(MAX(valuePoint.y, CGRectGetMinY(trackingBounds)),
-                           CGRectGetMaxY(trackingBounds)));
+    return CGPointMake(MIN(MAX(valuePoint.x, CGRectGetMinX(effectiveBounds)),
+                           CGRectGetMaxX(effectiveBounds)),
+                       MIN(MAX(valuePoint.y, CGRectGetMinY(effectiveBounds)),
+                           CGRectGetMaxY(effectiveBounds)));
+}
+
+
+- (CGRect)effectiveTrackingBounds
+{
+    // This is similar to intersecting the tracking bounds with the view bounds, but we also constrain the intersected rectangle to a minimum size.
+#define kMinSize 50.0f
+    CGRect rect = trackingBounds;
+    CGRect bounds = self.bounds;
+    
+    rect.size.width = MAX(kMinSize, rect.size.width);
+    rect.size.height = MAX(kMinSize, rect.size.height);
+    
+    // Adjust left side.
+    CGFloat dxl = rect.origin.x - bounds.origin.x;
+    if (dxl < 0)
+    {
+        rect.size.width += dxl;
+        rect.origin.x -= dxl;
+        rect.size.width = MAX(kMinSize, rect.size.width);
+    }
+    
+    // Adjust right side.
+    rect.origin.x = MIN(rect.origin.x, (CGRectGetMaxX(bounds) - kMinSize));
+    CGFloat dxr = CGRectGetMaxX(rect) - CGRectGetMaxX(bounds);
+    if (dxr > 0)
+    {
+        rect.size.width -= dxr;
+    }
+    
+    // Adjust top side.
+    CGFloat dyt = rect.origin.y - bounds.origin.y;
+    if (dyt < 0)
+    {
+        rect.size.height += dyt;
+        rect.origin.y -= dyt;
+        rect.size.height = MAX(kMinSize, rect.size.height);
+    }
+    
+    // Adjust bottom side.
+    rect.origin.y = MIN(rect.origin.y, (CGRectGetMaxY(bounds) - kMinSize));
+    CGFloat dyb = CGRectGetMaxY(rect) - CGRectGetMaxY(bounds);
+    if (dyb > 0)
+    {
+        rect.size.height -= dyb;
+    }
+    
+    return rect;
 }
 
 
@@ -104,12 +155,13 @@
 #define kCornerSize 10.0f
 #define kCornerRadius 5.0f
 #define kMidLength 5.0f
-    CGFloat xmin = CGRectGetMinX(trackingBounds);
-    CGFloat xmid = CGRectGetMidX(trackingBounds);
-    CGFloat xmax = CGRectGetMaxX(trackingBounds);
-    CGFloat ymin = CGRectGetMinY(trackingBounds);
-    CGFloat ymid = CGRectGetMidY(trackingBounds);
-    CGFloat ymax = CGRectGetMaxY(trackingBounds);
+    CGRect effectiveBounds = self.effectiveTrackingBounds;
+    CGFloat xmin = CGRectGetMinX(effectiveBounds);
+    CGFloat xmid = CGRectGetMidX(effectiveBounds);
+    CGFloat xmax = CGRectGetMaxX(effectiveBounds);
+    CGFloat ymin = CGRectGetMinY(effectiveBounds);
+    CGFloat ymid = CGRectGetMidY(effectiveBounds);
+    CGFloat ymax = CGRectGetMaxY(effectiveBounds);
     
     // Top
     CGContextMoveToPoint(context, xmin, ymin + kCornerSize);
@@ -217,7 +269,7 @@
 {
     if (absoluteTracking)
     {
-        valuePoint = [touch locationInView:self];
+        [self setSingleTouchPoint:[touch locationInView:self]];
         [self setNeedsDisplay];
         [self sendActionsForControlEvents:UIControlEventValueChanged];
     }
@@ -228,7 +280,7 @@
 {
     if (absoluteTracking)
     {
-        valuePoint = [touch locationInView:self];
+        [self setSingleTouchPoint:[touch locationInView:self]];
     }
     else
     {
@@ -236,15 +288,34 @@
         CGPoint prevPoint = [touch previousLocationInView:self];
         CGFloat dx = point.x - prevPoint.x;
         CGFloat dy = point.y - prevPoint.y;
-        valuePoint.x += dx;
-        valuePoint.y += dy;
-        
-        // For relative tracking, don't let the crosshairs ever leave the tracking bounds.
-        valuePoint = self.constrainedPoint;
+        if (singleTouchCenters)
+        {
+            trackingBounds.origin.x += dx;
+            trackingBounds.origin.y += dy;
+        }
+        else
+        {
+            valuePoint.x += dx;
+            valuePoint.y += dy;
+            // For relative tracking, don't let the crosshairs ever leave the tracking bounds.
+            valuePoint = self.constrainedPoint;
+        }
     }
     [self setNeedsDisplay];
     [self sendActionsForControlEvents:UIControlEventValueChanged];
     return YES;
+}
+
+- (void)setSingleTouchPoint:(CGPoint)point
+{
+    if (singleTouchCenters)
+    {
+        trackingBounds = CGRectMake(point.x - 0.5*trackingBounds.size.width, point.y - 0.5*trackingBounds.size.height, trackingBounds.size.width, trackingBounds.size.height);
+    }
+    else
+    {
+        valuePoint = point;
+    }
 }
 
 
