@@ -30,16 +30,18 @@
     [super viewDidLoad];
     
     calibrationTrackPad = [[TrackPadControl alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+    calibrationTrackPad.trackingBounds = CGRectMake(30, 10, 240, 180);
     [calibrationTrackPad setMinX:-1 maxX:1 minY:1 maxY:-1];
+    calibrationTrackPad.singleTouchCenters = YES;
     calibrationTrackPad.tag = kTrackPadTag;
     [calibrationTrackPad addTarget:self action:@selector(calibrationUpdated) forControlEvents:UIControlEventValueChanged];
     calibrationTrackPad.multipleTouchEnabled = YES;
     [self.view addSubview:calibrationTrackPad];
     
     controlTrackPad = [[TrackPadControl alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
-    [controlTrackPad setMinX:-1 maxX:1 minY:0 maxY:1];
-    controlTrackPad.xValue = SharedAppDelegate.yaw;
-    controlTrackPad.yValue = SharedAppDelegate.throttle;
+    [controlTrackPad setMinX:-1 maxX:1 minY:-1 maxY:1];
+    controlTrackPad.xValue = SharedAppDelegate.touch_x;
+    controlTrackPad.yValue = SharedAppDelegate.touch_y;
     controlTrackPad.tag = kTrackPadTag;
     [controlTrackPad addTarget:self action:@selector(controlUpdated) forControlEvents:UIControlEventValueChanged];
     controlTrackPad.multipleTouchEnabled = YES;
@@ -71,8 +73,6 @@
     calibrationTrackPad.yValue = *ioPitch;
     *ioRoll = calibrationTrackPad.xValue;
     *ioPitch = calibrationTrackPad.yValue;
-    //pitchLabel.text = [NSString stringWithFormat:@"%d%C", (int)(90*pitch), 0xB0];
-    //rollLabel.text = [NSString stringWithFormat:@"%d%C", (int)(90*roll), 0xB0];
 }
 
 
@@ -97,8 +97,8 @@
 
 - (void)controlUpdated
 {
-    SharedAppDelegate.yaw = controlTrackPad.xValue;
-    SharedAppDelegate.throttle = controlTrackPad.yValue;
+    SharedAppDelegate.touch_x = controlTrackPad.xValue;
+    SharedAppDelegate.touch_y = controlTrackPad.yValue;
 }
 
 

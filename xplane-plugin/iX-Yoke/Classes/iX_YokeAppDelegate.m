@@ -19,7 +19,7 @@
 
 
 @synthesize window;
-@synthesize mainViewController, hostAddress, hostPort, yaw, throttle, flap, prop, suspended;
+@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y, suspended;
 
 
 - (void)setHostAddress:(NSString *)addr
@@ -89,19 +89,11 @@
     {
         UInt8 buffer[128];
         int i = 0;
-        ix_put_tag(buffer, &i, kPitchTag);
-        ix_put_ratio(buffer, &i, pitch);
-        ix_put_tag(buffer, &i, kRollTag);
+        ix_put_tag(buffer, &i, kProtocolVersion1Tag);
         ix_put_ratio(buffer, &i, roll);
-        ix_put_tag(buffer, &i, kYawTag);
-        ix_put_ratio(buffer, &i, yaw);
-        ix_put_tag(buffer, &i, kThrottleTag);
-        ix_put_ratio(buffer, &i, throttle);
-        ix_put_tag(buffer, &i, kFlapTag);
-        ix_put_ratio(buffer, &i, flap);
-        ix_put_tag(buffer, &i, kPropTag);
-        ix_put_ratio(buffer, &i, prop);
-        ix_put_tag(buffer, &i, kPacketEndTag);
+        ix_put_ratio(buffer, &i, pitch);
+        ix_put_ratio(buffer, &i, touch_x);
+        ix_put_ratio(buffer, &i, touch_y);
         NSData *data = [[NSData alloc] initWithBytes:buffer length:i];
         [socket sendData:data toHost:hostAddress port:hostPort withTimeout:MAXFLOAT tag:packetTag++];
         [data release];
