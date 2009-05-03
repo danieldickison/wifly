@@ -20,12 +20,8 @@
     
     BOOL suspended;
     
-    float xAvg;
-    float yAvg;
-    float zAvg;
-    
-    float pitchOffset;
-    float rollOffset;
+    float acceleration[3];
+    float centerTiltRotationMatrix[9];
     
     float touch_x;
     float touch_y;
@@ -44,7 +40,7 @@
 @property (nonatomic, assign) float touch_y;
 
 // Sets the current tilt as the "center".
-- (void)resetCalibration;
+- (void)resetTiltCenter;
 
 @end
 

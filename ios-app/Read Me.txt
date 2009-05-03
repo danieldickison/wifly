@@ -21,8 +21,7 @@ TODO
     - This will simplify the phone code since it can blindly send the extra axis without figuring out what it's controlling.
     - One downside is that, if we do this on the phone-side, we can have controls that auto-snap to center and the like.  Is this worthwhile?
     - Also allow specifying ALL axes, including tilt.  Then it could be used in tandem with a real joystick.
-* Add a switch to auto-coordinate roll and yaw.  Though, see above if we allow remapping axes this might be tricky.
-* Rehash accellerometer trig to allow tilt past horizontal -- this is particularly important for the pitch axis since you generally hold the phone at a 45 degree angle, leaving little headroom.
+* Add a switch to auto-coordinate roll and yaw.  Switch on server-side.
 * Tap-down visual confirmation of trackpad.
 * Auditory feedback of tap-drag for better blind interaction.
 * Change color/sound to alert when tilt exceeds tracking bounds.

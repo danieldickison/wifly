@@ -30,7 +30,6 @@
     [super viewDidLoad];
     
     calibrationTrackPad = [[TrackPadControl alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
-    calibrationTrackPad.trackingBounds = CGRectMake(30, 10, 240, 180);
     [calibrationTrackPad setMinX:-1 maxX:1 minY:1 maxY:-1];
     calibrationTrackPad.singleTouchCenters = YES;
     calibrationTrackPad.tag = kTrackPadTag;
@@ -87,6 +86,12 @@
     [self.view addSubview:(sender.selectedSegmentIndex == 0
                            ? calibrationTrackPad
                            : controlTrackPad)];
+}
+
+
+- (IBAction)resetCenter
+{
+    [SharedAppDelegate resetTiltCenter];
 }
 
 
