@@ -43,5 +43,11 @@
 }
 
 
+- (IBAction)setTiltCenter
+{
+    [SharedAppDelegate resetTiltCenter];
+}
+
+
 
 @end

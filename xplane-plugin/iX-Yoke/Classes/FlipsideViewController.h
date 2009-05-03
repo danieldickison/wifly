@@ -20,6 +20,7 @@
 @property (nonatomic, retain) IBOutlet UITextField *ipField;
 @property (nonatomic, retain) IBOutlet UITextField *portField;
 - (IBAction)done;
+- (IBAction)setTiltCenter;
 
 
 @end

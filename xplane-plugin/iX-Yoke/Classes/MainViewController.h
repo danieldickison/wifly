@@ -20,6 +20,8 @@
 - (IBAction)toggleSuspend:(UISwitch *)sender;
 - (IBAction)switchTrackPad:(UISegmentedControl *)sender;
 
+- (IBAction)resetCenter;
+
 - (void)updatePitch:(float *)ioPitch roll:(float *)ioRoll;
 
 @end

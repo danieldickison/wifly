@@ -15,6 +15,10 @@
 #define kFilteringFactor 0.25f
 
 
+// Matrices should be an array in column-major order of floats.  outMatrix must have enough space to store the results, which will be aRows x bCols.
+static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int aRows, int bCols);
+
+
 @implementation iX_YokeAppDelegate
 
 
@@ -56,6 +60,10 @@
     mainViewController.view.frame = [UIScreen mainScreen].applicationFrame;
 	[window addSubview:[mainViewController view]];
     [window makeKeyAndVisible];
+    
+    
+    // We want to auto-calibrate after a few accelerometer readings have been taken.  2 seconds is probably good enough.
+    [self performSelector:@selector(resetTiltCenter) withObject:nil afterDelay:2.0];
 }
 
 
@@ -67,20 +75,22 @@
 }
 
 
-- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
+- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)accel
 {
     // Use a basic low-pass filter to only keep the gravity in the accelerometer values for the X and Y axes
     // See the BubbleLevel Apple example.
-    xAvg = (float)acceleration.x * kFilteringFactor + xAvg * (1.0f - kFilteringFactor);
-    yAvg = (float)acceleration.y * kFilteringFactor + yAvg * (1.0f - kFilteringFactor);
-    zAvg = (float)acceleration.z * kFilteringFactor + zAvg * (1.0f - kFilteringFactor);
+    acceleration[0] = (float)accel.x * kFilteringFactor + acceleration[0] * (1.0f - kFilteringFactor);
+    acceleration[1] = (float)accel.y * kFilteringFactor + acceleration[1] * (1.0f - kFilteringFactor);
+    acceleration[2] = (float)accel.z * kFilteringFactor + acceleration[2] * (1.0f - kFilteringFactor);
     
-    // This method gives a range of +/- 90 degrees on each axis, but only if you're rotating about one axis at a time.  If you try to tilt on both axes, then it maxes out at +/- 45 degrees.  It would probably be nicer if the range is kept constant regardless of whether you're tilting in one or two axes.
-    float ySqr = yAvg*yAvg;
-    float pitchRad = pitchOffset + atan2f(zAvg, sqrtf(ySqr + xAvg*xAvg));
-    float rollRad = rollOffset + atan2f(xAvg, sqrtf(ySqr + zAvg*zAvg));
-    float pitch = pitchRad / M_PI_2;
-    float roll = rollRad / M_PI_2;
+    
+    // Apply the rotation matrix to center it about the z-axis.
+    float rotated[3];
+    matMult(rotated, centerTiltRotationMatrix, acceleration, 3, 3, 1);
+    
+    // Project to the xy plane for pitch & roll.
+    float pitch = -rotated[1];
+    float roll = rotated[0];
     
     // The view controller handles calibration via its trackpad.
     [mainViewController updatePitch:&pitch roll:&roll];
@@ -101,12 +111,90 @@
 }
 
 
-- (void)resetCalibration
+- (void)resetTiltCenter
 {
-    float ySqr = yAvg*yAvg;
-    pitchOffset = -atan2f(zAvg, sqrtf(ySqr + xAvg*xAvg));
-    rollOffset = -atan2f(xAvg, sqrtf(ySqr + zAvg*zAvg));
+    //float ySqr = yAvg*yAvg;
+    //pitchOffset = -atan2f(zAvg, sqrtf(ySqr + xAvg*xAvg));
+    //rollOffset = -atan2f(xAvg, sqrtf(ySqr + zAvg*zAvg));
+    
+    // This version only centers with respect to rotation about the x-axis -- that is, pitch.  This seems more intuitive since you rarely need to have the center of tilt be sideways.  For landscape mode, this will have to be rotation about the y-axis.
+    float y = -acceleration[1];
+    float z = acceleration[2];
+    float theta = asinf(y / sqrtf(y*y + z*z));
+    if (z > 0) theta = M_PI - theta;
+    float c = cosf(theta);
+    float s = sinf(theta);
+    
+    centerTiltRotationMatrix[0] = 1;
+    centerTiltRotationMatrix[1] = 0;
+    centerTiltRotationMatrix[2] = 0;
+    centerTiltRotationMatrix[3] = 0;
+    centerTiltRotationMatrix[4] = c;
+    centerTiltRotationMatrix[5] = s;
+    centerTiltRotationMatrix[6] = 0;
+    centerTiltRotationMatrix[7] = -s;
+    centerTiltRotationMatrix[8] = c;
+    
+    // The following version centers by rotating the acceleration vector onto the z-axis, and making the projection onto the xy-plane the pitch and roll.  This is a little bit unintuitive when the center is tilted with respect to the x-axis, so I'm going to prefer the z-only rotation version above.
+    /*
+    // Figure out the rotation transform matrix to rotate the current acceleration vector v onto the z axis (aka 'k').
+    // Theta will be the angle between k and v, found using the dot product.
+    // The axis of rotation will be n, the unit normal of k and v, found using cross product.
+    
+    // k dot v = <0,0,1> dot <vx,vy,vz> = vz
+    float vmag = sqrt(acceleration[0]*acceleration[0] + acceleration[1]*acceleration[1] + acceleration[2]*acceleration[2]);
+    float theta = acosf(acceleration[2] / vmag);
+    
+    // k cross v = <vx,vy,vz> cross <0,0,1> = <vy, -vx, 0>
+    float nx = acceleration[1];
+    float ny = -acceleration[0];
+    float nmag = sqrt(nx*nx + ny*ny);
+    nx /= nmag;
+    ny /= nmag;
+    
+    // I'm using the axis-angle rotation math from:
+    // http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/index.htm
+    // Note that nz is zero, so it's a bit simpler here.
+    // Also, we don't really need row 3, since we ignore the transformed z coordinate, but I'll calculate them anyways for clarity.
+    float c = cosf(theta);
+    float s = sinf(theta);
+    centerTiltRotationMatrix[0] = 1.0f + (1.0f-c)*(nx*nx-1);
+    centerTiltRotationMatrix[1] = (1.0f-c)*nx*ny;
+    centerTiltRotationMatrix[2] = -ny*s;
+    centerTiltRotationMatrix[3] = (1.0f-c)*nx*ny;
+    centerTiltRotationMatrix[4] = 1.0f + (1.0f-c)*(ny*ny-1);
+    centerTiltRotationMatrix[5] = nx*s;
+    centerTiltRotationMatrix[6] = ny*s;
+    centerTiltRotationMatrix[7] = -nx*s;
+    centerTiltRotationMatrix[8] = 1.0f;
+     */
 }
 
 
 @end
+
+
+
+static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int aRows, int bCols)
+{
+    for (int i = 0; i < aRows; i++)
+    {
+        for (int j = 0; j < bCols; j++)
+        {
+            float *val = outMatrix + i + j*aRows;
+            *val = 0;
+            
+            float *aVal = A + i;
+            float *bVal = B + j*aCols_bRows;
+            
+            for (int k = 0; k < aCols_bRows; k++)
+            {
+                *val += (*aVal) * (*bVal);
+                aVal += aCols_bRows;
+                bVal += 1;
+            }
+        }
+    }
+}
+
+
