@@ -23,7 +23,7 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
 
 
 @synthesize window;
-@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y, suspended;
+@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y;
 
 
 - (void)setHostAddress:(NSString *)addr
@@ -95,7 +95,7 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
     // The view controller handles calibration via its trackpad.
     [mainViewController updatePitch:&pitch roll:&roll];
     
-    if (hostAddress && !suspended)
+    if (hostAddress)
     {
         UInt8 buffer[128];
         int i = 0;

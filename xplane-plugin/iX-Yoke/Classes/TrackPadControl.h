@@ -14,6 +14,8 @@
     CGPoint minValue;
     CGPoint maxValue;
     CGPoint valuePoint;
+    CGPoint holdPoint;
+    BOOL holding;
     CGRect trackingBounds;
     BOOL absoluteTracking;
     BOOL singleTouchCenters;
@@ -32,5 +34,8 @@
 @property (nonatomic, assign) BOOL singleTouchCenters;
 
 - (void)setMinX:(CGFloat)minx maxX:(CGFloat)maxx minY:(CGFloat)miny maxY:(CGFloat)maxY;
+
+// While "held", the raw-value crosshairs will keep updating, but the xValue and yValue properties will be pinned to the current values when it started holding.
+@property (nonatomic, assign, getter=isHolding) BOOL holding;
 
 @end

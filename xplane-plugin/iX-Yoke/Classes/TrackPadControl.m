@@ -21,7 +21,7 @@
 @implementation TrackPadControl
 
 @synthesize trackingBounds, absoluteTracking, singleTouchCenters;
-@dynamic xValue, yValue, constrainedPoint, effectiveTrackingBounds;
+@dynamic xValue, yValue, constrainedPoint, effectiveTrackingBounds, holding;
 
 
 // Tracking bounds mirrors view bounds unless subsequently overridden.
@@ -35,6 +35,12 @@
 {
     [super setBounds:rect];
     self.trackingBounds = CGRectInset(self.bounds, 10, 10);
+}
+
+- (void)setTrackingBounds:(CGRect)rect
+{
+    trackingBounds = rect;
+    [self setNeedsDisplay];
 }
 
 
@@ -69,13 +75,26 @@
 }
 
 
-// If the point is outside the tracking bounds, we'll compute where the line from the center of the tracking bounds to the unconstrained point intersects the bounding box.
+- (BOOL)isHolding
+{
+    return holding;
+}
+
+- (void)setHolding:(BOOL)hold
+{
+    holdPoint = valuePoint;
+    holding = hold;
+    [self setNeedsDisplay];
+}
+
+
+// If the point is outside the effective tracking bounds, it'll be pinned to one of the bounds' edges.  If we're holding, the hold point is used instead of the current value point.
 - (CGPoint)constrainedPoint
 {
-    CGRect effectiveBounds = self.effectiveTrackingBounds;
-    if (CGRectContainsPoint(effectiveBounds, valuePoint))
-        return valuePoint;
+    if (holding)
+        return holdPoint;
     
+    CGRect effectiveBounds = self.effectiveTrackingBounds;
     return CGPointMake(MIN(MAX(valuePoint.x, CGRectGetMinX(effectiveBounds)),
                            CGRectGetMaxX(effectiveBounds)),
                        MIN(MAX(valuePoint.y, CGRectGetMinY(effectiveBounds)),
@@ -143,10 +162,12 @@
     
     
     // Draw the unconstrained value as crosshairs...
-    CGContextMoveToPoint(context, CGRectGetMinX(bounds), valuePoint.y);
-    CGContextAddLineToPoint(context, CGRectGetMaxX(bounds), valuePoint.y);
-    CGContextMoveToPoint(context, valuePoint.x, CGRectGetMinY(bounds));
-    CGContextAddLineToPoint(context, valuePoint.x, CGRectGetMaxY(bounds));
+    float valx = roundf(valuePoint.x);
+    float valy = roundf(valuePoint.y);
+    CGContextMoveToPoint(context, CGRectGetMinX(bounds), valy);
+    CGContextAddLineToPoint(context, CGRectGetMaxX(bounds), valy);
+    CGContextMoveToPoint(context, valx, CGRectGetMinY(bounds));
+    CGContextAddLineToPoint(context, valx, CGRectGetMaxY(bounds));
     CGContextSetStrokeColorWithColor(context, [[UIColor colorWithWhite:1.0 alpha:0.5] CGColor]);
     CGContextStrokePath(context);
     
@@ -208,8 +229,10 @@
     CGPoint constrained = self.constrainedPoint;
     CGRect valueRect = CGRectInset(CGRectMake(constrained.x, constrained.y, 0, 0), -kConstrainedValueRadius, -kConstrainedValueRadius);
     CGContextAddEllipseInRect(context, valueRect);
-    CGContextSetStrokeColorWithColor(context, [[UIColor colorWithWhite:1.0 alpha:0.85] CGColor]);
-    CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:1.0 alpha:0.5] CGColor]);
+    CGFloat saturation = (holding ? 1.0 : 0.0);
+    CGContextSetStrokeColorWithColor(context, [[UIColor colorWithHue:0.33 saturation:saturation brightness:1.0 alpha:0.85] CGColor]);
+    CGContextSetFillColorWithColor(context, [[UIColor colorWithHue:0.33 saturation:saturation brightness:1.0 alpha:0.5] CGColor]);
+    
     CGContextDrawPath(context, kCGPathFillStroke);
 }
 
@@ -267,13 +290,21 @@
 
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    if (absoluteTracking)
+    if (touch.tapCount == 1)
     {
-        [self setSingleTouchPoint:[touch locationInView:self]];
-        [self setNeedsDisplay];
-        [self sendActionsForControlEvents:UIControlEventValueChanged];
+        if (absoluteTracking)
+        {
+            [self setSingleTouchPoint:[touch locationInView:self]];
+            [self setNeedsDisplay];
+            [self sendActionsForControlEvents:UIControlEventValueChanged];
+        }
+        return YES;
     }
-    return YES;
+    else
+    {
+        self.trackingBounds = CGRectInset(self.bounds, 10, 10);
+        return NO;
+    }
 }
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event

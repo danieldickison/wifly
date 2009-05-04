@@ -26,7 +26,6 @@ TODO
 * Auditory feedback of tap-drag for better blind interaction.
 * Change color/sound to alert when tilt exceeds tracking bounds.
 * Distinct visual style for calibration vs control trackpads to avoid confusion.
-* Reflect suspended controls when "hold" is on -- the circle in trackpad should stay frozen while crosshairs can keep moving.
 * Eye candy: background images, pulsating trackpad dot...etc.
 * Disable sleep timer.
 * ZeroConf server discovery.
