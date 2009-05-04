@@ -250,7 +250,7 @@ float flight_loop_callback(float inElapsedSinceLastCall,
         {
             float rad_per_sec[8];
             for (int i = 0; i < 8; i++)
-                rad_per_sec[i] = 1046.66f * (0.5f*touch_y+0.5f); // range = [0, 10000rpm]
+                rad_per_sec[i] = 418.66f * (0.5f*touch_y+0.5f); // range = [0, 4000rpm]
             XPLMSetDatavf(gPropSpeedRef, rad_per_sec, 0, 8);
             break;
         }
@@ -266,10 +266,13 @@ float flight_loop_callback(float inElapsedSinceLastCall,
 
 int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPopupID, long inItemNumber)
 {
-    if (inMessage != xpMessage_ListBoxItemSelected)
+    if (inMessage != xpMessage_PopupNewItemPicked)
+    {
         return 0;
+    }
     
-    if (inWidget == touch_y_popup_id)
+    debug("Got a list item changed event");
+    if ((void*)inPopupID == touch_y_popup_id)
     {
         debug("Selected touch y axis control");
         touch_y_control = inItemNumber;
@@ -290,12 +293,12 @@ void menu_callback(void *menuRef, void *itemRef)
         XPSetWidgetProperty(window_id, xpProperty_MainWindowHasCloseBoxes, 1);
         XPAddWidgetCallback(window_id, window_callback);
         
-        x1 += 10; y1 += 10; x2 -= 10; y2 -= 30;
+        x1 += 10; y1 -= 30; x2 -= 10; y2 += 10;
         XPWidgetID subwin = XPCreateWidget(x1, y1, x2, y2, 1, "", 0, window_id, xpWidgetClass_SubWindow);
         XPSetWidgetProperty(subwin, xpProperty_SubWindowType, xpSubWindowStyle_SubWindow);
         XPAddWidgetCallback(subwin, XPUFixedLayout);
         
-        x1 += 10; y1 += 10; x2 -= 10; y2 = y1-35;
+        x1 += 10; y1 -= 10; x2 -= 10; y2 = y1-30;
         touch_y_popup_id = XPCreatePopup(x1, y1, x2, y2, 1, axis_choices, subwin);
         XPAddWidgetCallback(touch_y_popup_id, axis_popup_callback);
     }
