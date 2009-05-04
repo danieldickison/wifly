@@ -21,6 +21,13 @@
 #include "XPLMDataAccess.h"
 #include "XPLMProcessing.h"
 #include "XPLMUtilities.h"
+#include "XPWidgetDefs.h"
+#include "XPWidgets.h"
+#include "XPWidgetUtils.h"
+#include "XPStandardWidgets.h"
+#include "XPWidgetsEx.h"
+#include "XPLMMenus.h"
+
 
 #include "iX_Yoke_Network.h"
 
@@ -31,6 +38,7 @@ XPLMDataRef gRollRef = NULL;
 XPLMDataRef gYawRef = NULL;
 XPLMDataRef gThrottleOverrideRef = NULL;
 XPLMDataRef gThrottleRef = NULL;
+XPLMDataRef gPropSpeedRef = NULL;
 XPLMDataRef gPropRef = NULL;
 XPLMDataRef gFlapRef = NULL;
 
@@ -52,6 +60,22 @@ float touch_x = 0.0f;
 float touch_y = 0.0f;
 
 char *server_msg = NULL;
+
+XPWidgetID window_id = 0;
+XPWidgetID touch_y_popup_id = 0;
+int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPopupID, long inItemNumber);
+int window_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
+
+void menu_callback(void *menuRef, void *itemRef);
+
+const char *axis_choices = "Throttle;Prop Pitch;Prop Speed";
+enum {
+    kAxisControlThrottle = 0,
+    kAxisControlPropPitch,
+    kAxisControlPropSpeed
+};
+
+int touch_y_control = kAxisControlThrottle;
 
 
 
@@ -76,6 +100,8 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
 	strcpy(outSig, "com.danieldickison.iX-Yoke-plugin");
 	strcpy(outDesc, "Lets the iPhone iX-Yoke app control X-Plane as a remote yoke/joystick.");
 	
+    // Find all the datarefs.
+    debug("Finding datarefs...");
 	gOverrideRef = XPLMFindDataRef("sim/operation/override/override_joystick");
 	gPitchRef = XPLMFindDataRef("sim/joystick/yolk_pitch_ratio");
 	gRollRef = XPLMFindDataRef("sim/joystick/yolk_roll_ratio");
@@ -83,9 +109,19 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
     gThrottleOverrideRef = XPLMFindDataRef("sim/operation/override/override_throttles");
     //gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro_use");
     gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro");
+    gPropSpeedRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_prop");
     gFlapRef = XPLMFindDataRef("sim/flightmodel/controls/flaprqst");
     gPropRef = XPLMFindDataRef("sim/flightmodel/engine/POINT_pitch_deg");
     
+    // Add menu for showing config window.
+    debug("Adding menu...");
+    XPLMMenuID pluginsMenu = XPLMFindPluginsMenu();
+    int subMenuItem = XPLMAppendMenuItem(pluginsMenu, "iX-Yoke", NULL, 1);
+    XPLMMenuID ixYokeMenu = XPLMCreateMenu("iX-Yoke", pluginsMenu, subMenuItem, menu_callback, NULL);
+    XPLMAppendMenuItem(ixYokeMenu, "Setup Window", NULL, 0);
+    
+    // Register for timed callbacks.
+    debug("Registering callback...");
     XPLMRegisterFlightLoopCallback(flight_loop_callback,
                                    1.0, // Start in a second...
                                    NULL);
@@ -100,6 +136,10 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
 PLUGIN_API void	XPluginStop(void)
 {
 	XPLMUnregisterFlightLoopCallback(flight_loop_callback, NULL);
+    if (window_id != 0)
+    {
+        XPDestroyWidget(window_id, 1);
+    }
 }
 
 
@@ -187,18 +227,96 @@ float flight_loop_callback(float inElapsedSinceLastCall,
     XPLMSetDataf(gPitchRef, tilt_y);
     XPLMSetDataf(gYawRef, touch_x);
     
-    //XPLMSetDatai(gThrottleOverrideRef, 1);
-    // commented out throttle to experiment with helicopters that use FADEC..
-    //XPLMSetDatavf(gThrottleRef, &current_throttle, 0, 1);
-    float prop_deg = 3.8 - 4.0f * touch_y; // range = [-0.2, 7.8]
-    XPLMSetDatavf(gPropRef, &prop_deg, 0, 1);
-    //XPLMSetDataf(gFlapRef, current_flap); //No flap UI yet.
+    switch (touch_y_control)
+    {
+        case kAxisControlThrottle:
+        {
+            //XPLMSetDatai(gThrottleOverrideRef, 1);
+            float throt[8];
+            for (int i = 0; i < 8; i++)
+                throt[i] = 0.5f*touch_y + 0.5;
+            XPLMSetDatavf(gThrottleRef, throt, 0, 8);
+            break;
+        }
+        case kAxisControlPropPitch:
+        {
+            float prop_deg[8];
+            for (int i = 0; i < 8; i++)
+                prop_deg[i] = 4.5 - 5.0f * touch_y; // range = [-0.5, 9.5]
+            XPLMSetDatavf(gPropRef, prop_deg, 0, 8);
+            break;
+        }
+        case kAxisControlPropSpeed:
+        {
+            float rad_per_sec[8];
+            for (int i = 0; i < 8; i++)
+                rad_per_sec[i] = 1046.66f * (0.5f*touch_y+0.5f); // range = [0, 10000rpm]
+            XPLMSetDatavf(gPropSpeedRef, rad_per_sec, 0, 8);
+            break;
+        }
+    }
     if (server_msg != NULL)
     {
         debug(server_msg);
         server_msg = NULL;
     }
     return 0.05; //20Hz -- is this ok?
+}
+
+
+int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPopupID, long inItemNumber)
+{
+    if (inMessage != xpMessage_ListBoxItemSelected)
+        return 0;
+    
+    if (inWidget == touch_y_popup_id)
+    {
+        debug("Selected touch y axis control");
+        touch_y_control = inItemNumber;
+    }
+    return 1;
+}
+
+
+void menu_callback(void *menuRef, void *itemRef)
+{
+    if (window_id == 0)
+    {
+        // Create config window.
+        debug("Creating config window...");
+        
+        int x1=200, y1=400, x2=500, y2=200;
+        window_id = XPCreateWidget(x1, y1, x2, y2, 0, "iX-Yoke", 1, NULL, xpWidgetClass_MainWindow);
+        XPSetWidgetProperty(window_id, xpProperty_MainWindowHasCloseBoxes, 1);
+        XPAddWidgetCallback(window_id, window_callback);
+        
+        x1 += 10; y1 += 10; x2 -= 10; y2 -= 30;
+        XPWidgetID subwin = XPCreateWidget(x1, y1, x2, y2, 1, "", 0, window_id, xpWidgetClass_SubWindow);
+        XPSetWidgetProperty(subwin, xpProperty_SubWindowType, xpSubWindowStyle_SubWindow);
+        XPAddWidgetCallback(subwin, XPUFixedLayout);
+        
+        x1 += 10; y1 += 10; x2 -= 10; y2 = y1-35;
+        touch_y_popup_id = XPCreatePopup(x1, y1, x2, y2, 1, axis_choices, subwin);
+        XPAddWidgetCallback(touch_y_popup_id, axis_popup_callback);
+    }
+    
+    debug("Showing config window");
+    XPShowWidget(window_id);
+}
+
+
+int window_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2)
+{
+	if (inMessage == xpMessage_CloseButtonPushed)
+	{
+        if (window_id != 0)
+        {
+            XPHideWidget(window_id);
+        }
+        return 1;
+    }
+    
+    return 0;
 }
 
 
