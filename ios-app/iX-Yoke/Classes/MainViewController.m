@@ -77,7 +77,8 @@
 
 - (IBAction)toggleSuspend:(UISwitch *)sender
 {
-    SharedAppDelegate.suspended = sender.on;
+    calibrationTrackPad.holding = sender.on;
+    controlTrackPad.holding = sender.on;
 }
 
 - (IBAction)switchTrackPad:(UISegmentedControl *)sender

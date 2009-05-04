@@ -18,8 +18,6 @@
     UIWindow *window;
     MainViewController *mainViewController;
     
-    BOOL suspended;
-    
     float acceleration[3];
     float centerTiltRotationMatrix[9];
     
@@ -33,7 +31,6 @@
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) MainViewController *mainViewController;
-@property (nonatomic, assign, getter=isSuspended) BOOL suspended;
 @property (nonatomic, copy) NSString *hostAddress;
 @property (nonatomic, assign) unsigned hostPort;
 @property (nonatomic, assign) float touch_x;
