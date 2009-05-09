@@ -19,6 +19,12 @@
 static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int aRows, int bCols);
 
 
+#if TARGET_IPHONE_SIMULATOR
+@interface FakeAcceleration : UIAcceleration
+@end
+#endif
+
+
 @implementation iX_YokeAppDelegate
 
 
@@ -67,6 +73,11 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
     
     // Prevent sleep so we don't suddenly lose accelerometer readings when there are no touches for a while.
     application.idleTimerDisabled = YES;
+    
+#if TARGET_IPHONE_SIMULATOR
+    NSLog(@"Simulator mode: scheduling random accelerometer events.");
+    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(simulatorDummyAccelerometerFired) userInfo:nil repeats:YES];
+#endif
 }
 
 
@@ -78,9 +89,10 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
 }
 
 
+
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)accel
 {
-    // Use a basic low-pass filter to only keep the gravity in the accelerometer values for the X and Y axes
+    // Use a basic low-pass filter to reduce jitter.
     // See the BubbleLevel Apple example.
     acceleration[0] = (float)accel.x * kFilteringFactor + acceleration[0] * (1.0f - kFilteringFactor);
     acceleration[1] = (float)accel.y * kFilteringFactor + acceleration[1] * (1.0f - kFilteringFactor);
@@ -100,13 +112,15 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
     
     if (hostAddress)
     {
-        UInt8 buffer[128];
+        uint8_t buffer[128];
         int i = 0;
         ix_put_tag(buffer, &i, kProtocolVersion1Tag);
-        ix_put_ratio(buffer, &i, roll);
-        ix_put_ratio(buffer, &i, pitch);
-        ix_put_ratio(buffer, &i, touch_x);
-        ix_put_ratio(buffer, &i, touch_y);
+        //float val = 0.5f * (roll + 1.0f);
+        //NSLog(@"%f", (double)val);
+        ix_put_ratio(buffer, &i, 0.5f + 0.5f*roll);
+        ix_put_ratio(buffer, &i, 0.5f + 0.5f*pitch);
+        ix_put_ratio(buffer, &i, 0.5f + 0.5f*touch_x);
+        ix_put_ratio(buffer, &i, 0.5f + 0.5f*touch_y);
         NSData *data = [[NSData alloc] initWithBytes:buffer length:i];
         [socket sendData:data toHost:hostAddress port:hostPort withTimeout:-1 tag:0];
         [data release];
@@ -174,7 +188,41 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
 }
 
 
+
+
+#if TARGET_IPHONE_SIMULATOR
+- (void)simulatorDummyAccelerometerFired
+{
+    UIAcceleration *accel = [[[FakeAcceleration alloc] init] autorelease];
+    [self accelerometer:[UIAccelerometer sharedAccelerometer] didAccelerate:accel];
+}
+#endif
+
+
 @end
+
+
+
+#if TARGET_IPHONE_SIMULATOR
+@implementation FakeAcceleration
+
+- (UIAccelerationValue)x
+{
+    return ((double)rand() / RAND_MAX) - 0.5;
+}
+
+- (UIAccelerationValue)y
+{
+    return ((double)rand() / RAND_MAX) - 0.5;
+}
+
+- (UIAccelerationValue)z
+{
+    return ((double)rand() / RAND_MAX) - 0.5;
+}
+
+@end
+#endif
 
 
 
@@ -199,5 +247,6 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
         }
     }
 }
+
 
 

@@ -21,21 +21,21 @@ enum {
 };
 
 
-UInt8 ix_get_tag(UInt8 *buffer, int *i) {
-    return (UInt8)buffer[(*i)++];
+static inline uint8_t ix_get_tag(uint8_t *buffer, int *i) {
+    return (uint8_t)buffer[(*i)++];
 }
-void ix_put_tag(UInt8 *buffer, int *i, int tag) {
+static inline void ix_put_tag(uint8_t *buffer, int *i, int tag) {
     buffer[(*i)++] = tag;
 }
 
-// Ratios are represented as floats and transmitted as signed big-endian 16-bit integers
-float ix_get_ratio(UInt8 *buffer, int *i) {
-    SInt16 n = buffer[(*i)++] << 8;
+// Ratios are represented as floats in the range [0, 1] and transmitted as unsigned big-endian 16-bit integers
+static inline float ix_get_ratio(uint8_t *buffer, int *i) {
+    uint16_t n = (buffer[(*i)++] << 8);
     n |= buffer[(*i)++];
-    return (float)n / 0x7fff;
+    return (float)n / 0xffff;
 }
-void ix_put_ratio(UInt8 *buffer, int *i, float ratio) {
-    SInt16 n = (SInt16)(ratio * 0x7fff);
+static inline void ix_put_ratio(uint8_t *buffer, int *i, float ratio) {
+    uint16_t n = (uint16_t)(ratio * 0xffff);
     buffer[(*i)++] = (n >> 8);
     buffer[(*i)++] = (n & 0xff);
 }
