@@ -53,7 +53,7 @@
 
 - (CGFloat)xValue
 {
-    return minValue.x + ((maxValue.x - minValue.x) * (self.constrainedPoint.x - trackingBounds.origin.x) / trackingBounds.size.width);
+    return minValue.x + ((maxValue.x - minValue.x) * (self.constrainedPoint.x - self.effectiveTrackingBounds.origin.x) / self.effectiveTrackingBounds.size.width);
 }
 
 - (void)setXValue:(CGFloat)x
@@ -65,7 +65,7 @@
 - (CGFloat)yValue
 {
     // Remember that the y coordinates are flipped...
-    return minValue.y + ((maxValue.y - minValue.y) * (CGRectGetMaxY(trackingBounds) - self.constrainedPoint.y) / trackingBounds.size.height);
+    return minValue.y + ((maxValue.y - minValue.y) * (CGRectGetMaxY(self.effectiveTrackingBounds) - self.constrainedPoint.y) / self.effectiveTrackingBounds.size.height);
 }
 
 - (void)setYValue:(CGFloat)y
@@ -244,9 +244,24 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSSet *myTouches = [event touchesForView:self];
+    // Single-touch for moving; two-fingers for zooming.
     if ([myTouches count] == 1)
     {
-        [super touchesBegan:touches withEvent:event];
+        UITouch *touch = [myTouches anyObject];
+        if (touch.tapCount == 1)
+        {
+            if (absoluteTracking)
+            {
+                [self setSingleTouchPoint:[touch locationInView:self]];
+            }
+        }
+        // Reset bounds on double-tap.
+        else if (touch.tapCount == 2)
+        {
+            self.trackingBounds = CGRectInset(self.bounds, 10, 10);
+        }
+        [self setNeedsDisplay];
+        [self sendActionsForControlEvents:UIControlEventValueChanged];
     }
     else if ([myTouches count] == 2) // zoom time!
     {
@@ -259,12 +274,36 @@
     // I don't think it's worth trying to make 3+ touches work.
 }
 
+
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
 {
     NSSet *myTouches = [event touchesForView:self];
     if ([myTouches count] == 1)
     {
-        [super touchesMoved:touches withEvent:event];
+        UITouch *touch = [myTouches anyObject];
+        if (absoluteTracking)
+        {
+            [self setSingleTouchPoint:[touch locationInView:self]];
+        }
+        else
+        {
+            CGPoint point = [touch locationInView:self];
+            CGPoint prevPoint = [touch previousLocationInView:self];
+            CGFloat dx = point.x - prevPoint.x;
+            CGFloat dy = point.y - prevPoint.y;
+            if (singleTouchCenters)
+            {
+                trackingBounds.origin.x += dx;
+                trackingBounds.origin.y += dy;
+            }
+            else
+            {
+                valuePoint.x += dx;
+                valuePoint.y += dy;
+                // For relative tracking, don't let the crosshairs ever leave the tracking bounds.
+                valuePoint = self.constrainedPoint;
+            }
+        }
     }
     else if ([myTouches count] == 2) // zoom time!
     {
@@ -282,60 +321,11 @@
             trackingBounds.size.height = fabs(loc1.y - loc2.y);
         }
         self.trackingBounds = CGRectIntersection(trackingBounds, self.bounds);
-        [self setNeedsDisplay];
-        [self sendActionsForControlEvents:UIControlEventValueChanged];
-    }
-}
-
-
-- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
-    if (touch.tapCount == 1)
-    {
-        if (absoluteTracking)
-        {
-            [self setSingleTouchPoint:[touch locationInView:self]];
-            [self setNeedsDisplay];
-            [self sendActionsForControlEvents:UIControlEventValueChanged];
-        }
-        return YES;
-    }
-    else
-    {
-        self.trackingBounds = CGRectInset(self.bounds, 10, 10);
-        return NO;
-    }
-}
-
-- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
-    if (absoluteTracking)
-    {
-        [self setSingleTouchPoint:[touch locationInView:self]];
-    }
-    else
-    {
-        CGPoint point = [touch locationInView:self];
-        CGPoint prevPoint = [touch previousLocationInView:self];
-        CGFloat dx = point.x - prevPoint.x;
-        CGFloat dy = point.y - prevPoint.y;
-        if (singleTouchCenters)
-        {
-            trackingBounds.origin.x += dx;
-            trackingBounds.origin.y += dy;
-        }
-        else
-        {
-            valuePoint.x += dx;
-            valuePoint.y += dy;
-            // For relative tracking, don't let the crosshairs ever leave the tracking bounds.
-            valuePoint = self.constrainedPoint;
-        }
     }
     [self setNeedsDisplay];
     [self sendActionsForControlEvents:UIControlEventValueChanged];
-    return YES;
 }
+
 
 - (void)setSingleTouchPoint:(CGPoint)point
 {
