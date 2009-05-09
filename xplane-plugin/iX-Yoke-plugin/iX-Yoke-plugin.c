@@ -48,34 +48,43 @@ pthread_t server_thread = NULL;
 void *server_loop(void *arg);
 
 
-float flight_loop_callback(float inElapsedSinceLastCall,    
-                           float inElapsedTimeSinceLastFlightLoop,    
-                           int inCounter,    
-                           void *inRefcon); 
+
+typedef enum {
+    kAxisControlPitch = 0,
+    kAxisControlRoll,
+    kAxisControlYaw,
+    kAxisControlThrottle,
+    kAxisControlPropPitch
+} iXControlType;
+
+const char *axis_choices = "Pitch;Roll;Yaw;Throttle;Prop Pitch";
+
+typedef struct {
+    iXControlType type;
+    float value;
+    float min;
+    float max;
+} iXControlAxis;
 
 
-float tilt_x = 0.0f;
-float tilt_y = 0.0f;
-float touch_x = 0.0f;
-float touch_y = 0.0f;
+iXControlAxis tilt_x = {kAxisControlRoll, 0.0f, -1.0f, 1.0f};
+iXControlAxis tilt_y = {kAxisControlPitch, 0.0f, -1.0f, 1.0f};
+iXControlAxis touch_x = {kAxisControlYaw, 0.0f, -1.0f, 1.0f};
+iXControlAxis touch_y = {kAxisControlThrottle, -1.0f, 0.0f, 1.0f};
+
+void apply_control_value(iXControlAxis control);
 
 char *server_msg = NULL;
 
 XPWidgetID window_id = 0;
 XPWidgetID touch_y_popup_id = 0;
+
+
+// Callbacks
 int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPopupID, long inItemNumber);
 int window_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
-
+float flight_loop_callback(float inElapsedSinceLastCall, float inElapsedTimeSinceLastFlightLoop, int inCounter, void *inRefcon); 
 void menu_callback(void *menuRef, void *itemRef);
-
-const char *axis_choices = "Throttle;Prop Pitch;Prop Speed";
-enum {
-    kAxisControlThrottle = 0,
-    kAxisControlPropPitch,
-    kAxisControlPropSpeed
-};
-
-int touch_y_control = kAxisControlThrottle;
 
 
 
@@ -222,45 +231,54 @@ float flight_loop_callback(float inElapsedSinceLastCall,
     }
      */
     
-    XPLMSetDatai(gOverrideRef, 1);
-    XPLMSetDataf(gRollRef, tilt_x);
-    XPLMSetDataf(gPitchRef, tilt_y);
-    XPLMSetDataf(gYawRef, touch_x);
-    
-    switch (touch_y_control)
-    {
-        case kAxisControlThrottle:
-        {
-            //XPLMSetDatai(gThrottleOverrideRef, 1);
-            float throt[8];
-            for (int i = 0; i < 8; i++)
-                throt[i] = 0.5f*touch_y + 0.5;
-            XPLMSetDatavf(gThrottleRef, throt, 0, 8);
-            break;
-        }
-        case kAxisControlPropPitch:
-        {
-            float prop_deg[8];
-            for (int i = 0; i < 8; i++)
-                prop_deg[i] = 4.5 - 5.0f * touch_y; // range = [-0.5, 9.5]
-            XPLMSetDatavf(gPropRef, prop_deg, 0, 8);
-            break;
-        }
-        case kAxisControlPropSpeed:
-        {
-            float rad_per_sec[8];
-            for (int i = 0; i < 8; i++)
-                rad_per_sec[i] = 418.66f * (0.5f*touch_y+0.5f); // range = [0, 4000rpm]
-            XPLMSetDatavf(gPropSpeedRef, rad_per_sec, 0, 8);
-            break;
-        }
-    }
+    //XPLMSetDatai(gOverrideRef, 1);
+    apply_control_value(tilt_x);
+    apply_control_value(tilt_y);
+    apply_control_value(touch_x);
+    apply_control_value(touch_y);
+
     if (server_msg != NULL)
     {
         debug(server_msg);
         server_msg = NULL;
     }
     return 0.05; //20Hz -- is this ok?
+}
+
+
+void copy_float_to_array(float x, float *arr, int n)
+{
+    for (int i = 0; i < n; i++)
+        arr[i] = x;
+}
+
+
+void apply_control_value(iXControlAxis control)
+{
+    float eight_floats[8];
+    float value = control.min + control.value * (control.max - control.min);
+    switch (control.type)
+    {
+        case kAxisControlPitch:
+            XPLMSetDataf(gPitchRef, value);
+            break;
+        case kAxisControlRoll:
+            XPLMSetDataf(gRollRef, value);
+            break;
+        case kAxisControlYaw:
+            XPLMSetDataf(gYawRef, value);
+            break;
+        case kAxisControlThrottle:
+            //XPLMSetDatai(gThrottleOverrideRef, 1);
+            copy_float_to_array(value, eight_floats, 8);
+            XPLMSetDatavf(gThrottleRef, eight_floats, 0, 8);
+            break;
+        case kAxisControlPropPitch:
+            // range --> [-0.5, 9.5]
+            copy_float_to_array(value, eight_floats, 8);
+            XPLMSetDatavf(gPropRef, eight_floats, 0, 8);
+            break;
+    }
 }
 
 
@@ -271,11 +289,10 @@ int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inP
         return 0;
     }
     
-    debug("Got a list item changed event");
     if ((void*)inPopupID == touch_y_popup_id)
     {
         debug("Selected touch y axis control");
-        touch_y_control = inItemNumber;
+        touch_y.type = inItemNumber;
     }
     return 1;
 }
@@ -372,10 +389,10 @@ void *server_loop(void *arg)
             }
             else if (tag == kProtocolVersion1Tag)
             {
-                tilt_x = ix_get_ratio(buffer, &i);
-                tilt_y = ix_get_ratio(buffer, &i);
-                touch_x = ix_get_ratio(buffer, &i);
-                touch_y = ix_get_ratio(buffer, &i);
+                tilt_x.value = ix_get_ratio(buffer, &i);
+                tilt_y.value = ix_get_ratio(buffer, &i);
+                touch_x.value = ix_get_ratio(buffer, &i);
+                touch_y.value = ix_get_ratio(buffer, &i);
             }
             // else ignore packet
         }
