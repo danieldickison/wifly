@@ -10,27 +10,7 @@
 /* Uncomment the following line ONLY if you NEED v2 ONLY APIs. */
 /* #define XPLM200 */
 
-#include <stdio.h>
-#include <pthread.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <unistd.h>
-
-#include "XPLMPlugin.h"
-#include "XPLMDataAccess.h"
-#include "XPLMProcessing.h"
-#include "XPLMUtilities.h"
-#include "XPWidgetDefs.h"
-#include "XPWidgets.h"
-#include "XPWidgetUtils.h"
-#include "XPStandardWidgets.h"
-#include "XPWidgetsEx.h"
-#include "XPLMMenus.h"
-
-
-#include "iX_Yoke_Network.h"
-
+#include "iX-Yoke-plugin.h"
 
 XPLMDataRef gOverrideRef = NULL;
 XPLMDataRef gPitchRef = NULL;
@@ -43,28 +23,11 @@ XPLMDataRef gPropRef = NULL;
 XPLMDataRef gFlapRef = NULL;
 
 
+XPWidgetID window_id = 0;
+XPWidgetID touch_y_popup_id = 0;
 
-pthread_t server_thread = NULL;
-void *server_loop(void *arg);
-
-
-
-typedef enum {
-    kAxisControlPitch = 0,
-    kAxisControlRoll,
-    kAxisControlYaw,
-    kAxisControlThrottle,
-    kAxisControlPropPitch
-} iXControlType;
 
 const char *axis_choices = "Pitch;Roll;Yaw;Throttle;Prop Pitch";
-
-typedef struct {
-    iXControlType type;
-    float value;
-    float min;
-    float max;
-} iXControlAxis;
 
 
 iXControlAxis tilt_x = {kAxisControlRoll, 0.0f, -1.0f, 1.0f};
@@ -72,19 +35,8 @@ iXControlAxis tilt_y = {kAxisControlPitch, 0.0f, -1.0f, 1.0f};
 iXControlAxis touch_x = {kAxisControlYaw, 0.0f, -1.0f, 1.0f};
 iXControlAxis touch_y = {kAxisControlThrottle, -1.0f, 0.0f, 1.0f};
 
-void apply_control_value(iXControlAxis control);
-
+pthread_t server_thread = NULL;
 char *server_msg = NULL;
-
-XPWidgetID window_id = 0;
-XPWidgetID touch_y_popup_id = 0;
-
-
-// Callbacks
-int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPopupID, long inItemNumber);
-int window_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
-float flight_loop_callback(float inElapsedSinceLastCall, float inElapsedTimeSinceLastFlightLoop, int inCounter, void *inRefcon); 
-void menu_callback(void *menuRef, void *itemRef);
 
 
 
@@ -341,64 +293,3 @@ int window_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam
 
 
 
-/****** UDP Server ******/
-
-void *server_loop(void *arg)
-{
-    int sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    
-    struct sockaddr_in addr; 
-    UInt8 buffer[kPacketSizeLimit];
-    size_t recv_size;
-    
-    memset(&addr, 0, sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = INADDR_ANY;
-    addr.sin_port = htons(kServerPort);
-    
-    if (-1 == bind(sock, (struct sockaddr *)&addr, sizeof(struct sockaddr)))
-    {
-        server_msg = "Unable to bind server socket.";
-        goto stop_server;
-    }
-    
-    server_msg = "Starting server loop.";
-    
-    for (;;) 
-    {
-        recv_size = recvfrom(sock, (void *)buffer, kPacketSizeLimit, 0, NULL, NULL);
-        if (recv_size < 0)
-        {
-            server_msg = strerror(errno);
-            goto stop_server;
-        }
-        /*
-        char debugstr[64];
-        sprintf(debugstr, "Recv throttle %f", throt);
-        server_msg = debugstr;
-         */
-        
-        int i = 0;
-        while (i < recv_size)
-        {
-            UInt8 tag = ix_get_tag(buffer, &i);
-            if (tag == kServerKillTag)
-            {
-                server_msg = "Server kill received";
-                goto stop_server;
-            }
-            else if (tag == kProtocolVersion1Tag)
-            {
-                tilt_x.value = ix_get_ratio(buffer, &i);
-                tilt_y.value = ix_get_ratio(buffer, &i);
-                touch_x.value = ix_get_ratio(buffer, &i);
-                touch_y.value = ix_get_ratio(buffer, &i);
-            }
-            // else ignore packet
-        }
-    }
-    
-stop_server:
-    close(sock);
-    return NULL;
-}
