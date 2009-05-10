@@ -12,6 +12,32 @@
 
 #include "iX-Yoke-plugin.h"
 
+
+
+// Callbacks
+
+float flight_loop_callback(float inElapsedSinceLastCall, float inElapsedTimeSinceLastFlightLoop, int inCounter, void *inRefcon); 
+void menu_callback(void *menuRef, void *itemRef);
+
+
+
+// Axes
+
+iXControlAxis _axes[4] = {
+    {kAxisControlRoll, 0.5f, -1.0f, 1.0f, "Tilt X",0,0,0,0},
+    {kAxisControlPitch, 0.5f, -1.0f, 1.0f, "Tilt Y",0,0,0,0},
+    {kAxisControlYaw, 0.5f, -1.0f, 1.0f, "Touch X",0,0,0,0},
+    {kAxisControlThrottle, 0.0f, 0.0f, 1.0f, "Touch Y",0,0,0,0}
+};
+
+iXControlAxisRef get_axis(iXControlAxisID axis_id)
+{
+    return &_axes[axis_id];
+}
+
+
+// Datarefs
+
 XPLMDataRef gOverrideRef = NULL;
 XPLMDataRef gPitchRef = NULL;
 XPLMDataRef gRollRef = NULL;
@@ -23,21 +49,14 @@ XPLMDataRef gPropRef = NULL;
 XPLMDataRef gFlapRef = NULL;
 
 
-XPWidgetID window_id = 0;
-XPWidgetID touch_y_popup_id = 0;
 
-
-const char *axis_choices = "Pitch;Roll;Yaw;Throttle;Prop Pitch";
-
-
-iXControlAxis tilt_x = {kAxisControlRoll, 0.0f, -1.0f, 1.0f};
-iXControlAxis tilt_y = {kAxisControlPitch, 0.0f, -1.0f, 1.0f};
-iXControlAxis touch_x = {kAxisControlYaw, 0.0f, -1.0f, 1.0f};
-iXControlAxis touch_y = {kAxisControlThrottle, -1.0f, 0.0f, 1.0f};
+// Server etc.
 
 pthread_t server_thread = NULL;
 char *server_msg = NULL;
 
+
+void apply_control_value(iXControlAxisRef control);
 
 
 void debug(char *str)
@@ -97,10 +116,7 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
 PLUGIN_API void	XPluginStop(void)
 {
 	XPLMUnregisterFlightLoopCallback(flight_loop_callback, NULL);
-    if (window_id != 0)
-    {
-        XPDestroyWidget(window_id, 1);
-    }
+    destroy_window();
 }
 
 
@@ -183,17 +199,20 @@ float flight_loop_callback(float inElapsedSinceLastCall,
     }
      */
     
-    //XPLMSetDatai(gOverrideRef, 1);
-    apply_control_value(tilt_x);
-    apply_control_value(tilt_y);
-    apply_control_value(touch_x);
-    apply_control_value(touch_y);
+    XPLMSetDatai(gOverrideRef, 1);
+    for (int i = 0; i < kNumAxes; i++)
+    {
+        apply_control_value(get_axis(i));
+    }
 
     if (server_msg != NULL)
     {
         debug(server_msg);
         server_msg = NULL;
     }
+    
+    update_window();
+    
     return 0.05; //20Hz -- is this ok?
 }
 
@@ -205,11 +224,11 @@ void copy_float_to_array(float x, float *arr, int n)
 }
 
 
-void apply_control_value(iXControlAxis control)
+void apply_control_value(iXControlAxisRef control)
 {
     float eight_floats[8];
-    float value = control.min + control.value * (control.max - control.min);
-    switch (control.type)
+    float value = control->min + control->value * (control->max - control->min);
+    switch (control->type)
     {
         case kAxisControlPitch:
             XPLMSetDataf(gPitchRef, value);
@@ -234,61 +253,10 @@ void apply_control_value(iXControlAxis control)
 }
 
 
-int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPopupID, long inItemNumber)
-{
-    if (inMessage != xpMessage_PopupNewItemPicked)
-    {
-        return 0;
-    }
-    
-    if ((void*)inPopupID == touch_y_popup_id)
-    {
-        debug("Selected touch y axis control");
-        touch_y.type = inItemNumber;
-    }
-    return 1;
-}
-
 
 void menu_callback(void *menuRef, void *itemRef)
 {
-    if (window_id == 0)
-    {
-        // Create config window.
-        debug("Creating config window...");
-        
-        int x1=200, y1=400, x2=500, y2=200;
-        window_id = XPCreateWidget(x1, y1, x2, y2, 0, "iX-Yoke", 1, NULL, xpWidgetClass_MainWindow);
-        XPSetWidgetProperty(window_id, xpProperty_MainWindowHasCloseBoxes, 1);
-        XPAddWidgetCallback(window_id, window_callback);
-        
-        x1 += 10; y1 -= 30; x2 -= 10; y2 += 10;
-        XPWidgetID subwin = XPCreateWidget(x1, y1, x2, y2, 1, "", 0, window_id, xpWidgetClass_SubWindow);
-        XPSetWidgetProperty(subwin, xpProperty_SubWindowType, xpSubWindowStyle_SubWindow);
-        XPAddWidgetCallback(subwin, XPUFixedLayout);
-        
-        x1 += 10; y1 -= 10; x2 -= 10; y2 = y1-30;
-        touch_y_popup_id = XPCreatePopup(x1, y1, x2, y2, 1, axis_choices, subwin);
-        XPAddWidgetCallback(touch_y_popup_id, axis_popup_callback);
-    }
-    
-    debug("Showing config window");
-    XPShowWidget(window_id);
-}
-
-
-int window_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2)
-{
-	if (inMessage == xpMessage_CloseButtonPushed)
-	{
-        if (window_id != 0)
-        {
-            XPHideWidget(window_id);
-        }
-        return 1;
-    }
-    
-    return 0;
+    show_window();
 }
 
 

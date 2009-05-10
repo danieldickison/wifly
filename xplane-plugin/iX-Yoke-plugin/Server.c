@@ -58,10 +58,10 @@ void *server_loop(void *arg)
             }
             else if (tag == kProtocolVersion1Tag)
             {
-                tilt_x.value = ix_get_ratio(buffer, &i);
-                tilt_y.value = ix_get_ratio(buffer, &i);
-                touch_x.value = ix_get_ratio(buffer, &i);
-                touch_y.value = ix_get_ratio(buffer, &i);
+                for (int axis = 0; axis < kNumAxes; axis++)
+                {
+                    get_axis(axis)->value = ix_get_ratio(buffer, &i);
+                }
             }
             // else ignore packet
         }

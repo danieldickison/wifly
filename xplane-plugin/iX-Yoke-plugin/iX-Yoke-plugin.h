@@ -8,6 +8,9 @@
  */
 
 
+#ifndef __IX_YOKE_PLUGIN_H
+#define __IX_YOKE_PLUGIN_H
+
 #include <stdio.h>
 #include <pthread.h>
 #include <sys/socket.h>
@@ -30,16 +33,24 @@
 #include "iX_Yoke_Network.h"
 
 
+
+void debug(char *str);
+
+
 void *server_loop(void *arg);
 extern pthread_t server_thread;
 extern char *server_msg;
 
 
 
+// The display strings corresponding to iXControlType.
+#define axis_choices "Pitch;Roll;Yaw;Roll and Yaw;Throttle;Prop Pitch"
+
 typedef enum {
     kAxisControlPitch = 0,
     kAxisControlRoll,
     kAxisControlYaw,
+    kAxisControlRollAndYaw,
     kAxisControlThrottle,
     kAxisControlPropPitch
 } iXControlType;
@@ -50,27 +61,40 @@ typedef struct {
     float value;
     float min;
     float max;
+    
+    // UI stuff
+    const char title[32];
+    XPWidgetID popup_widget;
+    XPWidgetID min_widget;
+    XPWidgetID max_widget;
+    XPWidgetID progress_widget;
+    XPWidgetID reverse_widget;
 } iXControlAxis;
 
-
-extern iXControlAxis tilt_x;
-extern iXControlAxis tilt_y;
-extern iXControlAxis touch_x;
-extern iXControlAxis touch_y;
+typedef iXControlAxis * iXControlAxisRef;
 
 
-
-void apply_control_value(iXControlAxis control);
-
-
-
-
-
-// Callbacks
-
-int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPopupID, long inItemNumber);
-int window_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
-float flight_loop_callback(float inElapsedSinceLastCall, float inElapsedTimeSinceLastFlightLoop, int inCounter, void *inRefcon); 
-void menu_callback(void *menuRef, void *itemRef);
+typedef enum {
+    kAxisTiltX = 0,
+    kAxisTiltY,
+    kAxisTouchX,
+    kAxisTouchY,
+    kNumAxes
+} iXControlAxisID;
 
 
+
+iXControlAxisRef get_axis(iXControlAxisID axis_id);
+
+
+
+
+// Window
+
+void show_window();
+void destroy_window();
+int update_window();
+
+
+
+#endif
