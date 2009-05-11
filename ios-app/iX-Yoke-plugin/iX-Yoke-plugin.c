@@ -259,13 +259,16 @@ void apply_control_value(iXControlAxisRef control)
         case kAxisControlYaw:
             XPLMSetDataf(gYawRef, value);
             break;
+        case kAxisControlRollAndYaw:
+            XPLMSetDataf(gRollRef, value);
+            XPLMSetDataf(gYawRef, value*0.2);
+            break;
         case kAxisControlThrottle:
             //XPLMSetDatai(gThrottleOverrideRef, 1);
             copy_float_to_array(value, eight_floats, 8);
             XPLMSetDatavf(gThrottleRef, eight_floats, 0, 8);
             break;
         case kAxisControlPropPitch:
-            // range --> [-0.5, 9.5]
             copy_float_to_array(value, eight_floats, 8);
             XPLMSetDatavf(gPropRef, eight_floats, 0, 8);
             break;
