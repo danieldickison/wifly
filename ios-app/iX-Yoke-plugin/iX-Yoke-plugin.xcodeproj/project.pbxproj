@@ -11,6 +11,7 @@
 		0B1DB7790FAE7FB900B867C5 /* XPPopups.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B1DB7760FAE7FB900B867C5 /* XPPopups.cpp */; };
 		0B8C6B290FB6421700B67754 /* Server.c in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C6B280FB6421700B67754 /* Server.c */; };
 		0B8C6B3B0FB7413800B67754 /* Window.c in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C6B3A0FB7413800B67754 /* Window.c */; };
+		0B8C6E4B0FB7E00600B67754 /* Preferences.c in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C6E4A0FB7E00600B67754 /* Preferences.c */; };
 		4AED38EB0DCCE6F700B89CAC /* iX-Yoke-plugin.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AED38EA0DCCE6F700B89CAC /* iX-Yoke-plugin.c */; };
 		D2AAC0B105546B7500DB518D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB77AAFE841565C02AAC07 /* Carbon.framework */; };
 /* End PBXBuildFile section */
@@ -24,6 +25,7 @@
 		0B8C6B280FB6421700B67754 /* Server.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Server.c; sourceTree = "<group>"; };
 		0B8C6B2C0FB6423100B67754 /* iX-Yoke-plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iX-Yoke-plugin.h"; sourceTree = "<group>"; };
 		0B8C6B3A0FB7413800B67754 /* Window.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Window.c; sourceTree = "<group>"; };
+		0B8C6E4A0FB7E00600B67754 /* Preferences.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Preferences.c; sourceTree = "<group>"; };
 		32BAE0B70371A74B00C91783 /* iX-Yoke-plugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iX-Yoke-plugin_Prefix.pch"; sourceTree = "<group>"; };
 		4AED38EA0DCCE6F700B89CAC /* iX-Yoke-plugin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "iX-Yoke-plugin.c"; sourceTree = "<group>"; };
 		D2AAC09D05546B4700DB518D /* iX-Yoke-plugin.xpl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "iX-Yoke-plugin.xpl"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +78,7 @@
 				4AED38EA0DCCE6F700B89CAC /* iX-Yoke-plugin.c */,
 				0B8C6B280FB6421700B67754 /* Server.c */,
 				0B8C6B3A0FB7413800B67754 /* Window.c */,
+				0B8C6E4A0FB7E00600B67754 /* Preferences.c */,
 				32BAE0B70371A74B00C91783 /* iX-Yoke-plugin_Prefix.pch */,
 			);
 			name = Source;
@@ -138,6 +141,7 @@
 				0B1DB7790FAE7FB900B867C5 /* XPPopups.cpp in Sources */,
 				0B8C6B290FB6421700B67754 /* Server.c in Sources */,
 				0B8C6B3B0FB7413800B67754 /* Window.c in Sources */,
+				0B8C6E4B0FB7E00600B67754 /* Preferences.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

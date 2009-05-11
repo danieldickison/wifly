@@ -33,6 +33,9 @@
 #include "iX_Yoke_Network.h"
 
 
+#if APL
+int MacToUnixPath(const char * inPath, char * outPath, int outPathMaxLen);
+#endif
 
 void debug(char *str);
 
@@ -44,10 +47,11 @@ extern char *server_msg;
 
 
 // The display strings corresponding to iXControlType.
-#define axis_choices "Pitch;Roll;Yaw;Roll and Yaw;Throttle;Prop Pitch"
+#define axis_choices "Off;Pitch;Roll;Yaw;Roll and Yaw;Throttle;Prop Pitch"
 
 typedef enum {
-    kAxisControlPitch = 0,
+    kAxisControlOff = 0,
+    kAxisControlPitch,
     kAxisControlRoll,
     kAxisControlYaw,
     kAxisControlRollAndYaw,
@@ -87,6 +91,16 @@ typedef enum {
 iXControlAxisRef get_axis(iXControlAxisID axis_id);
 
 
+
+// Prefs and Presets
+
+void load_prefs();
+void save_prefs();
+int get_preset_names(char **outNames);
+int current_preset(); // Returns -1 for "Custom".
+void set_current_preset(int i); // Pass -1 for "Custom".
+void save_preset_as(const char *inName);
+void delete_preset(int i);
 
 
 // Window

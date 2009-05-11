@@ -68,6 +68,26 @@ void debug(char *str)
 }
 
 
+
+#if APL
+#include <Carbon/Carbon.h>
+int MacToUnixPath(const char * inPath, char * outPath, int outPathMaxLen)
+{
+    CFStringRef inStr = CFStringCreateWithCString(kCFAllocatorDefault, inPath, kCFStringEncodingMacRoman);
+    if (inStr == NULL) return -1;
+    CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, inStr, kCFURLHFSPathStyle,0);
+    CFStringRef outStr = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
+    if (!CFStringGetCString(outStr, outPath, outPathMaxLen, kCFURLPOSIXPathStyle)) return -1;
+    CFRelease(outStr);
+    CFRelease(url);
+    CFRelease(inStr);
+    return 0;
+}
+#endif
+
+
+
+
 /*============================== REQUIRED METHODS ==============================*/
 
 /*
