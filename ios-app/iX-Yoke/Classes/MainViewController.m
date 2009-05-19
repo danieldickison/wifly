@@ -31,7 +31,8 @@
     
     calibrationTrackPad = [[TrackPadControl alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
     [calibrationTrackPad setMinX:-1 maxX:1 minY:1 maxY:-1];
-    calibrationTrackPad.singleTouchCenters = YES;
+    calibrationTrackPad.interactionMode = TrackPadTouchesIgnored;
+    calibrationTrackPad.clearsContextBeforeDrawing = NO;
     calibrationTrackPad.tag = kTrackPadTag;
     [calibrationTrackPad addTarget:self action:@selector(calibrationUpdated) forControlEvents:UIControlEventValueChanged];
     calibrationTrackPad.multipleTouchEnabled = YES;
@@ -39,6 +40,8 @@
     
     controlTrackPad = [[TrackPadControl alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
     [controlTrackPad setMinX:-1 maxX:1 minY:-1 maxY:1];
+    controlTrackPad.interactionMode = TrackPadTouchesValueRelative;
+    controlTrackPad.clearsContextBeforeDrawing = NO;
     controlTrackPad.xValue = SharedAppDelegate.touch_x;
     controlTrackPad.yValue = SharedAppDelegate.touch_y;
     controlTrackPad.tag = kTrackPadTag;
@@ -78,7 +81,9 @@
 - (IBAction)toggleSuspend:(UISwitch *)sender
 {
     calibrationTrackPad.holding = sender.on;
+    calibrationTrackPad.interactionMode = (sender.on ? TrackPadTouchesBounds : TrackPadTouchesIgnored);
     controlTrackPad.holding = sender.on;
+    controlTrackPad.interactionMode = (sender.on ? TrackPadTouchesBounds : TrackPadTouchesValueRelative);
 }
 
 - (IBAction)switchTrackPad:(UISegmentedControl *)sender
