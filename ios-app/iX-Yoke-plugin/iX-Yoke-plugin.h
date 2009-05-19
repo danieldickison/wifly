@@ -43,6 +43,9 @@ void debug(char *str);
 void *server_loop(void *arg);
 extern pthread_t server_thread;
 extern char *server_msg;
+extern char *server_ip;
+
+void update_overrides();
 
 
 
