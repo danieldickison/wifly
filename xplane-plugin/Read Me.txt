@@ -12,20 +12,16 @@ The X-Plane plugin acts as a server, to which the iPhone app sends commands.  Th
 TODO
 ----
 
-* Double-tap tilt trackpad to set tilt center.  Is this a good idea?  Maybe only while hold is on?  Or slowly move center to the new location, to allow user to adjust tilt as it moves?
+* Center and bounds ideas:
+    - Two-finger drag for additional axes, e.g. 3-D cockpit panning.
+    - Double-tap to re-center, or for tilt, set tilt center.
+    - Double-tap to set current value as the tilt center?
 * Make server update on every flight loop instead of a fixed rate (10Hz)?
 * Send instrument readings back to iPhone for display?
-* On plugin side, allow selection of the auxilliary y axis control.
-    - Throttle
-    - Helicopter collective
-    - Others?
-    - This will simplify the phone code since it can blindly send the extra axis without figuring out what it's controlling.
-    - One downside is that, if we do this on the phone-side, we can have controls that auto-snap to center and the like.  Is this worthwhile?
-    - Also allow specifying ALL axes, including tilt.  Then it could be used in tandem with a real joystick.
-* Add a switch to auto-coordinate roll and yaw.  Switch on server-side.
+* Auto-coordinate roll+yaw should move nosewheel steering more.
 * Tap-down visual confirmation of trackpad.
 * Auditory feedback of tap-drag for better blind interaction.
 * Change color/sound to alert when tilt exceeds tracking bounds.
 * Distinct visual style for calibration vs control trackpads to avoid confusion.
 * Eye candy: background images, pulsating trackpad dot...etc.
-* ZeroConf server discovery.
+* ZeroConf server discovery, or at least show server IP in window.

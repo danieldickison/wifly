@@ -132,6 +132,7 @@ int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inP
         control->type = inItemNumber;
         set_current_preset(-1);
         update_settings_display();
+        update_overrides();
     }
     
     return 1;
@@ -239,6 +240,8 @@ int preset_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long i
 
 void update_settings_display()
 {
+    debug(server_ip);
+    
     char preset_menu_str[65*48];
     get_preset_menu_str(preset_menu_str);
     XPSetWidgetDescriptor(preset_popup_id, preset_menu_str);

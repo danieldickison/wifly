@@ -8,6 +8,7 @@
  */
 
 #include "iX-Yoke-plugin.h"
+#include <arpa/inet.h>
 
 
 /****** UDP Server ******/
@@ -17,7 +18,7 @@ void *server_loop(void *arg)
     int sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
     
     struct sockaddr_in addr; 
-    UInt8 buffer[kPacketSizeLimit];
+    uint8_t buffer[kPacketSizeLimit];
     size_t recv_size;
     
     memset(&addr, 0, sizeof(addr));
@@ -25,11 +26,15 @@ void *server_loop(void *arg)
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(kServerPort);
     
-    if (-1 == bind(sock, (struct sockaddr *)&addr, sizeof(struct sockaddr)))
+    if (-1 == bind(sock, (struct sockaddr *)&addr, sizeof(struct sockaddr_in)))
     {
         server_msg = "Unable to bind server socket.";
         goto stop_server;
     }
+    
+    socklen_t addr_len = sizeof(addr);
+    getsockname(sock, (struct sockaddr *)&addr, &addr_len);
+    server_ip = inet_ntoa(addr.sin_addr);
     
     server_msg = "Starting server loop.";
     
@@ -41,11 +46,6 @@ void *server_loop(void *arg)
             server_msg = strerror(errno);
             goto stop_server;
         }
-        /*
-         char debugstr[64];
-         sprintf(debugstr, "Recv throttle %f", throt);
-         server_msg = debugstr;
-         */
         
         int i = 0;
         while (i < recv_size)

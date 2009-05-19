@@ -77,14 +77,24 @@ FILE *get_prefs_file(char *mode)
 void load_prefs()
 {
     FILE *f = get_prefs_file("r");
-    //...
-    fclose(f);
+    if (f)
+    {
+        
+        //...
+        fclose(f);
+    }
+    else
+    {
+        set_current_preset(0);
+    }
 }
 
 
 void save_prefs()
 {
     FILE *f = get_prefs_file("w");
+    if (!f) return;
+    
     //...
     fclose(f);
 }
@@ -130,6 +140,7 @@ void set_current_preset(int i)
             control->min = pre_axis.min;
             control->max = pre_axis.max;
         }
+        update_overrides();
     }
 }
 

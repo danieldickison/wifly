@@ -38,15 +38,19 @@ iXControlAxisRef get_axis(iXControlAxisID axis_id)
 
 // Datarefs
 
-XPLMDataRef gOverrideRef = NULL;
+XPLMDataRef gStickOverrideRef = NULL;
+XPLMDataRef gPitchOverrideRef = NULL;
 XPLMDataRef gPitchRef = NULL;
+XPLMDataRef gRollOverrideRef = NULL;
 XPLMDataRef gRollRef = NULL;
+XPLMDataRef gYawOverrideRef = NULL;
 XPLMDataRef gYawRef = NULL;
 XPLMDataRef gThrottleOverrideRef = NULL;
 XPLMDataRef gThrottleRef = NULL;
 XPLMDataRef gPropSpeedRef = NULL;
 XPLMDataRef gPropRef = NULL;
 XPLMDataRef gFlapRef = NULL;
+XPLMDataRef gNoseSteerRef = NULL;
 
 
 
@@ -54,6 +58,7 @@ XPLMDataRef gFlapRef = NULL;
 
 pthread_t server_thread = NULL;
 char *server_msg = NULL;
+char *server_ip = NULL;
 
 
 void apply_control_value(iXControlAxisRef control);
@@ -102,16 +107,20 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
 	
     // Find all the datarefs.
     debug("Finding datarefs...");
-	gOverrideRef = XPLMFindDataRef("sim/operation/override/override_joystick");
+	gStickOverrideRef = XPLMFindDataRef("sim/operation/override/override_joystick");
+	gPitchOverrideRef = XPLMFindDataRef("sim/operation/override/override_joystick_pitch");
+	gRollOverrideRef = XPLMFindDataRef("sim/operation/override/override_joystick_roll");
+	gYawOverrideRef = XPLMFindDataRef("sim/operation/override/override_joystick_heading");
 	gPitchRef = XPLMFindDataRef("sim/joystick/yolk_pitch_ratio");
 	gRollRef = XPLMFindDataRef("sim/joystick/yolk_roll_ratio");
 	gYawRef = XPLMFindDataRef("sim/joystick/yolk_heading_ratio");
     gThrottleOverrideRef = XPLMFindDataRef("sim/operation/override/override_throttles");
-    //gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro_use");
-    gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro");
+    gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro_use");
+    //gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro");
     gPropSpeedRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_prop");
     gFlapRef = XPLMFindDataRef("sim/flightmodel/controls/flaprqst");
     gPropRef = XPLMFindDataRef("sim/flightmodel/engine/POINT_pitch_deg");
+    gNoseSteerRef = XPLMFindDataRef("sim/cockpit2/controls/nosewheel_steer_on");
     
     // Add menu for showing config window.
     debug("Adding menu...");
@@ -147,6 +156,7 @@ PLUGIN_API int XPluginEnable(void)
 {
     debug("Starting server");
     pthread_create(&server_thread, NULL, server_loop, NULL);
+    load_prefs();
 	return 1;
 }
 
@@ -156,7 +166,10 @@ PLUGIN_API int XPluginEnable(void)
  */
 PLUGIN_API void XPluginDisable(void)
 {
-    XPLMSetDatai(gOverrideRef, 0);
+    XPLMSetDatai(gStickOverrideRef, 0);
+    XPLMSetDatai(gPitchOverrideRef, 0);
+    XPLMSetDatai(gYawOverrideRef, 0);
+    XPLMSetDatai(gRollOverrideRef, 0);
     XPLMSetDatai(gThrottleOverrideRef, 0);
     
     debug("Stopping server");
@@ -219,7 +232,6 @@ float flight_loop_callback(float inElapsedSinceLastCall,
     }
      */
     
-    XPLMSetDatai(gOverrideRef, 1);
     for (int i = 0; i < kNumAxes; i++)
     {
         apply_control_value(get_axis(i));
@@ -273,6 +285,30 @@ void apply_control_value(iXControlAxisRef control)
             XPLMSetDatavf(gPropRef, eight_floats, 0, 8);
             break;
     }
+}
+
+
+void update_overrides()
+{
+    int override_throttle = 0;
+    int override_pitch = 0;
+    int override_roll = 0;
+    int override_yaw = 0;
+    for (int i = 0; i < kNumAxes; i++)
+    {
+        iXControlAxisRef control = get_axis(i);
+        override_throttle |= (control->type == kAxisControlThrottle);
+        override_roll |= (control->type == kAxisControlRoll);
+        override_roll |= (control->type == kAxisControlRollAndYaw);
+        override_yaw |= (control->type == kAxisControlYaw);
+        override_yaw |= (control->type == kAxisControlRollAndYaw);
+        override_pitch |= (control->type == kAxisControlPitch);
+    }
+    XPLMSetDatai(gStickOverrideRef, override_roll && override_pitch && override_yaw);
+    XPLMSetDatai(gRollOverrideRef, override_roll);
+    XPLMSetDatai(gYawOverrideRef, override_yaw);
+    XPLMSetDatai(gPitchOverrideRef, override_pitch);
+    XPLMSetDatai(gThrottleOverrideRef, override_throttle);
 }
 
 
