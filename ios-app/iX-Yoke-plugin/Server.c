@@ -50,7 +50,7 @@ void *server_loop(void *arg)
         int i = 0;
         while (i < recv_size)
         {
-            UInt8 tag = ix_get_tag(buffer, &i);
+            uint8_t tag = ix_get_tag(buffer, &i);
             if (tag == kServerKillTag)
             {
                 server_msg = "Server kill received";
