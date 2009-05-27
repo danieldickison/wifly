@@ -55,6 +55,8 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
     
     self.hostAddress = [[NSUserDefaults standardUserDefaults] stringForKey:@"hostAddress"];
     self.hostPort = [[NSUserDefaults standardUserDefaults] integerForKey:@"hostPort"];
+    if (!self.hostPort)
+        self.hostPort = kServerPort;
     
     [UIAccelerometer sharedAccelerometer].updateInterval = (1.0 / kUpdateFrequency);
     [UIAccelerometer sharedAccelerometer].delegate = self;
