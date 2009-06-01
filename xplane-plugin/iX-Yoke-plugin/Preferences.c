@@ -32,7 +32,7 @@ static const iXPreset readonly_presets[3] = {
         {
             {kAxisControlRoll, -1.0, 1.0},
             {kAxisControlPitch, -1.0, 1.0},
-            {kAxisControlYaw, -1.0, 1.0},
+            {kAxisControlYaw, -0.5, 0.5},
             {kAxisControlThrottle, 0.0, 1.0}
         }
     },
