@@ -28,7 +28,7 @@
 		0B8C6E4A0FB7E00600B67754 /* Preferences.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Preferences.c; sourceTree = "<group>"; };
 		32BAE0B70371A74B00C91783 /* iX-Yoke-plugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iX-Yoke-plugin_Prefix.pch"; sourceTree = "<group>"; };
 		4AED38EA0DCCE6F700B89CAC /* iX-Yoke-plugin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "iX-Yoke-plugin.c"; sourceTree = "<group>"; };
-		D2AAC09D05546B4700DB518D /* iX-Yoke-plugin.xpl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "iX-Yoke-plugin.xpl"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC09D05546B4700DB518D /* Wi-Fly-mac.xpl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "Wi-Fly-mac.xpl"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +46,7 @@
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC09D05546B4700DB518D /* iX-Yoke-plugin.xpl */,
+				D2AAC09D05546B4700DB518D /* Wi-Fly-mac.xpl */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,9 +97,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D2AAC09C05546B4700DB518D /* iX-Yoke-plugin */ = {
+		D2AAC09C05546B4700DB518D /* Wi-Fly-mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "iX-Yoke-plugin" */;
+			buildConfigurationList = 1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "Wi-Fly-mac" */;
 			buildPhases = (
 				D2AAC09B05546B4700DB518D /* Frameworks */,
 				D2AAC09A05546B4700DB518D /* Sources */,
@@ -108,9 +108,9 @@
 			);
 			dependencies = (
 			);
-			name = "iX-Yoke-plugin";
+			name = "Wi-Fly-mac";
 			productName = "iX-Yoke-plugin";
-			productReference = D2AAC09D05546B4700DB518D /* iX-Yoke-plugin.xpl */;
+			productReference = D2AAC09D05546B4700DB518D /* Wi-Fly-mac.xpl */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -126,7 +126,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D2AAC09C05546B4700DB518D /* iX-Yoke-plugin */,
+				D2AAC09C05546B4700DB518D /* Wi-Fly-mac */,
 			);
 		};
 /* End PBXProject section */
@@ -178,7 +178,7 @@
 					"-undefined",
 					warning,
 				);
-				PRODUCT_NAME = "iX-Yoke-plugin";
+				PRODUCT_NAME = "Wi-Fly-mac";
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = YES;
 				XPSDK_ROOT = SDK;
@@ -213,7 +213,7 @@
 					"-undefined",
 					warning,
 				);
-				PRODUCT_NAME = "iX-Yoke-plugin";
+				PRODUCT_NAME = "Wi-Fly-mac";
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = YES;
 				XPSDK_ROOT = SDK;
@@ -249,7 +249,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "iX-Yoke-plugin" */ = {
+		1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "Wi-Fly-mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB916108733D950010E9CD /* Debug */,
