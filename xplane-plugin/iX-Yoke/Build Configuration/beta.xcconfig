@@ -11,4 +11,3 @@
 CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Distribution
 CODE_SIGN_ENTITLEMENTS = Build Configuration/Entitlements.plist
 
-PRODUCT_NAME = Wi-Fly Beta

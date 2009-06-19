@@ -11,4 +11,3 @@
 COPY_PHASE_STRIP = YES
 CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Distribution
 
-PRODUCT_NAME = Wi-Fly

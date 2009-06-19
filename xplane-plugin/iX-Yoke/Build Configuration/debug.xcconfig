@@ -13,4 +13,3 @@ CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
 GCC_DYNAMIC_NO_PIC = NO
 GCC_OPTIMIZATION_LEVEL = 0
 
-PRODUCT_NAME = Wi-Fly Dev
