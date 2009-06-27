@@ -11,6 +11,7 @@
 
 #if APL || LIN
 #include <arpa/inet.h>
+#include <errno.h>
 #endif
 
 

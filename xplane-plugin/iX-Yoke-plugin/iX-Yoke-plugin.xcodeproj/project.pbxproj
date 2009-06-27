@@ -55,7 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				0B6341480FA8C64000C511A9 /* iX_Yoke_Network.h */,
-				0B1DB7740FAE7FB900B867C5 /* 3rd Party */,
+				0B1DB7740FAE7FB900B867C5 /* ThirdParty */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DDFF38A45A11DB9C8B /* Products */,
@@ -84,14 +84,14 @@
 			name = Source;
 			sourceTree = "<group>";
 		};
-		0B1DB7740FAE7FB900B867C5 /* 3rd Party */ = {
+		0B1DB7740FAE7FB900B867C5 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
 				0B1DB7750FAE7FB900B867C5 /* XPListBox.cpp */,
 				0B1DB7760FAE7FB900B867C5 /* XPPopups.cpp */,
 				0B1DB7770FAE7FB900B867C5 /* XPWidgetsEx.h */,
 			);
-			path = "3rd Party";
+			path = ThirdParty;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
