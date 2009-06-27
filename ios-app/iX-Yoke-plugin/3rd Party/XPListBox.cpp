@@ -430,7 +430,7 @@ int		XPListBoxProc(
 					
 					char	Buffer[512];
 					int		FontWidth, FontHeight;
-					long	charWidth;
+					//unused: long	charWidth;
 					int		ListBoxWidth = (Right - 20) - Left;
 					strcpy(Buffer, pListBoxData->Items[ListBoxIndex++].c_str());
 					XPLMGetFontDimensions(xplmFont_Basic, &FontWidth, &FontHeight, NULL);

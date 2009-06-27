@@ -152,7 +152,7 @@ static void XPPopupDrawWindowCB(
 	// on where the mouse is.
 	int menu_offset = XPItemForHeight(pmenu, x, y);	
 
-	int	item_top = pmenu->top;
+	//unused: int	item_top = pmenu->top;
 	unsigned int n;
 	XPLMSetGraphicsState(0, 0, 0,  0, 0,  0, 0);
 	
