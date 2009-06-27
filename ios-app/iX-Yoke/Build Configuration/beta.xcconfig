@@ -10,4 +10,5 @@
 
 CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Distribution
 CODE_SIGN_ENTITLEMENTS = Build Configuration/Entitlements.plist
+PROVISIONING_PROFILE[sdk=iphoneos*] = A9E127C3-B88D-400D-9D6F-94B4656B7286
 
