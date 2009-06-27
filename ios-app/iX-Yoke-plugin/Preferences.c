@@ -134,7 +134,7 @@ void set_current_preset(int i)
         
         for (int j = 0; j < kNumAxes; j++)
         {
-            iXControlAxisRef control = get_axis(j);
+            iXControlAxisRef control = get_axis((iXControlAxisID)j);
             iXPresetAxis pre_axis = preset.axes[j];
             control->type = pre_axis.type;
             control->min = pre_axis.min;
@@ -152,7 +152,7 @@ void save_preset_as(const char *inName)
     new_preset.name[63] = '\0';
     for (int i = 0; i < kNumAxes; i++)
     {
-        iXControlAxisRef control = get_axis(i);
+        iXControlAxisRef control = get_axis((iXControlAxisID)i);
         new_preset.axes[i].type = control->type;
         new_preset.axes[i].min = control->min;
         new_preset.axes[i].max = control->max;

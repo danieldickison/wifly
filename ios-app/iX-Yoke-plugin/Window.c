@@ -62,7 +62,7 @@ void show_window()
         for (int i = 0; i < kNumAxes; i++)
         {
             y1 = y2-10; y2 = y1-20;
-            iXControlAxisRef control = get_axis(i);
+            iXControlAxisRef control = get_axis((iXControlAxisID)i);
             
             // Axis title.
             XPCreateWidget(x1, y1, x1+100, y2, 1, control->title, 0, subwin, xpWidgetClass_Caption);
@@ -97,7 +97,7 @@ int update_window()
     
     for (int i = 0; i < kNumAxes; i++)
     {
-        iXControlAxisRef control = get_axis(i);
+        iXControlAxisRef control = get_axis((iXControlAxisID)i);
         XPWidgetID progress = control->progress_widget;
         float value = control->value;
         long intValue = (long)(1024.0f * value);
@@ -119,9 +119,9 @@ int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inP
     iXControlAxisRef control = NULL;
     for (int i = 0; i < kNumAxes; i++)
     {
-        if (get_axis(i)->popup_widget == (void*)inPopupID)
+        if (get_axis((iXControlAxisID)i)->popup_widget == (void*)inPopupID)
         {
-            control = get_axis(i);
+            control = get_axis((iXControlAxisID)i);
             break;
         }
     }
@@ -129,7 +129,7 @@ int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inP
     
     if (control->type != inItemNumber)
     {
-        control->type = inItemNumber;
+        control->type = (iXControlType)inItemNumber;
         set_current_preset(-1);
         update_settings_display();
         update_overrides();
@@ -157,7 +157,7 @@ int textfield_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPa
     if (inMessage == xpMsg_KeyPress)
     {
         // Only allow numeric, decimal point and minus characters.
-        XPKeyState_t *key_state = (void *)inParam1;
+        XPKeyState_t *key_state = (XPKeyState_t *)inParam1;
         char key = key_state->key;
         char vkey = key_state->vkey;
         if (key == '\n' || key == '\r')
@@ -181,7 +181,7 @@ int textfield_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPa
         int isMin = 0;
         for (int i = 0; i < kNumAxes; i++)
         {
-            iXControlAxisRef this_control = get_axis(i);
+            iXControlAxisRef this_control = get_axis((iXControlAxisID)i);
             if (this_control->min_widget == textfield)
             {
                 isMin = 1;
@@ -251,7 +251,7 @@ void update_settings_display()
     // Set all the popups and text fields' values.
     for (int i = 0; i < kNumAxes; i++)
     {
-        iXControlAxisRef control = get_axis(i);
+        iXControlAxisRef control = get_axis((iXControlAxisID)i);
         
         XPSetWidgetProperty(control->popup_widget, xpProperty_PopupCurrentItem, control->type);
         

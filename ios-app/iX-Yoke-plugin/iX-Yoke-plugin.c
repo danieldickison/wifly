@@ -55,8 +55,14 @@ XPLMDataRef gNoseSteerRef = NULL;
 
 
 // Server etc.
-
+#if IBM
+HANDLE server_thread = NULL;
+void server_loop(LPVOID pParameter);
+#else
 pthread_t server_thread = NULL;
+void *server_loop(void* pParameter);
+#endif
+
 char *server_msg = NULL;
 char *server_ip = NULL;
 
@@ -155,7 +161,14 @@ PLUGIN_API void	XPluginStop(void)
 PLUGIN_API int XPluginEnable(void)
 {
     debug("Starting server");
-    pthread_create(&server_thread, NULL, server_loop, NULL);
+#if IBM
+	    WSADATA wsaData;
+		WSAStartup(MAKEWORD(1, 1), &wsaData);
+		_beginthread(server_loop, 0, NULL);
+#else
+	pthread_create(&server_thread, NULL, server_loop, NULL);
+#endif
+    
     load_prefs();
 	return 1;
 }
@@ -202,8 +215,11 @@ PLUGIN_API void XPluginDisable(void)
     }
     
 server_kill_end:
-    close(sock);
-    // Should we try to kill the server thread by another means?
+    closesocket(sock);
+	// Should we try to kill the server thread by another means?
+#if IBM
+    WSACleanup();
+#endif
 }
 
 
@@ -234,7 +250,7 @@ float flight_loop_callback(float inElapsedSinceLastCall,
     
     for (int i = 0; i < kNumAxes; i++)
     {
-        apply_control_value(get_axis(i));
+        apply_control_value(get_axis((iXControlAxisID)i));
     }
 
     if (server_msg != NULL)
@@ -296,7 +312,7 @@ void update_overrides()
     int override_yaw = 0;
     for (int i = 0; i < kNumAxes; i++)
     {
-        iXControlAxisRef control = get_axis(i);
+        iXControlAxisRef control = get_axis((iXControlAxisID)i);
         override_throttle |= (control->type == kAxisControlThrottle);
         override_roll |= (control->type == kAxisControlRoll);
         override_roll |= (control->type == kAxisControlRollAndYaw);

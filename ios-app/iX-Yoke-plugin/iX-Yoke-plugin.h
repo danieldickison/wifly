@@ -12,11 +12,35 @@
 #define __IX_YOKE_PLUGIN_H
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#if IBM
+#include <windows.h>
+#include <process.h>
+typedef char int8_t;
+typedef unsigned char uint8_t;
+typedef unsigned int uint16_t;
+#define snprintf _snprintf
+#define socklen_t int
+#endif
+
+#if APL || LIN
 #include <pthread.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#define closesocket close
+#define SOCKET_ERROR -1
+#define NON_BLOCKING 1
+#endif
+
+#if LIN
+#include <asm/ioctls.h>
+#include <errno.h>
+#endif
+
 
 #include "XPLMPlugin.h"
 #include "XPLMDataAccess.h"
@@ -40,8 +64,14 @@ int MacToUnixPath(const char * inPath, char * outPath, int outPathMaxLen);
 void debug(char *str);
 
 
-void *server_loop(void *arg);
+#if IBM
+void server_loop(void *arg);
+extern HANDLE server_thread;
+#else
 extern pthread_t server_thread;
+void *server_loop(void *arg);
+#endif
+
 extern char *server_msg;
 extern char *server_ip;
 
