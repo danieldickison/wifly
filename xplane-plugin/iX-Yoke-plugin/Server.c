@@ -8,18 +8,26 @@
  */
 
 #include "iX-Yoke-plugin.h"
+
+#if APL || LIN
 #include <arpa/inet.h>
+#endif
 
 
 /****** UDP Server ******/
 
+#if IBM
+void server_loop(LPVOID pParameter)
+#else
 void *server_loop(void *arg)
+#endif
 {
     int sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
     
     struct sockaddr_in addr; 
     uint8_t buffer[kPacketSizeLimit];
     size_t recv_size;
+    socklen_t addr_len = 0;
     
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
@@ -32,7 +40,7 @@ void *server_loop(void *arg)
         goto stop_server;
     }
     
-    socklen_t addr_len = sizeof(addr);
+    addr_len = sizeof(addr);
     getsockname(sock, (struct sockaddr *)&addr, &addr_len);
     server_ip = inet_ntoa(addr.sin_addr);
     
@@ -40,7 +48,7 @@ void *server_loop(void *arg)
     
     for (;;) 
     {
-        recv_size = recvfrom(sock, (void *)buffer, kPacketSizeLimit, 0, NULL, NULL);
+        recv_size = recvfrom(sock, (char *)buffer, kPacketSizeLimit, 0, NULL, NULL);
         if (recv_size < 0)
         {
             server_msg = strerror(errno);
@@ -60,7 +68,7 @@ void *server_loop(void *arg)
             {
                 for (int axis = 0; axis < kNumAxes; axis++)
                 {
-                    get_axis(axis)->value = ix_get_ratio(buffer, &i);
+                    get_axis((iXControlAxisID)axis)->value = ix_get_ratio(buffer, &i);
                 }
             }
             // else ignore packet
@@ -68,7 +76,9 @@ void *server_loop(void *arg)
     }
     
 stop_server:
-    close(sock);
+    closesocket(sock);
+#if APL || LIN
     return NULL;
+#endif
 }
 
