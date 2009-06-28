@@ -1,4 +1,9 @@
-# Change this according to platform: mac, win32 or linux.
+# This is an attempt to build the plugin on Mac, Windows and Linux.
+# On the Mac, a (better?) alternative is to build via Xcode.
+# On Windows, this requires mingw.
+# This hasn't been tried on Linux.
+
+# Change this according to platform: mac, win or lin.
 PLATFORM = win
 
 ifeq ($(PLATFORM), mac)
@@ -12,7 +17,7 @@ LINKED_LIBS = -lws2_32 -lstdc++ -lopengl32 -l:XPLM.lib -l:XPWidgets.lib
 PLATFORM_LINKER_FLAGS = -LSDK/Libraries/Win
 PLATFORM_CODEGEN_FLAGS = 
 endif
-ifeq ($(PLATFORM), linux)
+ifeq ($(PLATFORM), lin)
 PREPROC_MACROS = -DAPL=0 -DIBM=0 -DLIN=1
 PLATFORM_CODEGEN_FLAGS = -fPIC
 endif
