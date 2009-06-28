@@ -14,13 +14,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #if IBM
 #include <windows.h>
 #include <process.h>
-typedef char int8_t;
-typedef unsigned char uint8_t;
-typedef unsigned int uint16_t;
 #define snprintf _snprintf
 #define socklen_t int
 #endif

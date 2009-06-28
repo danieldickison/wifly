@@ -192,7 +192,7 @@ PLUGIN_API void XPluginDisable(void)
     struct sockaddr_in sa;
     int bytes_sent;
     int buffer_length = 1;
-    SInt8 buffer[1];
+    int8_t buffer[1];
     buffer[0] = kServerKillTag;
     
     sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
