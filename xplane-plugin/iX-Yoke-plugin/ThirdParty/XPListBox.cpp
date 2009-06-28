@@ -56,7 +56,7 @@ double round(double InValue)
     long WholeValue;
     double Fraction;
 
-    WholeValue = InValue;
+    WholeValue = (long)InValue;
     Fraction = InValue - (double) WholeValue;
 
     if (Fraction >= 0.5)
@@ -202,7 +202,7 @@ XPListBoxData_t *pListBoxData;
 // It simply trolls through all the items.
 static int XPListBoxGetItemNumber(XPListBoxData_t * pListBoxData, int inX, int inY)
 {
-	for (unsigned int n = 0; n < pListBoxData->Items.size(); ++n)
+	for (int n = 0; n < pListBoxData->Items.size(); ++n)
 	{
 		if ((inX >= pListBoxData->Lefts[n]) && (inX < pListBoxData->Rights[n]) &&
 			(inY >= (n * LISTBOX_ITEM_HEIGHT)) && (inY < ((n * LISTBOX_ITEM_HEIGHT) + LISTBOX_ITEM_HEIGHT)))
@@ -300,7 +300,7 @@ int		XPListBoxProc(
 	int	Min = XPGetWidgetProperty(inWidget, xpProperty_ListBoxScrollBarMin, NULL);
 	int	Max = XPGetWidgetProperty(inWidget, xpProperty_ListBoxScrollBarMax, NULL);
 	int	ScrollBarPageAmount = XPGetWidgetProperty(inWidget, xpProperty_ListBoxScrollBarPageAmount, NULL);
-	int	CurrentItem = XPGetWidgetProperty(inWidget, xpProperty_ListBoxCurrentItem, NULL);
+	int CurrentItem = XPGetWidgetProperty(inWidget, xpProperty_ListBoxCurrentItem, NULL);
 	int	MaxListBoxItems = XPGetWidgetProperty(inWidget, xpProperty_ListBoxMaxListBoxItems, NULL);
 	int	Highlighted = XPGetWidgetProperty(inWidget, xpProperty_ListBoxHighlighted, NULL);
 	XPListBoxData_t	*pListBoxData = (XPListBoxData_t*) XPGetWidgetProperty(inWidget, xpProperty_ListBoxData, NULL);
@@ -377,7 +377,7 @@ int		XPListBoxProc(
 			if (XPGetWidgetProperty(inWidget, xpProperty_ListBoxDeleteItem, NULL))
 			{
 				XPSetWidgetProperty(inWidget, xpProperty_ListBoxDeleteItem, 0);
-				if ((pListBoxData->Items.size() > 0) && (pListBoxData->Items.size() > CurrentItem))
+				if ((pListBoxData->Items.size() > 0u) && (pListBoxData->Items.size() > CurrentItem))
 					XPListBoxDeleteItem(pListBoxData, CurrentItem);
 			}
 			return 1;

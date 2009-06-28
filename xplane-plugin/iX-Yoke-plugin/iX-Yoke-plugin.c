@@ -300,6 +300,9 @@ void apply_control_value(iXControlAxisRef control)
             copy_float_to_array(value, eight_floats, 8);
             XPLMSetDatavf(gPropRef, eight_floats, 0, 8);
             break;
+        case kAxisControlOff:
+            // Do nothing.
+            break;
     }
 }
 
