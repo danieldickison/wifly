@@ -60,11 +60,7 @@
 	
 	FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
 	controller.delegate = self;
-	
-    if ([controller respondsToSelector:@selector(setModalTransitionStyle:)])
-    {
-        controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    }
+    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	[self presentModalViewController:controller animated:YES];
 	
 	[controller release];
