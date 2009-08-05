@@ -17,6 +17,7 @@ int textfield_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPa
 
 XPWidgetID window_id = 0;
 XPWidgetID preset_popup_id = 0;
+XPWidgetID ip_label_id = 0;
 
 void get_preset_menu_str(char *outStr);
 void update_settings_display();
@@ -39,14 +40,21 @@ void show_window()
         // Create config window.
         debug("Creating config window...");
         
-        int x1=200, y1=500, x2=500, y2=200;
+        int x1=200, y1=500, x2=500, y2=130;
         window_id = XPCreateWidget(x1, y1, x2, y2, 0, "iX-Yoke", 1, NULL, xpWidgetClass_MainWindow);
         XPSetWidgetProperty(window_id, xpProperty_MainWindowHasCloseBoxes, 1);
         XPAddWidgetCallback(window_id, window_callback);
         
+        x1 += 10; x2 -= 10;
+        y1 -= 30; y2 += 10;
+        
+        // Add IP label.
+        XPCreateWidget(x1, y1, x2, y1-20, 1, "Host IP Address(es):", 0, window_id, xpWidgetClass_Caption);
+        y1 -= 20;
+        ip_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "...", 0, window_id, xpWidgetClass_Caption);
+        y1 -= 30;
         
         // Add preset controls.
-        x1 += 10; x2 -= 10; y1 -= 30; y2 += 10;
         XPCreateWidget(x1, y1, x1+50, y1-20, 1, "Preset:", 0, window_id, xpWidgetClass_Caption);
         preset_popup_id = XPCreatePopup(x1+55, y1, x2-100, y1-25, 1, "Presets", window_id);
         XPAddWidgetCallback(preset_popup_id, preset_popup_callback);
@@ -240,7 +248,8 @@ int preset_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long i
 
 void update_settings_display()
 {
-    debug(server_ip);
+    debug(server_ips);
+    XPSetWidgetDescriptor(ip_label_id, server_ips);
     
     char preset_menu_str[65*48];
     get_preset_menu_str(preset_menu_str);

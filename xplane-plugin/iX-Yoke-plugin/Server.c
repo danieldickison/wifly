@@ -15,6 +15,9 @@
 #endif
 
 
+char *server_ips = "";
+
+
 /****** UDP Server ******/
 
 #if IBM
@@ -41,9 +44,47 @@ void *server_loop(void *arg)
         goto stop_server;
     }
     
+    // Retrieve this machine's IP addresses.
     addr_len = sizeof(addr);
-    getsockname(sock, (struct sockaddr *)&addr, &addr_len);
-    server_ip = inet_ntoa(addr.sin_addr);
+    struct ifaddrs *addresses;
+    if (getifaddrs(&addresses) != 0)
+    {
+        server_ips = "Could not determine host IP";
+    }
+    else
+    {
+        int str_len = 512;
+        char addr_str[INET_ADDRSTRLEN];
+        server_ips = calloc(str_len, sizeof(char));
+        str_len--; //Leave room for null terminator.
+        while (addresses)
+        {
+            struct sockaddr *address = addresses->ifa_addr;
+            if (address->sa_family == AF_INET)
+                strcmp(addresses->ifa_name, "lo0"))
+            {
+                struct sockaddr_in *addr_in = (struct sockaddr_in *)address;
+                if (inet_ntop(address->sa_family, &addr_in->sin_addr, addr_str, address->sa_len))
+                {
+                    if (server_ips[0])
+                    {
+                        strncat(server_ips, ", ", str_len);
+                        str_len -= 2;
+                    }
+                    strncat(server_ips, addr_str, str_len);
+                    str_len -= strlen(addr_str);
+                    strncat(server_ips, " (", str_len);
+                    str_len -= 2;
+                    strncat(server_ips, addresses->ifa_name, str_len);
+                    str_len -= strlen(addresses->ifa_name);
+                    strncat(server_ips, ")", str_len);
+                    str_len -= 2;
+                }
+            }
+            addresses = addresses->ifa_next;
+        }
+        freeifaddrs(addresses);
+    }
     
     server_msg = "Starting server loop.";
     
