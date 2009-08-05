@@ -4,7 +4,7 @@
 # This hasn't been tried on Linux.
 
 # Change this according to platform: mac, win or lin.
-PLATFORM = win
+PLATFORM = mac
 
 ifeq ($(PLATFORM), mac)
 PREPROC_MACROS = -DAPL=1 -DIBM=0 -DLIN=0

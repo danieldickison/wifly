@@ -29,6 +29,7 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <ifaddrs.h>
 #define closesocket close
 #define SOCKET_ERROR -1
 #define NON_BLOCKING 1
@@ -71,7 +72,7 @@ void *server_loop(void *arg);
 #endif
 
 extern char *server_msg;
-extern char *server_ip;
+extern char *server_ips;
 
 void update_overrides();
 
