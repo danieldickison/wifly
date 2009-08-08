@@ -51,6 +51,7 @@ XPLMDataRef gPropSpeedRef = NULL;
 XPLMDataRef gPropRef = NULL;
 XPLMDataRef gFlapRef = NULL;
 XPLMDataRef gNoseSteerRef = NULL;
+XPLMDataRef gPausedRef = NULL;
 
 
 
@@ -66,7 +67,7 @@ void *server_loop(void* pParameter);
 char *server_msg = NULL;
 char *server_ip = NULL;
 
-int paused = 0;
+int connected = 0;
 
 
 void apply_control_value(iXControlAxisRef control);
@@ -96,9 +97,19 @@ long get_ms_time()
 }
 
 
+void set_pause_state(int state)
+{
+    int paused = XPLMGetDatai(gPausedRef);
+    if ((paused && !state) || (!paused && state))
+    {
+        XPLMCommandKeyStroke(xplm_key_pause);
+    }
+}
+
+
 int currently_connected()
 {
-    return !paused;
+    return connected;
 }
 
 
@@ -150,6 +161,7 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
     gFlapRef = XPLMFindDataRef("sim/flightmodel/controls/flaprqst");
     gPropRef = XPLMFindDataRef("sim/flightmodel/engine/POINT_pitch_deg");
     gNoseSteerRef = XPLMFindDataRef("sim/cockpit2/controls/nosewheel_steer_on");
+    gPausedRef = XPLMFindDataRef("sim/time/paused");
     
     // Add menu for showing config window.
     debug("Adding menu...");
@@ -270,27 +282,22 @@ float flight_loop_callback(float inElapsedSinceLastCall,
     {
         long current_time = get_ms_time();
         if (current_time - previous_packet_time > 1000 &&
-            !paused)
+            connected)
         {
-            XPLMCommandKeyStroke(xplm_key_pause);
-            paused = 1;
+            set_pause_state(1);
+            connected = 0;
             show_window();
         }
     }
     else
     {
-        if (paused)
-        {
-            XPLMCommandKeyStroke(xplm_key_pause);
-            paused = 0;
-        }
-        
         for (int i = 0; i < kNumAxes; i++)
         {
             apply_control_value(get_axis((iXControlAxisID)i));
         }
         
         previous_packet_time = packet_time;
+        connected = 1;
     }
     
     if (server_msg != NULL)
