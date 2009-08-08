@@ -17,6 +17,7 @@
 
 long current_update_time = -1;
 char *server_ips = "";
+char *server_hostname = "";
 
 
 /****** UDP Server ******/
@@ -32,7 +33,6 @@ void *server_loop(void *arg)
     struct sockaddr_in addr; 
     uint8_t buffer[kPacketSizeLimit];
     size_t recv_size;
-    socklen_t addr_len = 0;
     
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
@@ -46,45 +46,39 @@ void *server_loop(void *arg)
     }
     
     // Retrieve this machine's IP addresses.
-    addr_len = sizeof(addr);
-    struct ifaddrs *addresses;
-    if (getifaddrs(&addresses) != 0)
+    // Using getifaddrs() would handle every network adapter, but is not Win32-compatible.
+    // This method (using gethostname() and gethostbyname()) is probably good enough for most cases.
+    server_hostname = calloc(255, sizeof(char));
+    if (gethostname(server_hostname, 255) != 0)
     {
-        server_ips = "Could not determine host IP";
+        server_hostname = "Error retrieving host name.";
     }
     else
     {
-        int str_len = 512;
-        char addr_str[INET_ADDRSTRLEN];
-        server_ips = calloc(str_len, sizeof(char));
-        str_len--; //Leave room for null terminator.
-        while (addresses)
+        struct hostent *host = gethostbyname(server_hostname);
+        if (host == NULL)
         {
-            struct sockaddr *address = addresses->ifa_addr;
-            if (address->sa_family == AF_INET &&
-                strcmp(addresses->ifa_name, "lo0"))
+            server_ips = "Unable to determine IP addresses.";
+        }
+        else
+        {
+            int str_len = 512;
+            server_ips = calloc(str_len, sizeof(char));
+            int first_time = 1;
+            for (int i = 0; host->h_addr_list[i]; i++)
             {
-                struct sockaddr_in *addr_in = (struct sockaddr_in *)address;
-                if (inet_ntop(address->sa_family, &addr_in->sin_addr, addr_str, address->sa_len))
+                if (!first_time)
                 {
-                    if (server_ips[0])
-                    {
-                        strncat(server_ips, ", ", str_len);
-                        str_len -= 2;
-                    }
-                    strncat(server_ips, addr_str, str_len);
-                    str_len -= strlen(addr_str);
-                    strncat(server_ips, " (", str_len);
-                    str_len -= 2;
-                    strncat(server_ips, addresses->ifa_name, str_len);
-                    str_len -= strlen(addresses->ifa_name);
-                    strncat(server_ips, ")", str_len);
+                    strncat(server_ips, ", ", str_len);
                     str_len -= 2;
                 }
+                struct in_addr host_addr = *(struct in_addr *)host->h_addr_list[i];
+                char *addr = inet_ntoa(host_addr);
+                strncat(server_ips, addr, str_len);
+                str_len -= strlen(addr);
+                first_time = 0;
             }
-            addresses = addresses->ifa_next;
         }
-        freeifaddrs(addresses);
     }
     
     server_msg = "Starting server loop.";

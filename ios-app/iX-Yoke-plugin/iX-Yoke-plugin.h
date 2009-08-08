@@ -15,6 +15,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <sys/time.h>
 
 #if IBM
 #include <windows.h>
@@ -24,13 +25,12 @@
 #endif
 
 #if APL || LIN
-#include <sys/time.h>
 #include <pthread.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <unistd.h>
-#include <ifaddrs.h>
+#include <netdb.h>
 #define closesocket close
 #define SOCKET_ERROR -1
 #define NON_BLOCKING 1
@@ -78,6 +78,7 @@ void *server_loop(void *arg);
 #endif
 
 extern char *server_msg;
+extern char *server_hostname;
 extern char *server_ips;
 
 void update_overrides();
