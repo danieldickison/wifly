@@ -15,6 +15,7 @@
 #endif
 
 
+long current_update_time = -1;
 char *server_ips = "";
 
 
@@ -60,7 +61,7 @@ void *server_loop(void *arg)
         while (addresses)
         {
             struct sockaddr *address = addresses->ifa_addr;
-            if (address->sa_family == AF_INET)
+            if (address->sa_family == AF_INET &&
                 strcmp(addresses->ifa_name, "lo0"))
             {
                 struct sockaddr_in *addr_in = (struct sockaddr_in *)address;
@@ -112,6 +113,7 @@ void *server_loop(void *arg)
                 {
                     get_axis((iXControlAxisID)axis)->value = ix_get_ratio(buffer, &i);
                 }
+                current_update_time = get_ms_time();
             }
             // else ignore packet
         }

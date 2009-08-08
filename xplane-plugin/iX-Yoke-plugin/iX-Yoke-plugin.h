@@ -24,6 +24,7 @@
 #endif
 
 #if APL || LIN
+#include <sys/time.h>
 #include <pthread.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -54,6 +55,11 @@
 
 
 #include "iX_Yoke_Network.h"
+
+
+// Returns a relative clock time with millisecond accuracy.
+// The first call becomes the epoch time.
+long get_ms_time();
 
 
 #if APL
@@ -121,6 +127,7 @@ typedef enum {
 
 
 iXControlAxisRef get_axis(iXControlAxisID axis_id);
+extern long current_update_time;
 
 
 
