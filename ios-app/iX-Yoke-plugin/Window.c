@@ -19,6 +19,7 @@ XPWidgetID window_id = 0;
 XPWidgetID preset_popup_id = 0;
 XPWidgetID host_label_id = 0;
 XPWidgetID ip_label_id = 0;
+XPWidgetID connection_label_id = 0;
 
 void get_preset_menu_str(char *outStr);
 void update_settings_display();
@@ -51,9 +52,11 @@ void show_window()
         
         // Add IP label.
         host_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Host Name:", 0, window_id, xpWidgetClass_Caption);
-        y1 -= 20;
-        ip_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Host IPs:", 0, window_id, xpWidgetClass_Caption);
-        y1 -= 30;
+        y1 -= 17;
+        ip_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Host IP(s):", 0, window_id, xpWidgetClass_Caption);
+        y1 -= 17;
+        connection_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Connection:", 0, window_id, xpWidgetClass_Caption);
+        y1 -= 23;
         
         // Add preset controls.
         XPCreateWidget(x1, y1, x1+50, y1-20, 1, "Preset:", 0, window_id, xpWidgetClass_Caption);
@@ -103,6 +106,17 @@ void show_window()
 int update_window()
 {
     if (!window_id) return 0;
+    
+    if (currently_connected())
+    {
+        char label[256];
+        snprintf(label, 256, "Connection: %d packets/second", get_packet_rate());
+        XPSetWidgetDescriptor(connection_label_id, label);
+    }
+    else
+    {
+        XPSetWidgetDescriptor(connection_label_id, "Connection: No signal (paused)");
+    }
     
     for (int i = 0; i < kNumAxes; i++)
     {
@@ -254,7 +268,7 @@ void update_settings_display()
     strlcat(label, server_hostname, 256);
     XPSetWidgetDescriptor(host_label_id, label);
     
-    strcpy(label, "Host IPs: ");
+    strcpy(label, "Host IP(s): ");
     strlcat(label, server_ips, 256);
     XPSetWidgetDescriptor(ip_label_id, label);
     

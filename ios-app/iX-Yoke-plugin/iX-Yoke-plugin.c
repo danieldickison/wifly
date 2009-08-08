@@ -66,6 +66,8 @@ void *server_loop(void* pParameter);
 char *server_msg = NULL;
 char *server_ip = NULL;
 
+int paused = 0;
+
 
 void apply_control_value(iXControlAxisRef control);
 
@@ -91,6 +93,12 @@ long get_ms_time()
     long result = 1000 * (time.tv_sec - epoch_sec);
     result += (time.tv_usec / 1000);
     return result;
+}
+
+
+int currently_connected()
+{
+    return !paused;
 }
 
 
@@ -254,14 +262,14 @@ float flight_loop_callback(float inElapsedSinceLastCall,
                            int inCounter,
                            void *inRefcon)
 {
-    static long previous_update_time = -1;
-    static int paused = 0;
+    static long previous_packet_time = -1;
+    long packet_time = get_last_packet_time();
     
     // Pause and show window if no update in a second.
-    if (previous_update_time == current_update_time)
+    if (previous_packet_time == packet_time)
     {
         long current_time = get_ms_time();
-        if (current_time - previous_update_time > 1000 &&
+        if (current_time - previous_packet_time > 1000 &&
             !paused)
         {
             XPLMCommandKeyStroke(xplm_key_pause);
@@ -281,14 +289,14 @@ float flight_loop_callback(float inElapsedSinceLastCall,
         {
             apply_control_value(get_axis((iXControlAxisID)i));
         }
-
-        if (server_msg != NULL)
-        {
-            debug(server_msg);
-            server_msg = NULL;
-        }
         
-        previous_update_time = current_update_time;
+        previous_packet_time = packet_time;
+    }
+    
+    if (server_msg != NULL)
+    {
+        debug(server_msg);
+        server_msg = NULL;
     }
     
     update_window();    

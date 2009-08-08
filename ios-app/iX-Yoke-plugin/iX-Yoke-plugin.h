@@ -128,7 +128,9 @@ typedef enum {
 
 
 iXControlAxisRef get_axis(iXControlAxisID axis_id);
-extern long current_update_time;
+long get_last_packet_time();
+int get_packet_rate();
+int currently_connected();
 
 
 
