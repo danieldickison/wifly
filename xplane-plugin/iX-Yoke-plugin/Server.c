@@ -75,20 +75,18 @@ void *server_loop(void *arg)
         }
         else
         {
-            int str_len = 512;
+            const int str_len = 512;
             server_ips = calloc(str_len, sizeof(char));
             int first_time = 1;
             for (int i = 0; host->h_addr_list[i]; i++)
             {
                 if (!first_time)
                 {
-                    strncat(server_ips, ", ", str_len);
-                    str_len -= 2;
+                    strlcat(server_ips, ", ", str_len);
                 }
                 struct in_addr host_addr = *(struct in_addr *)host->h_addr_list[i];
                 char *addr = inet_ntoa(host_addr);
-                strncat(server_ips, addr, str_len);
-                str_len -= strlen(addr);
+                strlcat(server_ips, addr, str_len);
                 first_time = 0;
             }
         }

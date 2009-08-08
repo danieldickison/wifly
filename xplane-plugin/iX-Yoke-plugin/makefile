@@ -29,7 +29,7 @@ WARNING_FLAGS = -Wall -Wno-sign-compare -Wno-unknown-pragmas
 CFLAGS = -std=c99 $(PLATFORM_CODEGEN_FLAGS) $(WARNING_FLAGS) $(PREPROC_MACROS) $(INCLUDES)
 CXXFLAGS = $(PLATFORM_CODEGEN_FLAGS) $(WARNING_FLAGS) $(PREPROC_MACROS) $(INCLUDES)
 LDFLAGS = -dynamiclib -shared -static-libgcc $(PLATFORM_CODEGEN_FLAGS) $(PLATFORM_LINKER_FLAGS)
-OBJECTS = iX-Yoke-plugin.o Preferences.o Server.o Window.o ThirdParty/XPListBox.o ThirdParty/XPPopups.o
+OBJECTS = iX-Yoke-plugin.o Preferences.o Server.o Window.o bsd-strlcat.o ThirdParty/XPListBox.o ThirdParty/XPPopups.o
 PRODUCT = Wi-Fly-$(PLATFORM).xpl
 
 
