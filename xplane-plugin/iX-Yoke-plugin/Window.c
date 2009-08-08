@@ -17,6 +17,7 @@ int textfield_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPa
 
 XPWidgetID window_id = 0;
 XPWidgetID preset_popup_id = 0;
+XPWidgetID host_label_id = 0;
 XPWidgetID ip_label_id = 0;
 
 void get_preset_menu_str(char *outStr);
@@ -49,9 +50,9 @@ void show_window()
         y1 -= 30; y2 += 10;
         
         // Add IP label.
-        XPCreateWidget(x1, y1, x2, y1-20, 1, "Host IP Address(es):", 0, window_id, xpWidgetClass_Caption);
+        host_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Host Name:", 0, window_id, xpWidgetClass_Caption);
         y1 -= 20;
-        ip_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "...", 0, window_id, xpWidgetClass_Caption);
+        ip_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Host IPs:", 0, window_id, xpWidgetClass_Caption);
         y1 -= 30;
         
         // Add preset controls.
@@ -248,8 +249,14 @@ int preset_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long i
 
 void update_settings_display()
 {
-    debug(server_ips);
-    XPSetWidgetDescriptor(ip_label_id, server_ips);
+    char label[256];
+    strcpy(label, "Host Name: ");
+    strlcat(label, server_hostname, 256);
+    XPSetWidgetDescriptor(host_label_id, label);
+    
+    strcpy(label, "Host IPs: ");
+    strlcat(label, server_ips, 256);
+    XPSetWidgetDescriptor(ip_label_id, label);
     
     char preset_menu_str[65*48];
     get_preset_menu_str(preset_menu_str);
