@@ -257,7 +257,7 @@ float flight_loop_callback(float inElapsedSinceLastCall,
     static long previous_update_time = -1;
     static int paused = 0;
     
-    // Pause if no update in a second.
+    // Pause and show window if no update in a second.
     if (previous_update_time == current_update_time)
     {
         long current_time = get_ms_time();
@@ -266,6 +266,7 @@ float flight_loop_callback(float inElapsedSinceLastCall,
         {
             XPLMCommandKeyStroke(xplm_key_pause);
             paused = 1;
+            show_window();
         }
     }
     else
