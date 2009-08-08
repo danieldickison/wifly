@@ -79,6 +79,21 @@ void debug(char *str)
 }
 
 
+long get_ms_time()
+{
+    static long epoch_sec = -1;
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    if (epoch_sec == -1)
+    {
+        epoch_sec = time.tv_sec;
+    }
+    long result = 1000 * (time.tv_sec - epoch_sec);
+    result += (time.tv_usec / 1000);
+    return result;
+}
+
+
 
 #if APL
 #include <Carbon/Carbon.h>
@@ -239,28 +254,43 @@ float flight_loop_callback(float inElapsedSinceLastCall,
                            int inCounter,
                            void *inRefcon)
 {
-    /*
-    if (inCounter % 60 == 0)
-    {
-        char str[64];
-        sprintf(str, "throttle[0]: %f", current_throttle);
-        debug(str);
-    }
-     */
+    static long previous_update_time = -1;
+    static int paused = 0;
     
-    for (int i = 0; i < kNumAxes; i++)
+    // Pause if no update in a second.
+    if (previous_update_time == current_update_time)
     {
-        apply_control_value(get_axis((iXControlAxisID)i));
+        long current_time = get_ms_time();
+        if (current_time - previous_update_time > 1000 &&
+            !paused)
+        {
+            XPLMCommandKeyStroke(xplm_key_pause);
+            paused = 1;
+        }
     }
+    else
+    {
+        if (paused)
+        {
+            XPLMCommandKeyStroke(xplm_key_pause);
+            paused = 0;
+        }
+        
+        for (int i = 0; i < kNumAxes; i++)
+        {
+            apply_control_value(get_axis((iXControlAxisID)i));
+        }
 
-    if (server_msg != NULL)
-    {
-        debug(server_msg);
-        server_msg = NULL;
+        if (server_msg != NULL)
+        {
+            debug(server_msg);
+            server_msg = NULL;
+        }
+        
+        previous_update_time = current_update_time;
     }
     
-    update_window();
-    
+    update_window();    
     return 0.05; //20Hz -- is this ok?
 }
 
