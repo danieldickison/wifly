@@ -14,13 +14,26 @@
 #include <errno.h>
 #endif
 
+#define PACKET_RATE_SENSITIVITY 0.2f
 
-long current_update_time = -1;
+volatile long current_update_time = -1;
+volatile int avg_packet_latency = 50;
 char *server_ips = "";
 char *server_hostname = "";
 
 
 /****** UDP Server ******/
+
+long get_last_packet_time()
+{
+    return current_update_time;
+}
+
+int get_packet_rate()
+{
+    return 1000 / avg_packet_latency;
+}
+
 
 #if IBM
 void server_loop(LPVOID pParameter)
@@ -107,7 +120,14 @@ void *server_loop(void *arg)
                 {
                     get_axis((iXControlAxisID)axis)->value = ix_get_ratio(buffer, &i);
                 }
+                int prev_update_time = current_update_time;
                 current_update_time = get_ms_time();
+                if (prev_update_time != -1)
+                {
+                    int delta = current_update_time - prev_update_time;
+                    avg_packet_latency = (PACKET_RATE_SENSITIVITY * delta +
+                                          (1 - PACKET_RATE_SENSITIVITY) * avg_packet_latency);
+                }
             }
             // else ignore packet
         }
