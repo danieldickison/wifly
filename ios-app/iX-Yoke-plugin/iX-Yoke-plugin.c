@@ -75,7 +75,7 @@ void apply_control_value(iXControlAxisRef control);
 void debug(char *str)
 {
     char cat[256] = "iX-Yoke: ";
-    strncat(cat, str, 256 - strlen(cat) - 2);
+    strlcat(cat, str, 256-1);
     strcat(cat, "\n");
     XPLMDebugString(cat);
 }

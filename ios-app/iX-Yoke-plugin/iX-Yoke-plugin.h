@@ -22,6 +22,8 @@
 #include <process.h>
 #define snprintf _snprintf
 #define socklen_t int
+size_t smbw_strlcat(char *dst, const char *src, size_t siz);
+#define strlcat smbw_strlcat
 #endif
 
 #if APL || LIN
