@@ -4,22 +4,23 @@
 # This hasn't been tried on Linux.
 
 # Change this according to platform: mac, win or lin.
-PLATFORM = mac
+SYSTEM := $(shell uname -s)
 
-ifeq ($(PLATFORM), mac)
-PREPROC_MACROS = -DAPL=1 -DIBM=0 -DLIN=0
-PLATFORM_LINKER_FLAGS = -flat_namespace -undefined warning
-PLATFORM_CODEGEN_FLAGS = -fPIC
-endif
-ifeq ($(PLATFORM), win)
-PREPROC_MACROS = -DAPL=0 -DIBM=1 -DLIN=0
-LINKED_LIBS = -lws2_32 -lstdc++ -lopengl32 -l:XPLM.lib -l:XPWidgets.lib
-PLATFORM_LINKER_FLAGS = -LSDK/Libraries/Win
-PLATFORM_CODEGEN_FLAGS = 
-endif
-ifeq ($(PLATFORM), lin)
-PREPROC_MACROS = -DAPL=0 -DIBM=0 -DLIN=1
-PLATFORM_CODEGEN_FLAGS = -fPIC
+ifeq ($(SYSTEM), Darwin)
+    PLATFORM = mac
+    PREPROC_MACROS = -DAPL=1 -DIBM=0 -DLIN=0
+    PLATFORM_LINKER_FLAGS = -flat_namespace -undefined warning
+    PLATFORM_CODEGEN_FLAGS = -fPIC
+else ifeq ($(SYSTEM), MINGW32_NT-5.1)
+    PLATFORM = win
+    PREPROC_MACROS = -DAPL=0 -DIBM=1 -DLIN=0
+    LINKED_LIBS = -lws2_32 -lstdc++ -lopengl32 -l:XPLM.lib -l:XPWidgets.lib
+    PLATFORM_LINKER_FLAGS = -LSDK/Libraries/Win
+    PLATFORM_CODEGEN_FLAGS = 
+else ifeq ($(SYSTEM), Linux)
+    PLATFORM = lin
+    PREPROC_MACROS = -DAPL=0 -DIBM=0 -DLIN=1
+    PLATFORM_CODEGEN_FLAGS = -fPIC
 endif
 
 CC = gcc
