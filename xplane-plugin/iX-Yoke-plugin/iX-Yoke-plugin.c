@@ -141,9 +141,9 @@ int MacToUnixPath(const char * inPath, char * outPath, int outPathMaxLen)
 PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
 {
 	/* Initialize plugin registration and description */
-	strcpy(outName, "iX-Yoke-plugin");
-	strcpy(outSig, "com.danieldickison.iX-Yoke-plugin");
-	strcpy(outDesc, "Lets the iPhone iX-Yoke app control X-Plane as a remote yoke/joystick.");
+	strcpy(outName, "Wi-Fly-plugin");
+	strcpy(outSig, "com.danieldickison.wi-fly-plugin");
+	strcpy(outDesc, "Lets the iPhone Wi-Fly app control X-Plane as a remote yoke/joystick.");
 	
     // Find all the datarefs.
     debug("Finding datarefs...");
@@ -166,8 +166,8 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
     // Add menu for showing config window.
     debug("Adding menu...");
     XPLMMenuID pluginsMenu = XPLMFindPluginsMenu();
-    int subMenuItem = XPLMAppendMenuItem(pluginsMenu, "iX-Yoke", NULL, 1);
-    XPLMMenuID ixYokeMenu = XPLMCreateMenu("iX-Yoke", pluginsMenu, subMenuItem, menu_callback, NULL);
+    int subMenuItem = XPLMAppendMenuItem(pluginsMenu, "Wi-Fly", NULL, 1);
+    XPLMMenuID ixYokeMenu = XPLMCreateMenu("Wi-Fly", pluginsMenu, subMenuItem, menu_callback, NULL);
     XPLMAppendMenuItem(ixYokeMenu, "Setup Window", NULL, 0);
     
     // Register for timed callbacks.
@@ -284,13 +284,23 @@ float flight_loop_callback(float inElapsedSinceLastCall,
         if (current_time - previous_packet_time > 1000 &&
             connected)
         {
-            set_pause_state(1);
+            
             connected = 0;
-            show_window();
+            if (get_pref_int(kPrefAutoPause))
+            {
+                set_pause_state(1);
+                show_window();
+            }
         }
     }
     else
     {
+        if (!connected &&
+            get_pref_int(kPrefAutoResume))
+        {
+            set_pause_state(0);
+            destroy_window();
+        }
         for (int i = 0; i < kNumAxes; i++)
         {
             apply_control_value(get_axis((iXControlAxisID)i));
