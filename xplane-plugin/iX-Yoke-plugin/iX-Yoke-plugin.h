@@ -11,10 +11,6 @@
 #ifndef __IX_YOKE_PLUGIN_H
 #define __IX_YOKE_PLUGIN_H
 
-// Version specified in 4 bytes: beta-major-minor-bugfix
-// The sign bit is 1 for beta builds, 0 for release.  This makes beta builds sort after all release builds.
-#define WIFLY_VERSION 0x80010000
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
