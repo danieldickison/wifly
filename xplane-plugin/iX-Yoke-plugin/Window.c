@@ -45,7 +45,7 @@ void show_window()
         // Create config window.
         debug("Creating config window...");
         
-        int x1=200, y1=500, x2=500, y2=100;
+        int x1=200, y1=530, x2=500, y2=100;
         window_id = XPCreateWidget(x1, y1, x2, y2, 0, "iX-Yoke", 1, NULL, xpWidgetClass_MainWindow);
         XPSetWidgetProperty(window_id, xpProperty_MainWindowHasCloseBoxes, 1);
         XPAddWidgetCallback(window_id, window_callback);
@@ -58,8 +58,12 @@ void show_window()
         y1 -= 17;
         ip_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Host IP(s):", 0, window_id, xpWidgetClass_Caption);
         y1 -= 17;
-        connection_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Connection:", 0, window_id, xpWidgetClass_Caption);
+        char port_str[64];
+        snprintf(port_str, 64, "Server Port: %d", kServerPort);
+        XPCreateWidget(x1, y1, x2, y1-20, 1, port_str, 0, window_id, xpWidgetClass_Caption);
         y1 -= 17;
+        connection_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Connection:", 0, window_id, xpWidgetClass_Caption);
+        y1 -= 23;
         
         XPCreateWidget(x1+20, y1, x2, y1-20, 1, "Auto-pause when disconnected", 0, window_id, xpWidgetClass_Caption);
         auto_pause_checkbox_id = XPCreateWidget(x1, y1, x1+20, y1-20, 1, "", 0, window_id, xpWidgetClass_Button);
@@ -74,21 +78,21 @@ void show_window()
         XPSetWidgetProperty(auto_resume_checkbox_id, xpProperty_ButtonBehavior, xpButtonBehaviorCheckBox);
         XPAddWidgetCallback(auto_resume_checkbox_id, pause_checkbox_callback);
         
-        y1 -= 23;
-        
-        // Add preset controls.
-        XPCreateWidget(x1, y1, x1+50, y1-20, 1, "Preset:", 0, window_id, xpWidgetClass_Caption);
-        preset_popup_id = XPCreatePopup(x1+55, y1, x2-100, y1-25, 1, "Presets", window_id);
-        XPAddWidgetCallback(preset_popup_id, preset_popup_callback);
-        
-        
         // Add subwindow and controls for each axis.
         y1 -= 30;
         XPWidgetID subwin = XPCreateWidget(x1, y1, x2, y2, 1, "", 0, window_id, xpWidgetClass_SubWindow);
         XPSetWidgetProperty(subwin, xpProperty_SubWindowType, xpSubWindowStyle_SubWindow);
         XPAddWidgetCallback(subwin, XPUFixedLayout);
         
-        x1 += 10; x2 -= 10; y2 = y1;
+        x1 += 10; x2 -= 10; y1 -= 10; y2 = y1;
+        
+        // Add preset controls.
+        XPCreateWidget(x1, y1, x1+50, y1-20, 1, "Preset:", 0, subwin, xpWidgetClass_Caption);
+        preset_popup_id = XPCreatePopup(x1+55, y1, x2, y1-25, 1, "Presets", subwin);
+        XPAddWidgetCallback(preset_popup_id, preset_popup_callback);
+        
+        y1 -= 30; y2 = y1;
+        
         for (int i = 0; i < kNumAxes; i++)
         {
             y1 = y2-10; y2 = y1-20;
