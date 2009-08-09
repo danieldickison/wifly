@@ -31,6 +31,9 @@ long get_last_packet_time()
 
 int get_packet_rate()
 {
+    // Avoid divide-by-zero for strangely rapid packets.
+    if (avg_packet_latency == 0) return 20;
+    
     return 1000 / avg_packet_latency;
 }
 

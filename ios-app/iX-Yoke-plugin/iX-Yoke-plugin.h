@@ -11,6 +11,10 @@
 #ifndef __IX_YOKE_PLUGIN_H
 #define __IX_YOKE_PLUGIN_H
 
+// Version specified in 4 bytes: beta-major-minor-bugfix
+// The sign bit is 1 for beta builds, 0 for release.  This makes beta builds sort after all release builds.
+#define WIFLY_VERSION 0x80010000
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -145,6 +149,12 @@ int current_preset(); // Returns -1 for "Custom".
 void set_current_preset(int i); // Pass -1 for "Custom".
 void save_preset_as(const char *inName);
 void delete_preset(int i);
+int get_pref_int(const char *inPrefName);
+void set_pref_int(const char *inPrefName, int val);
+
+extern const char * const kPrefCurrentPreset;
+extern const char * const kPrefAutoPause;
+extern const char * const kPrefAutoResume;
 
 
 // Window

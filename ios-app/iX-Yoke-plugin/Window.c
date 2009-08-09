@@ -14,12 +14,15 @@ int preset_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long i
 int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inPopupID, long inItemNumber);
 int window_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
 int textfield_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
+int pause_checkbox_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
 
 XPWidgetID window_id = 0;
 XPWidgetID preset_popup_id = 0;
 XPWidgetID host_label_id = 0;
 XPWidgetID ip_label_id = 0;
 XPWidgetID connection_label_id = 0;
+XPWidgetID auto_pause_checkbox_id = 0;
+XPWidgetID auto_resume_checkbox_id = 0;
 
 void get_preset_menu_str(char *outStr);
 void update_settings_display();
@@ -42,7 +45,7 @@ void show_window()
         // Create config window.
         debug("Creating config window...");
         
-        int x1=200, y1=500, x2=500, y2=130;
+        int x1=200, y1=500, x2=500, y2=100;
         window_id = XPCreateWidget(x1, y1, x2, y2, 0, "iX-Yoke", 1, NULL, xpWidgetClass_MainWindow);
         XPSetWidgetProperty(window_id, xpProperty_MainWindowHasCloseBoxes, 1);
         XPAddWidgetCallback(window_id, window_callback);
@@ -56,6 +59,21 @@ void show_window()
         ip_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Host IP(s):", 0, window_id, xpWidgetClass_Caption);
         y1 -= 17;
         connection_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Connection:", 0, window_id, xpWidgetClass_Caption);
+        y1 -= 17;
+        
+        XPCreateWidget(x1+20, y1, x2, y1-20, 1, "Auto-pause when disconnected", 0, window_id, xpWidgetClass_Caption);
+        auto_pause_checkbox_id = XPCreateWidget(x1, y1, x1+20, y1-20, 1, "", 0, window_id, xpWidgetClass_Button);
+        XPSetWidgetProperty(auto_pause_checkbox_id, xpProperty_ButtonType, xpButtonBehaviorCheckBox);
+        XPSetWidgetProperty(auto_pause_checkbox_id, xpProperty_ButtonBehavior, xpButtonBehaviorCheckBox);
+        XPAddWidgetCallback(auto_pause_checkbox_id, pause_checkbox_callback);
+        y1 -= 17;
+        
+        XPCreateWidget(x1+20, y1, x2, y1-20, 1, "Auto-resume and hide window", 0, window_id, xpWidgetClass_Caption);
+        auto_resume_checkbox_id = XPCreateWidget(x1, y1, x1+20, y1-20, 1, "", 0, window_id, xpWidgetClass_Button);
+        XPSetWidgetProperty(auto_resume_checkbox_id, xpProperty_ButtonType, xpButtonBehaviorCheckBox);
+        XPSetWidgetProperty(auto_resume_checkbox_id, xpProperty_ButtonBehavior, xpButtonBehaviorCheckBox);
+        XPAddWidgetCallback(auto_resume_checkbox_id, pause_checkbox_callback);
+        
         y1 -= 23;
         
         // Add preset controls.
@@ -115,7 +133,7 @@ int update_window()
     }
     else
     {
-        XPSetWidgetDescriptor(connection_label_id, "Connection: No signal (paused)");
+        XPSetWidgetDescriptor(connection_label_id, "Connection: No signal");
     }
     
     for (int i = 0; i < kNumAxes; i++)
@@ -253,7 +271,27 @@ int preset_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long i
     if (inMessage == xpMessage_PopupNewItemPicked)
     {
         set_current_preset(inItemNumber - 1);
+        save_prefs();
         update_settings_display();
+        return 1;
+    }
+    return 0;
+}
+
+
+int pause_checkbox_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2)
+{
+    if (inMessage == xpMsg_ButtonStateChanged)
+    {
+        if (inWidget == auto_pause_checkbox_id)
+        {
+            set_pref_int(kPrefAutoPause, inParam2);
+        }
+        else if (inWidget == auto_resume_checkbox_id)
+        {
+            set_pref_int(kPrefAutoResume, inParam2);
+        }
+        save_prefs();
         return 1;
     }
     return 0;
@@ -276,6 +314,9 @@ void update_settings_display()
     get_preset_menu_str(preset_menu_str);
     XPSetWidgetDescriptor(preset_popup_id, preset_menu_str);
     XPSetWidgetProperty(preset_popup_id, xpProperty_PopupCurrentItem, 1+current_preset());
+    
+    XPSetWidgetProperty(auto_pause_checkbox_id, xpProperty_ButtonState, get_pref_int(kPrefAutoPause));
+    XPSetWidgetProperty(auto_resume_checkbox_id, xpProperty_ButtonState, get_pref_int(kPrefAutoResume));
     
     
     // Set all the popups and text fields' values.
