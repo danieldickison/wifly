@@ -67,7 +67,7 @@ void *server_loop(void* pParameter);
 char *server_msg = NULL;
 char *server_ip = NULL;
 
-int connected = 0;
+int connected = 1;
 
 
 void apply_control_value(iXControlAxisRef control);
