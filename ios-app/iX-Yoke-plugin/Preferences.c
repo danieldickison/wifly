@@ -9,6 +9,10 @@
 
 #include "iX-Yoke-plugin.h"
 
+
+#define PREFS_VERSION 1
+
+
 typedef struct {
     iXControlType type;
     float min;
@@ -109,8 +113,8 @@ void load_prefs()
     if (!f) goto fail;
     
     int version;
-    fscanf(f, "wi-fly-version = 0x%8x\n", &version);
-    if (version != WIFLY_VERSION) goto fail;
+    fscanf(f, "prefs-version = %d\n", &version);
+    if (version != PREFS_VERSION) goto fail;
     
     char buffer[256];
     int process_presets = 0;
@@ -176,7 +180,7 @@ void save_prefs()
     FILE *f = get_prefs_file("w");
     if (!f) return;
     
-    fprintf(f, "wi-fly-version = 0x%8x\n", WIFLY_VERSION);
+    fprintf(f, "prefs-version = %d\n", PREFS_VERSION);
     
     for (int i = 0; i < num_prefs; i++)
     {
