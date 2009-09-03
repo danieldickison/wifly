@@ -10,7 +10,7 @@
 @class TrackPadControl;
 
 
-@interface FlipsideViewController : UIViewController
+@interface FlipsideViewController : UIViewController <UITextFieldDelegate>
 {
 	id <FlipsideViewControllerDelegate> delegate;
     UITextField *ipField;
@@ -24,6 +24,8 @@
 @property (nonatomic, retain) IBOutlet TrackPadControl *tiltView;
 - (IBAction)done;
 - (IBAction)setTiltCenter;
+- (IBAction)ipFieldChanged;
+- (IBAction)portFieldChanged;
 
 
 @end

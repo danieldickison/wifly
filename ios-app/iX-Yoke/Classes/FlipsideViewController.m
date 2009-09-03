@@ -54,8 +54,6 @@
 
 - (IBAction)done
 {
-    SharedAppDelegate.hostAddress = ipField.text;
-    SharedAppDelegate.hostPort = [portField.text intValue];
 	[self.delegate flipsideViewControllerDidFinish:self];	
 }
 
@@ -65,6 +63,23 @@
     [SharedAppDelegate resetTiltCenter];
 }
 
+
+- (IBAction)ipFieldChanged
+{
+    SharedAppDelegate.hostAddress = ipField.text;
+}
+
+- (IBAction)portFieldChanged
+{
+    SharedAppDelegate.hostPort = [portField.text intValue];
+}
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 
 
 @end
