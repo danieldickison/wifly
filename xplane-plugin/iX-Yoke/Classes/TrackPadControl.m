@@ -34,12 +34,12 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 
 - (float)xValue
 {
-    return (valuePoint.x - INSET - CGRectGetMinX(self.bounds)) / (CGRectGetMaxX(self.bounds) - 2.0f*INSET);
+    return (valuePoint.x - INSET - CGRectGetMinX(self.bounds)) / (self.bounds.size.width - 2.0f*INSET);
 }
 
 - (float)yValue
 {
-    return (valuePoint.y - INSET - CGRectGetMinY(self.bounds)) / (CGRectGetMaxY(self.bounds) - 2.0f*INSET);
+    return (CGRectGetMaxY(self.bounds) - valuePoint.y - INSET) / (self.bounds.size.height - 2.0f*INSET);
 }
 
 

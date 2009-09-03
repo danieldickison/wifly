@@ -77,7 +77,8 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
     
     
     // We want to auto-calibrate after a few accelerometer readings have been taken.  2 seconds is probably good enough.
-    [self performSelector:@selector(resetTiltCenter) withObject:nil afterDelay:2.0];
+    [self performSelector:@selector(resetTiltCenter) withObject:nil afterDelay:1.0];
+    [mainViewController performSelector:@selector(showInfo) withObject:nil afterDelay:1.0];
     
     // Prevent sleep so we don't suddenly lose accelerometer readings when there are no touches for a while.
     application.idleTimerDisabled = YES;
