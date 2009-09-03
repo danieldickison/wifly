@@ -9,9 +9,6 @@
 #import "TrackPadControl.h"
 
 
-#define INSET 10.0f
-
-
 static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 {
     CGFloat hue = 0.333;
@@ -23,7 +20,7 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 
 @implementation TrackPadControl
 
-@synthesize interactionMode, holding;
+@synthesize interactionMode, pointRadius;
 
 
 - (void)dealloc
@@ -31,27 +28,36 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     [super dealloc];
 }
 
+- (id)initWithCoder:(NSCoder *)coder
+{
+    if (self = [super initWithCoder:coder])
+    {
+        pointRadius = 8.0f;
+    }
+    return self;
+}
+
 
 - (float)xValue
 {
-    return (valuePoint.x - INSET - CGRectGetMinX(self.bounds)) / (self.bounds.size.width - 2.0f*INSET);
+    return (valuePoint.x - pointRadius - CGRectGetMinX(self.bounds)) / (self.bounds.size.width - 2.0f*pointRadius);
 }
 
 - (float)yValue
 {
-    return (CGRectGetMaxY(self.bounds) - valuePoint.y - INSET) / (self.bounds.size.height - 2.0f*INSET);
+    return (CGRectGetMaxY(self.bounds) - valuePoint.y - pointRadius) / (self.bounds.size.height - 2.0f*pointRadius);
 }
 
 
 - (void)setXValue:(float)x
 {
-    valuePoint.x = self.bounds.origin.x + INSET + (self.bounds.size.width - 2.0f*INSET) * x;
+    valuePoint.x = roundf(self.bounds.origin.x + pointRadius + (self.bounds.size.width - 2.0f*pointRadius) * x);
     [self setNeedsDisplay];
 }
 
 - (void)setYValue:(float)y
 {
-    valuePoint.y = self.bounds.origin.y + INSET + (self.bounds.size.height - 2.0f*INSET) * y;
+    valuePoint.y = roundf(self.bounds.origin.y + pointRadius + (self.bounds.size.height - 2.0f*pointRadius) * y);
     [self setNeedsDisplay];
 }
 
@@ -67,8 +73,8 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     
     
     // Draw the unconstrained value as crosshairs...
-    float valx = roundf(valuePoint.x);
-    float valy = roundf(valuePoint.y);
+    float valx = valuePoint.x;
+    float valy = valuePoint.y;
     CGContextMoveToPoint(context, CGRectGetMinX(bounds), valy);
     CGContextAddLineToPoint(context, CGRectGetMaxX(bounds), valy);
     CGContextMoveToPoint(context, valx, CGRectGetMinY(bounds));
@@ -81,7 +87,7 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 #define kCornerSize 10.0f
 #define kCornerRadius 5.0f
 #define kMidLength 5.0f
-    CGRect effectiveBounds = CGRectInset(bounds, INSET, INSET);
+    CGRect effectiveBounds = CGRectInset(bounds, pointRadius, pointRadius);
     CGFloat xmin = CGRectGetMinX(effectiveBounds);
     CGFloat xmid = CGRectGetMidX(effectiveBounds);
     CGFloat xmax = CGRectGetMaxX(effectiveBounds);
@@ -131,11 +137,9 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     
     
     // Draw the constrained value as a bright dot...
-#define kConstrainedValueRadius 8.0f
-    CGPoint point = holding ? holdPoint : valuePoint;
-    CGRect valueRect = CGRectInset(CGRectMake(point.x, point.y, 0, 0), -kConstrainedValueRadius, -kConstrainedValueRadius);
+    CGRect valueRect = CGRectInset(CGRectMake(valuePoint.x, valuePoint.y, 0, 0), -pointRadius, -pointRadius);
     CGContextAddEllipseInRect(context, valueRect);
-    BOOL valueActive = (!holding) && (interactionMode == TrackPadTouchesValueAbsolute || interactionMode == TrackPadTouchesValueRelative);
+    BOOL valueActive = interactionMode != TrackPadTouchesIgnored;
     CGContextSetStrokeColorWithColor(context, colorForActive(valueActive, 0.85));
     CGContextSetFillColorWithColor(context, colorForActive(valueActive, 0.5));
     CGContextSetLineWidth(context, 1.0);
@@ -162,8 +166,8 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
             if (interactionMode == TrackPadTouchesValueAbsolute)
             {
                 valuePoint = [touch locationInView:self];
-                valuePoint.x = MIN(CGRectGetMaxX(self.bounds) - INSET, MAX(CGRectGetMinX(self.bounds) + INSET, valuePoint.x));
-                valuePoint.y = MIN(CGRectGetMaxY(self.bounds) - INSET, MAX(CGRectGetMinY(self.bounds) + INSET, valuePoint.y));
+                valuePoint.x = MIN(CGRectGetMaxX(self.bounds) - pointRadius, MAX(CGRectGetMinX(self.bounds) + pointRadius, valuePoint.x));
+                valuePoint.y = MIN(CGRectGetMaxY(self.bounds) - pointRadius, MAX(CGRectGetMinY(self.bounds) + pointRadius, valuePoint.y));
                 [self setNeedsDisplay];
                 [self sendActionsForControlEvents:UIControlEventValueChanged];
             }
@@ -193,8 +197,8 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
             valuePoint.x += dx;
             valuePoint.y += dy;
         }
-        valuePoint.x = MIN(CGRectGetMaxX(self.bounds) - INSET, MAX(CGRectGetMinX(self.bounds) + INSET, valuePoint.x));
-        valuePoint.y = MIN(CGRectGetMaxY(self.bounds) - INSET, MAX(CGRectGetMinY(self.bounds) + INSET, valuePoint.y));
+        valuePoint.x = MIN(CGRectGetMaxX(self.bounds) - pointRadius, MAX(CGRectGetMinX(self.bounds) + pointRadius, valuePoint.x));
+        valuePoint.y = MIN(CGRectGetMaxY(self.bounds) - pointRadius, MAX(CGRectGetMinY(self.bounds) + pointRadius, valuePoint.y));
         [self setNeedsDisplay];
         [self sendActionsForControlEvents:UIControlEventValueChanged];
     }

@@ -13,12 +13,13 @@
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate>
 {
     TrackPadControl *trackpad;
+    TrackPadControl *tiltView;
 }
 
 @property (nonatomic, retain) IBOutlet TrackPadControl *trackpad;
+@property (nonatomic, retain) IBOutlet TrackPadControl *tiltView;
 
 - (IBAction)showInfo;
-- (IBAction)toggleSuspend:(UISwitch *)sender;
 - (IBAction)trackpadUpdated;
 
 @end
