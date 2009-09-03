@@ -9,6 +9,8 @@
 #import "TrackPadControl.h"
 
 
+#define INSET 10.0f
+
 
 static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 {
@@ -18,149 +20,40 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 }
 
 
-@interface TrackPadControl ()
-
-@property (readonly) CGPoint constrainedPoint;
-@property (readonly) CGRect effectiveTrackingBounds;
-- (void)setSingleTouchPoint:(CGPoint)point;
-
-@end
-
-
 
 @implementation TrackPadControl
 
-@synthesize trackingBounds, interactionMode;
-@dynamic xValue, yValue, constrainedPoint, effectiveTrackingBounds, holding;
+@synthesize interactionMode, holding;
 
 
-
-// Tracking bounds mirrors view bounds unless subsequently overridden.
-- (void)setFrame:(CGRect)rect
+- (void)dealloc
 {
-    [super setFrame:rect];
-    self.trackingBounds = CGRectInset(self.bounds, 10, 10);
+    [super dealloc];
 }
 
-- (void)setBounds:(CGRect)rect
+
+- (float)xValue
 {
-    [super setBounds:rect];
-    self.trackingBounds = CGRectInset(self.bounds, 10, 10);
+    return (valuePoint.x - INSET - CGRectGetMinX(self.bounds)) / (CGRectGetMaxX(self.bounds) - 2.0f*INSET);
 }
 
-- (void)setTrackingBounds:(CGRect)rect
+- (float)yValue
 {
-    trackingBounds = rect;
-    [self sendActionsForControlEvents:UIControlEventValueChanged];
+    return (valuePoint.y - INSET - CGRectGetMinY(self.bounds)) / (CGRectGetMaxY(self.bounds) - 2.0f*INSET);
+}
+
+
+- (void)setXValue:(float)x
+{
+    valuePoint.x = self.bounds.origin.x + INSET + (self.bounds.size.width - 2.0f*INSET) * x;
     [self setNeedsDisplay];
 }
 
-
-- (void)setMinX:(CGFloat)minx maxX:(CGFloat)maxx minY:(CGFloat)miny maxY:(CGFloat)maxy
+- (void)setYValue:(float)y
 {
-    minValue = CGPointMake(minx, miny);
-    maxValue = CGPointMake(maxx, maxy);
-}
-
-
-- (CGFloat)xValue
-{
-    return minValue.x + ((maxValue.x - minValue.x) * (self.constrainedPoint.x - self.effectiveTrackingBounds.origin.x) / self.effectiveTrackingBounds.size.width);
-}
-
-- (void)setXValue:(CGFloat)x
-{
-    valuePoint.x = self.bounds.origin.x + (self.bounds.size.width * (x - minValue.x) / (maxValue.x - minValue.x));
+    valuePoint.y = self.bounds.origin.y + INSET + (self.bounds.size.height - 2.0f*INSET) * y;
     [self setNeedsDisplay];
 }
-
-- (CGFloat)yValue
-{
-    // Remember that the y coordinates are flipped...
-    return minValue.y + ((maxValue.y - minValue.y) * (CGRectGetMaxY(self.effectiveTrackingBounds) - self.constrainedPoint.y) / self.effectiveTrackingBounds.size.height);
-}
-
-- (void)setYValue:(CGFloat)y
-{
-    valuePoint.y = CGRectGetMaxY(self.bounds) - (self.bounds.size.height * (y - minValue.y) / (maxValue.y - minValue.y));
-    [self setNeedsDisplay];
-}
-
-
-- (BOOL)isHolding
-{
-    return holding;
-}
-
-- (void)setHolding:(BOOL)hold
-{
-    holdPoint = valuePoint;
-    holding = hold;
-    [self setNeedsDisplay];
-}
-
-
-// If the point is outside the effective tracking bounds, it'll be pinned to one of the bounds' edges.  If we're holding, the hold point is used instead of the current value point.
-- (CGPoint)constrainedPoint
-{
-    if (holding)
-        return holdPoint;
-    
-    CGRect effectiveBounds = self.effectiveTrackingBounds;
-    return CGPointMake(MIN(MAX(valuePoint.x, CGRectGetMinX(effectiveBounds)),
-                           CGRectGetMaxX(effectiveBounds)),
-                       MIN(MAX(valuePoint.y, CGRectGetMinY(effectiveBounds)),
-                           CGRectGetMaxY(effectiveBounds)));
-}
-
-
-- (CGRect)effectiveTrackingBounds
-{
-    // This is similar to intersecting the tracking bounds with the view bounds, but we also constrain the intersected rectangle to a minimum size.
-#define kMinSize 50.0f
-    CGRect rect = trackingBounds;
-    CGRect bounds = self.bounds;
-    
-    rect.size.width = MAX(kMinSize, rect.size.width);
-    rect.size.height = MAX(kMinSize, rect.size.height);
-    
-    // Adjust left side.
-    CGFloat dxl = rect.origin.x - bounds.origin.x;
-    if (dxl < 0)
-    {
-        rect.size.width += dxl;
-        rect.origin.x -= dxl;
-        rect.size.width = MAX(kMinSize, rect.size.width);
-    }
-    
-    // Adjust right side.
-    rect.origin.x = MIN(rect.origin.x, (CGRectGetMaxX(bounds) - kMinSize));
-    CGFloat dxr = CGRectGetMaxX(rect) - CGRectGetMaxX(bounds);
-    if (dxr > 0)
-    {
-        rect.size.width -= dxr;
-    }
-    
-    // Adjust top side.
-    CGFloat dyt = rect.origin.y - bounds.origin.y;
-    if (dyt < 0)
-    {
-        rect.size.height += dyt;
-        rect.origin.y -= dyt;
-        rect.size.height = MAX(kMinSize, rect.size.height);
-    }
-    
-    // Adjust bottom side.
-    rect.origin.y = MIN(rect.origin.y, (CGRectGetMaxY(bounds) - kMinSize));
-    CGFloat dyb = CGRectGetMaxY(rect) - CGRectGetMaxY(bounds);
-    if (dyb > 0)
-    {
-        rect.size.height -= dyb;
-    }
-    
-    return rect;
-}
-
 
 
 - (void)drawRect:(CGRect)rect
@@ -169,8 +62,8 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     CGRect bounds = self.bounds;
     
     // Draw background...
-    CGContextSetFillColorWithColor(context, [[UIColor blackColor] CGColor]);   
-    CGContextFillRect(context, bounds);
+    //CGContextSetFillColorWithColor(context, [[UIColor blackColor] CGColor]);   
+    //CGContextFillRect(context, bounds);
     
     
     // Draw the unconstrained value as crosshairs...
@@ -188,7 +81,7 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 #define kCornerSize 10.0f
 #define kCornerRadius 5.0f
 #define kMidLength 5.0f
-    CGRect effectiveBounds = self.effectiveTrackingBounds;
+    CGRect effectiveBounds = CGRectInset(bounds, INSET, INSET);
     CGFloat xmin = CGRectGetMinX(effectiveBounds);
     CGFloat xmid = CGRectGetMidX(effectiveBounds);
     CGFloat xmax = CGRectGetMaxX(effectiveBounds);
@@ -231,17 +124,16 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     CGContextAddLineToPoint(context, xmid + kMidLength, ymid);
     
     // Draw it
-    BOOL boundsActive = interactionMode == TrackPadTouchesBounds;
-    CGContextSetStrokeColorWithColor(context, colorForActive(boundsActive, 0.9));
-    CGContextSetLineWidth(context, boundsActive ? 2.0 : 1.0);
+    CGContextSetStrokeColorWithColor(context, colorForActive(NO, 0.9));
+    CGContextSetLineWidth(context, 1.0);
     CGContextStrokePath(context);
     
     
     
     // Draw the constrained value as a bright dot...
 #define kConstrainedValueRadius 8.0f
-    CGPoint constrained = self.constrainedPoint;
-    CGRect valueRect = CGRectInset(CGRectMake(constrained.x, constrained.y, 0, 0), -kConstrainedValueRadius, -kConstrainedValueRadius);
+    CGPoint point = holding ? holdPoint : valuePoint;
+    CGRect valueRect = CGRectInset(CGRectMake(point.x, point.y, 0, 0), -kConstrainedValueRadius, -kConstrainedValueRadius);
     CGContextAddEllipseInRect(context, valueRect);
     BOOL valueActive = (!holding) && (interactionMode == TrackPadTouchesValueAbsolute || interactionMode == TrackPadTouchesValueRelative);
     CGContextSetStrokeColorWithColor(context, colorForActive(valueActive, 0.85));
@@ -261,7 +153,7 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     if (interactionMode == TrackPadTouchesIgnored) return;
     
     NSSet *myTouches = [event touchesForView:self];
-    // Single-touch for moving; two-fingers for zooming.
+    // Single-touch for moving; two-fingers used to be for zooming...not any more.
     if ([myTouches count] == 1)
     {
         UITouch *touch = [myTouches anyObject];
@@ -269,25 +161,14 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
         {
             if (interactionMode == TrackPadTouchesValueAbsolute)
             {
-                [self setSingleTouchPoint:[touch locationInView:self]];
+                valuePoint = [touch locationInView:self];
+                valuePoint.x = MIN(CGRectGetMaxX(self.bounds) - INSET, MAX(CGRectGetMinX(self.bounds) + INSET, valuePoint.x));
+                valuePoint.y = MIN(CGRectGetMaxY(self.bounds) - INSET, MAX(CGRectGetMinY(self.bounds) + INSET, valuePoint.y));
+                [self setNeedsDisplay];
+                [self sendActionsForControlEvents:UIControlEventValueChanged];
             }
         }
-        // Reset bounds on double-tap.
-        else if (touch.tapCount == 2 && interactionMode == TrackPadTouchesBounds)
-        {
-            self.trackingBounds = CGRectInset(self.bounds, 10, 10);
-        }
     }
-    else if ([myTouches count] == 2 &&
-             interactionMode == TrackPadTouchesBounds) // zoom time!
-    {
-        NSArray *twoTouches = [myTouches allObjects];
-        CGPoint loc1 = [[twoTouches objectAtIndex:0] locationInView:self];
-        CGPoint loc2 = [[twoTouches objectAtIndex:1] locationInView:self];
-        pinchTrackingX = (fabsf(loc1.x - loc2.x) > 75);
-        pinchTrackingY = (fabsf(loc1.y - loc2.y) > 75);
-    }
-    // I don't think it's worth trying to make 3+ touches work.
 }
 
 
@@ -301,7 +182,7 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
         UITouch *touch = [myTouches anyObject];
         if (interactionMode == TrackPadTouchesValueAbsolute)
         {
-            [self setSingleTouchPoint:[touch locationInView:self]];
+            valuePoint = [touch locationInView:self];
         }
         else
         {
@@ -309,52 +190,11 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
             CGPoint prevPoint = [touch previousLocationInView:self];
             CGFloat dx = point.x - prevPoint.x;
             CGFloat dy = point.y - prevPoint.y;
-            if (interactionMode == TrackPadTouchesBounds)
-            {
-                trackingBounds.origin.x += dx;
-                trackingBounds.origin.y += dy;
-            }
-            else if (interactionMode == TrackPadTouchesValueRelative)
-            {
-                valuePoint.x += dx;
-                valuePoint.y += dy;
-                // For relative tracking, don't let the crosshairs ever leave the tracking bounds.
-                valuePoint = self.constrainedPoint;
-            }
-            [self setNeedsDisplay];
-            [self sendActionsForControlEvents:UIControlEventValueChanged];
+            valuePoint.x += dx;
+            valuePoint.y += dy;
         }
-    }
-    else if ([myTouches count] == 2 &&
-             interactionMode == TrackPadTouchesBounds) // zoom time!
-    {
-        NSArray *twoTouches = [myTouches allObjects];
-        CGPoint loc1 = [[twoTouches objectAtIndex:0] locationInView:self];
-        CGPoint loc2 = [[twoTouches objectAtIndex:1] locationInView:self];
-        if (pinchTrackingX)
-        {
-            trackingBounds.origin.x = MIN(loc1.x, loc2.x);
-            trackingBounds.size.width = fabs(loc1.x - loc2.x);
-        }
-        if (pinchTrackingY)
-        {
-            trackingBounds.origin.y = MIN(loc1.y, loc2.y);
-            trackingBounds.size.height = fabs(loc1.y - loc2.y);
-        }
-        self.trackingBounds = CGRectIntersection(trackingBounds, self.bounds);
-    }
-}
-
-
-- (void)setSingleTouchPoint:(CGPoint)point
-{
-    if (interactionMode == TrackPadTouchesBounds)
-    {
-        trackingBounds = CGRectMake(point.x - 0.5*trackingBounds.size.width, point.y - 0.5*trackingBounds.size.height, trackingBounds.size.width, trackingBounds.size.height);
-    }
-    else
-    {
-        valuePoint = point;
+        valuePoint.x = MIN(CGRectGetMaxX(self.bounds) - INSET, MAX(CGRectGetMinX(self.bounds) + INSET, valuePoint.x));
+        valuePoint.y = MIN(CGRectGetMaxY(self.bounds) - INSET, MAX(CGRectGetMinY(self.bounds) + INSET, valuePoint.y));
         [self setNeedsDisplay];
         [self sendActionsForControlEvents:UIControlEventValueChanged];
     }

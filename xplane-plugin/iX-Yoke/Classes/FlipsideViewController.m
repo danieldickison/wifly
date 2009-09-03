@@ -14,13 +14,11 @@
 
 @implementation FlipsideViewController
 
-@synthesize delegate, ipField, portField;
+@synthesize delegate, ipField, portField, tiltView;
 
 
 - (void)dealloc
 {
-    self.ipField = nil;
-    self.portField = nil;
     [super dealloc];
 }
 
@@ -32,6 +30,25 @@
     portField.text =
         (SharedAppDelegate.hostPort == 0 ? nil
          : [NSString stringWithFormat:@"%d", SharedAppDelegate.hostPort]);
+
+    tiltView.interactionMode = TrackPadTouchesIgnored;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:SharedAppDelegate];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    self.ipField = nil;
+    self.portField = nil;
+    self.tiltView = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
+- (void)tiltUpdated:(NSNotification *)notification
+{
+    tiltView.xValue = SharedAppDelegate.tilt_x;
+    tiltView.yValue = SharedAppDelegate.tilt_y;
 }
 
 

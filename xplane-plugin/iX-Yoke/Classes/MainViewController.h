@@ -12,16 +12,13 @@
 
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate>
 {
-    TrackPadControl *calibrationTrackPad;
-    TrackPadControl *controlTrackPad;
+    TrackPadControl *trackpad;
 }
+
+@property (nonatomic, retain) IBOutlet TrackPadControl *trackpad;
 
 - (IBAction)showInfo;
 - (IBAction)toggleSuspend:(UISwitch *)sender;
-- (IBAction)switchTrackPad:(UISegmentedControl *)sender;
-
-- (IBAction)resetCenter;
-
-- (void)updatePitch:(float *)ioPitch roll:(float *)ioRoll;
+- (IBAction)trackpadUpdated;
 
 @end
