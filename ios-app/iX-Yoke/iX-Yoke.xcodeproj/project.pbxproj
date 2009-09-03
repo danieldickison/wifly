@@ -123,9 +123,9 @@
 			isa = PBXGroup;
 			children = (
 				0BBF33370FCCB95A00F4F71B /* base.xcconfig */,
-				0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */,
 				0BBF33710FCCBE2600F4F71B /* Entitlements.plist */,
 				0BBF33430FCCBB8500F4F71B /* release.xcconfig */,
+				0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */,
 				0BBF333F0FCCB9D500F4F71B /* debug.xcconfig */,
 			);
 			name = "Build Config";
@@ -297,7 +297,7 @@
 		};
 		0BA414800FEC660800A346AB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */;
+			baseConfigurationReference = 0BBF333F0FCCB9D500F4F71B /* debug.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
@@ -318,7 +318,7 @@
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */;
+			baseConfigurationReference = 0BBF33430FCCBB8500F4F71B /* release.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -337,8 +337,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058950D05DD3E006BFB54 /* Release */,
-				0BA414800FEC660800A346AB /* Debug */,
 				0BA414820FEC660B00A346AB /* Beta */,
+				0BA414800FEC660800A346AB /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -347,8 +347,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF5008A954540054247B /* Release */,
-				0BA4147F0FEC660800A346AB /* Debug */,
 				0BA414810FEC660B00A346AB /* Beta */,
+				0BA4147F0FEC660800A346AB /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
