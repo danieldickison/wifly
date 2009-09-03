@@ -19,15 +19,13 @@ typedef enum {
 @interface TrackPadControl : UIControl
 {
     CGPoint valuePoint;
-    CGPoint holdPoint;
-    BOOL holding;
     TrackPadInteractionMode interactionMode;
+    CGFloat pointRadius;
 }
 
 @property (nonatomic, assign) float xValue;
 @property (nonatomic, assign) float yValue;
 @property (nonatomic, assign) TrackPadInteractionMode interactionMode;
-
-@property (nonatomic, assign, getter=isHolding) BOOL holding;
+@property (nonatomic, assign) CGFloat pointRadius;
 
 @end

@@ -16,7 +16,7 @@
 
 @implementation MainViewController
 
-@synthesize trackpad;
+@synthesize trackpad, tiltView;
 
 -(void)dealloc
 {
@@ -31,12 +31,25 @@
     trackpad.interactionMode = TrackPadTouchesValueRelative;
     trackpad.xValue = SharedAppDelegate.touch_x;
     trackpad.yValue = SharedAppDelegate.touch_y;
+    
+    tiltView.interactionMode = TrackPadTouchesIgnored;
+    tiltView.pointRadius = 5.0f;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:SharedAppDelegate];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     self.trackpad = nil;
+    self.tiltView = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
+- (void)tiltUpdated:(NSNotification *)notification
+{
+    tiltView.xValue = SharedAppDelegate.tilt_x;
+    tiltView.yValue = SharedAppDelegate.tilt_y;
 }
 
 
@@ -57,11 +70,6 @@
 	[controller release];
 }
 
-
-- (IBAction)toggleSuspend:(UISwitch *)sender
-{
-    trackpad.holding = sender.on;
-}
 
 
 - (IBAction)trackpadUpdated
