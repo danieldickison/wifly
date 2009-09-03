@@ -54,7 +54,7 @@
 						</object>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 					</object>
-					<object class="IBUIButton" id="887587503">
+					<object class="IBUIButton" id="608329866">
 						<reference key="NSNextResponder" ref="883825266"/>
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{282, 421}, {18, 19}}</string>
@@ -72,7 +72,7 @@
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
 						</object>
-						<int key="IBUIButtonType">3</int>
+						<int key="IBUIButtonType">4</int>
 						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
 						<object class="NSColor" key="IBUIHighlightedTitleColor">
 							<int key="NSColorSpace">3</int>
@@ -87,7 +87,7 @@
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
 					</object>
-					<object class="IBUIView" id="459515083">
+					<object class="IBUIView" id="289659720">
 						<reference key="NSNextResponder" ref="883825266"/>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 340}, {100, 100}}</string>
@@ -144,7 +144,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showInfo</string>
-						<reference key="source" ref="887587503"/>
+						<reference key="source" ref="608329866"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -154,7 +154,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">tiltView</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="459515083"/>
+						<reference key="destination" ref="289659720"/>
 					</object>
 					<int key="connectionID">90</int>
 				</object>
@@ -185,8 +185,8 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="1069443020"/>
-							<reference ref="459515083"/>
-							<reference ref="887587503"/>
+							<reference ref="608329866"/>
+							<reference ref="289659720"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -197,12 +197,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">87</int>
-						<reference key="object" ref="887587503"/>
+						<reference key="object" ref="608329866"/>
 						<reference key="parent" ref="883825266"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">89</int>
-						<reference key="object" ref="459515083"/>
+						<reference key="object" ref="289659720"/>
 						<reference key="parent" ref="883825266"/>
 					</object>
 				</object>
@@ -263,13 +263,11 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>showInfo</string>
-							<string>toggleSuspend:</string>
 							<string>trackpadUpdated</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
-							<string>UISwitch</string>
 							<string>id</string>
 						</object>
 					</object>
@@ -463,14 +461,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">UIKit.framework/Headers/UISearchDisplayController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UISwitch</string>
-					<string key="superclassName">UIControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UISwitch.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
