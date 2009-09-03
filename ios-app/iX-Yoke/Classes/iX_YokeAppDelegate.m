@@ -14,6 +14,8 @@
 #define kUpdateFrequency 20  // Hz
 #define kFilteringFactor 0.25f
 
+NSString * const iXTiltUpdatedNotification = @"iXTiltUpdatedNotification";
+
 
 // Matrices should be an array in column-major order of floats.  outMatrix must have enough space to store the results, which will be aRows x bCols.
 static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int aRows, int bCols);
@@ -29,7 +31,7 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
 
 
 @synthesize window;
-@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y;
+@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y, tilt_x, tilt_y;
 
 
 - (void)setHostAddress:(NSString *)addr
@@ -51,6 +53,12 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
+    // TODO: save and restore from prefs.
+    touch_x = 0.5f;
+    touch_y = 0.5f;
+    tilt_x = 0.5f;
+    tilt_y = 0.5f;
+    
     socket = [[AsyncUdpSocket alloc] initWithDelegate:self];
     
     self.hostAddress = [[NSUserDefaults standardUserDefaults] stringForKey:@"hostAddress"];
@@ -106,27 +114,24 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
     matMult(rotated, centerTiltRotationMatrix, acceleration, 3, 3, 1);
     
     // Project to the xy plane for pitch & roll.
-    float pitch = -rotated[1];
-    float roll = rotated[0];
-    
-    // The view controller handles calibration via its trackpad.
-    [mainViewController updatePitch:&pitch roll:&roll];
+    tilt_x = 0.5f * (1.0f + rotated[0]);
+    tilt_y = 0.5f * (1.0f - rotated[1]);
     
     if (hostAddress)
     {
         uint8_t buffer[128];
         int i = 0;
         ix_put_tag(buffer, &i, kProtocolVersion1Tag);
-        //float val = 0.5f * (roll + 1.0f);
-        //NSLog(@"%f", (double)val);
-        ix_put_ratio(buffer, &i, 0.5f + 0.5f*roll);
-        ix_put_ratio(buffer, &i, 0.5f + 0.5f*pitch);
-        ix_put_ratio(buffer, &i, 0.5f + 0.5f*touch_x);
-        ix_put_ratio(buffer, &i, 0.5f + 0.5f*touch_y);
+        ix_put_ratio(buffer, &i, tilt_x);
+        ix_put_ratio(buffer, &i, tilt_y);
+        ix_put_ratio(buffer, &i, touch_x);
+        ix_put_ratio(buffer, &i, touch_y);
         NSData *data = [[NSData alloc] initWithBytes:buffer length:i];
         [socket sendData:data toHost:hostAddress port:hostPort withTimeout:-1 tag:0];
         [data release];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:iXTiltUpdatedNotification object:self];
 }
 
 

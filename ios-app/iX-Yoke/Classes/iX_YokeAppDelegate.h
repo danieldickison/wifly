@@ -9,6 +9,7 @@
 
 #define SharedAppDelegate ((iX_YokeAppDelegate *)[UIApplication sharedApplication].delegate)
 
+extern NSString * const iXTiltUpdatedNotification;
 
 @class MainViewController;
 @class AsyncUdpSocket;
@@ -23,6 +24,8 @@
     
     float touch_x;
     float touch_y;
+    float tilt_x;
+    float tilt_y;
     
     NSString *hostAddress;
     unsigned hostPort;
@@ -33,8 +36,12 @@
 @property (nonatomic, retain) MainViewController *mainViewController;
 @property (nonatomic, copy) NSString *hostAddress;
 @property (nonatomic, assign) unsigned hostPort;
+
+// These should always each be in the range [0, 1]
 @property (nonatomic, assign) float touch_x;
 @property (nonatomic, assign) float touch_y;
+@property (nonatomic, assign) float tilt_x;
+@property (nonatomic, assign) float tilt_y;
 
 // Sets the current tilt as the "center".
 - (void)resetTiltCenter;
