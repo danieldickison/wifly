@@ -1709,7 +1709,7 @@ static void MyCFSocketCallback(CFSocketRef, CFSocketCallBackType, CFDataRef, con
 
 - (BOOL)isClosed
 {
-	return (theFlags & kDidClose);
+	return (BOOL)(theFlags & kDidClose);
 }
 
 - (BOOL)isIPv4
