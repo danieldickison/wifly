@@ -13,11 +13,6 @@
 		0B63404D0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B63404B0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png */; };
 		0B63426B0FA91BC200C511A9 /* TrackPadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B63426A0FA91BC200C511A9 /* TrackPadControl.m */; };
 		0B7F8B2B101820A500C57A9B /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B7F8B2A101820A500C57A9B /* Icon.png */; };
-		0BBF33380FCCB95A00F4F71B /* base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0BBF33370FCCB95A00F4F71B /* base.xcconfig */; };
-		0BBF333C0FCCB98D00F4F71B /* beta.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */; };
-		0BBF33400FCCB9D500F4F71B /* debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0BBF333F0FCCB9D500F4F71B /* debug.xcconfig */; };
-		0BBF33440FCCBB8500F4F71B /* release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0BBF33430FCCBB8500F4F71B /* release.xcconfig */; };
-		0BBF33720FCCBE2600F4F71B /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BBF33710FCCBE2600F4F71B /* Entitlements.plist */; };
 		1D3623260D0F684500981E51 /* iX_YokeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -49,7 +44,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iX_YokeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iX_YokeAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iX_YokeAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* Wi-Fly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wi-Fly.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* WiFly Remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WiFly Remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		280E754A0DD40C5E005A515E /* FlipsideView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlipsideView.xib; sourceTree = "<group>"; };
 		280E754B0DD40C5E005A515E /* MainView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainView.xib; sourceTree = "<group>"; };
@@ -134,7 +129,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Wi-Fly.app */,
+				1D6058910D05DD3D006BFB54 /* WiFly Remote.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -222,7 +217,7 @@
 			);
 			name = "iX-Yoke";
 			productName = "iX-Yoke";
-			productReference = 1D6058910D05DD3D006BFB54 /* Wi-Fly.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* WiFly Remote.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -259,11 +254,6 @@
 				280E754F0DD40C5E005A515E /* MainWindow.xib in Resources */,
 				0B63404C0FA8A4C100C511A9 /* Default Linear Wheel BG.png in Resources */,
 				0B63404D0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png in Resources */,
-				0BBF33380FCCB95A00F4F71B /* base.xcconfig in Resources */,
-				0BBF333C0FCCB98D00F4F71B /* beta.xcconfig in Resources */,
-				0BBF33400FCCB9D500F4F71B /* debug.xcconfig in Resources */,
-				0BBF33440FCCBB8500F4F71B /* release.xcconfig in Resources */,
-				0BBF33720FCCBE2600F4F71B /* Entitlements.plist in Resources */,
 				0B7F8B2B101820A500C57A9B /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
