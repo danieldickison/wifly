@@ -51,13 +51,13 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 
 - (void)setXValue:(float)x
 {
-    valuePoint.x = roundf(self.bounds.origin.x + pointRadius + (self.bounds.size.width - 2.0f*pointRadius) * x);
+    valuePoint.x = roundf(CGRectGetMinX(self.bounds) + pointRadius + (self.bounds.size.width - 2.0f*pointRadius) * x);
     [self setNeedsDisplay];
 }
 
 - (void)setYValue:(float)y
 {
-    valuePoint.y = roundf(self.bounds.origin.y + pointRadius + (self.bounds.size.height - 2.0f*pointRadius) * y);
+    valuePoint.y = roundf(CGRectGetMaxY(self.bounds) - pointRadius - (self.bounds.size.height - 2.0f*pointRadius) * y);
     [self setNeedsDisplay];
 }
 

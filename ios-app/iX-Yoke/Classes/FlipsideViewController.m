@@ -48,7 +48,7 @@
 - (void)tiltUpdated:(NSNotification *)notification
 {
     tiltView.xValue = SharedAppDelegate.tilt_x;
-    tiltView.yValue = SharedAppDelegate.tilt_y;
+    tiltView.yValue = 1.0f - SharedAppDelegate.tilt_y;
 }
 
 

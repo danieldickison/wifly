@@ -51,11 +51,22 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
 }
 
 
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    [[NSUserDefaults standardUserDefaults] setFloat:touch_x forKey:@"touch_x"];
+    [[NSUserDefaults standardUserDefaults] setFloat:touch_y forKey:@"touch_y"];
+}
+
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-    // TODO: save and restore from prefs.
-    touch_x = 0.5f;
-    touch_y = 0.5f;
+    [[NSUserDefaults standardUserDefaults]
+     registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+                       [NSNumber numberWithFloat:0.5f], @"touch_x",
+                       [NSNumber numberWithFloat:0.5f], @"touch_y",
+                       nil]];
+    touch_x = [[NSUserDefaults standardUserDefaults] floatForKey:@"touch_x"];
+    touch_y = [[NSUserDefaults standardUserDefaults] floatForKey:@"touch_y"];
     tilt_x = 0.5f;
     tilt_y = 0.5f;
     
