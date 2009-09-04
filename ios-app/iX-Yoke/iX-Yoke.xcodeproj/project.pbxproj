@@ -12,7 +12,8 @@
 		0B63404C0FA8A4C100C511A9 /* Default Linear Wheel BG.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */; };
 		0B63404D0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B63404B0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png */; };
 		0B63426B0FA91BC200C511A9 /* TrackPadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B63426A0FA91BC200C511A9 /* TrackPadControl.m */; };
-		0B7F8B2B101820A500C57A9B /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B7F8B2A101820A500C57A9B /* Icon.png */; };
+		0BD16DB810514E310095D600 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16DB610514E310095D600 /* Icon.png */; };
+		0BD16DC810514FD40095D600 /* iTunesArtwork in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0BD16DB710514E310095D600 /* iTunesArtwork */; };
 		1D3623260D0F684500981E51 /* iX_YokeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -25,6 +26,19 @@
 		289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		0BD16DCE10514FDF0095D600 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				0BD16DC810514FD40095D600 /* iTunesArtwork in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0B08BDE20FA447AA00BAF947 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncUdpSocket.h; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.h"; sourceTree = "<group>"; };
 		0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncUdpSocket.m; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.m"; sourceTree = "<group>"; };
@@ -35,16 +49,17 @@
 		0B63415C0FA8D37100C511A9 /* iX_Yoke_Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iX_Yoke_Network.h; path = "../iX-Yoke-plugin/iX_Yoke_Network.h"; sourceTree = "<group>"; };
 		0B6342690FA91BC200C511A9 /* TrackPadControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrackPadControl.h; path = Classes/TrackPadControl.h; sourceTree = "<group>"; };
 		0B63426A0FA91BC200C511A9 /* TrackPadControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrackPadControl.m; path = Classes/TrackPadControl.m; sourceTree = "<group>"; };
-		0B7F8B2A101820A500C57A9B /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/Icon.png; sourceTree = "<group>"; };
 		0BBF33370FCCB95A00F4F71B /* base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = base.xcconfig; path = "Build Configuration/base.xcconfig"; sourceTree = "<group>"; };
 		0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = beta.xcconfig; path = "Build Configuration/beta.xcconfig"; sourceTree = "<group>"; };
 		0BBF333F0FCCB9D500F4F71B /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = "Build Configuration/debug.xcconfig"; sourceTree = "<group>"; };
 		0BBF33430FCCBB8500F4F71B /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = release.xcconfig; path = "Build Configuration/release.xcconfig"; sourceTree = "<group>"; };
 		0BBF33710FCCBE2600F4F71B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = "Build Configuration/Entitlements.plist"; sourceTree = "<group>"; };
+		0BD16DB610514E310095D600 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Images/ICONS/Icon.png; sourceTree = SOURCE_ROOT; };
+		0BD16DB710514E310095D600 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = ../Images/ICONS/iTunesArtwork; sourceTree = SOURCE_ROOT; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iX_YokeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iX_YokeAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iX_YokeAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* WiFly Remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WiFly Remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* WiFlyRemote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WiFlyRemote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		280E754A0DD40C5E005A515E /* FlipsideView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlipsideView.xib; sourceTree = "<group>"; };
 		280E754B0DD40C5E005A515E /* MainView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainView.xib; sourceTree = "<group>"; };
@@ -129,7 +144,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* WiFly Remote.app */,
+				1D6058910D05DD3D006BFB54 /* WiFlyRemote.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,7 +194,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0B7F8B2A101820A500C57A9B /* Icon.png */,
+				0BD16DB610514E310095D600 /* Icon.png */,
+				0BD16DB710514E310095D600 /* iTunesArtwork */,
 				0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */,
 				0B63404B0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png */,
 				280E754A0DD40C5E005A515E /* FlipsideView.xib */,
@@ -210,6 +226,8 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				0BD16DCE10514FDF0095D600 /* CopyFiles */,
+				0BD16DD110514FF60095D600 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -217,7 +235,7 @@
 			);
 			name = "iX-Yoke";
 			productName = "iX-Yoke";
-			productReference = 1D6058910D05DD3D006BFB54 /* WiFly Remote.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* WiFlyRemote.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -254,11 +272,27 @@
 				280E754F0DD40C5E005A515E /* MainWindow.xib in Resources */,
 				0B63404C0FA8A4C100C511A9 /* Default Linear Wheel BG.png in Resources */,
 				0B63404D0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png in Resources */,
-				0B7F8B2B101820A500C57A9B /* Icon.png in Resources */,
+				0BD16DB810514E310095D600 /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0BD16DD110514FF60095D600 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$BUILD_STYLE\" = \"Beta\" ]; then\n\tcd \"${CONFIGURATION_BUILD_DIR}\"\n\tmkdir -p Payload\n\tcp -R \"${WRAPPER_NAME}\" Payload\n\tzip -r \"${PRODUCT_NAME}.ipa\" iTunesArtwork Payload\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
