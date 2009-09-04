@@ -14,6 +14,8 @@
 		0B63426B0FA91BC200C511A9 /* TrackPadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B63426A0FA91BC200C511A9 /* TrackPadControl.m */; };
 		0BD16DB810514E310095D600 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16DB610514E310095D600 /* Icon.png */; };
 		0BD16DC810514FD40095D600 /* iTunesArtwork in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0BD16DB710514E310095D600 /* iTunesArtwork */; };
+		0BD16E2E1051708A0095D600 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD16E2D1051708A0095D600 /* HelpViewController.m */; };
+		0BD16E33105172F20095D600 /* local-help in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16E2F105172F20095D600 /* local-help */; };
 		1D3623260D0F684500981E51 /* iX_YokeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -56,6 +58,9 @@
 		0BBF33710FCCBE2600F4F71B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = "Build Configuration/Entitlements.plist"; sourceTree = "<group>"; };
 		0BD16DB610514E310095D600 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Images/ICONS/Icon.png; sourceTree = SOURCE_ROOT; };
 		0BD16DB710514E310095D600 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = ../Images/ICONS/iTunesArtwork; sourceTree = SOURCE_ROOT; };
+		0BD16E2C1051708A0095D600 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpViewController.h; path = Classes/HelpViewController.h; sourceTree = "<group>"; };
+		0BD16E2D1051708A0095D600 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpViewController.m; path = Classes/HelpViewController.m; sourceTree = "<group>"; };
+		0BD16E2F105172F20095D600 /* local-help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "local-help"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iX_YokeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iX_YokeAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iX_YokeAppDelegate.m; sourceTree = "<group>"; };
@@ -154,6 +159,8 @@
 			children = (
 				289233AC0DB2D0DB0083E9F9 /* FlipsideViewController.h */,
 				289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */,
+				0BD16E2C1051708A0095D600 /* HelpViewController.h */,
+				0BD16E2D1051708A0095D600 /* HelpViewController.m */,
 			);
 			name = "Flipside View";
 			sourceTree = "<group>";
@@ -194,6 +201,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0BD16E2F105172F20095D600 /* local-help */,
 				0BD16DB610514E310095D600 /* Icon.png */,
 				0BD16DB710514E310095D600 /* iTunesArtwork */,
 				0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */,
@@ -273,6 +281,7 @@
 				0B63404C0FA8A4C100C511A9 /* Default Linear Wheel BG.png in Resources */,
 				0B63404D0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png in Resources */,
 				0BD16DB810514E310095D600 /* Icon.png in Resources */,
+				0BD16E33105172F20095D600 /* local-help in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +315,7 @@
 				0B08BDE40FA447AA00BAF947 /* AsyncUdpSocket.m in Sources */,
 				0B6340110FA8960000C511A9 /* LinearWheelControl.m in Sources */,
 				0B63426B0FA91BC200C511A9 /* TrackPadControl.m in Sources */,
+				0BD16E2E1051708A0095D600 /* HelpViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

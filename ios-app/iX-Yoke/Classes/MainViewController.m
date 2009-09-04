@@ -64,9 +64,13 @@
 	FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
 	controller.delegate = self;
     controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-	[self presentModalViewController:controller animated:YES];
-	
-	[controller release];
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    navController.navigationBar.barStyle = UIBarStyleBlack;
+	[self presentModalViewController:navController animated:YES];
+    
+    [controller release];
+	[navController release];
 }
 
 

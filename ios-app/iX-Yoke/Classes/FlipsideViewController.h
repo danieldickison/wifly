@@ -16,16 +16,21 @@
     UITextField *ipField;
     UITextField *portField;
     TrackPadControl *tiltView;
+    UIBarButtonItem *doneButton;
+    UIBarButtonItem *helpButton;
 }
 
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UITextField *ipField;
 @property (nonatomic, retain) IBOutlet UITextField *portField;
 @property (nonatomic, retain) IBOutlet TrackPadControl *tiltView;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *helpButton;
 - (IBAction)done;
 - (IBAction)setTiltCenter;
 - (IBAction)ipFieldChanged;
 - (IBAction)portFieldChanged;
+- (IBAction)showHelp;
 
 
 @end

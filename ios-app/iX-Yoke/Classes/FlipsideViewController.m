@@ -8,13 +8,13 @@
 
 #import "FlipsideViewController.h"
 #import "iX_YokeAppDelegate.h"
-
+#import "HelpViewController.h"
 #import "TrackPadControl.h"
 
 
 @implementation FlipsideViewController
 
-@synthesize delegate, ipField, portField, tiltView;
+@synthesize delegate, ipField, portField, tiltView, doneButton, helpButton;
 
 
 - (void)dealloc
@@ -26,6 +26,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.leftBarButtonItem = doneButton;
+    self.navigationItem.rightBarButtonItem = helpButton;
+    self.title = NSLocalizedString(@"Setup", @"");
+    
     ipField.text = SharedAppDelegate.hostAddress;
     portField.text =
         (SharedAppDelegate.hostPort == 0 ? nil
@@ -41,6 +46,8 @@
     self.ipField = nil;
     self.portField = nil;
     self.tiltView = nil;
+    self.doneButton = nil;
+    self.helpButton = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -79,6 +86,14 @@
 {
     [textField resignFirstResponder];
     return YES;
+}
+
+
+- (IBAction)showHelp
+{
+    HelpViewController *helpController = [[HelpViewController alloc] init];
+    [self.navigationController pushViewController:helpController animated:YES];
+    [helpController release];
 }
 
 
