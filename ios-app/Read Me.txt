@@ -12,11 +12,10 @@ The X-Plane plugin acts as a server, to which the iPhone app sends commands.  Th
 TODO
 ----
 
-* Make the "i" button easier to hit and show settings view if no IP specified on startup.
+* Add "hold" back in.
 * Use ENGN_thro instead of ENGN_thro_use?
 * Make server update on every flight loop instead of a fixed rate (20Hz)?
 * Auto-coordinate roll+yaw should move nosewheel steering more.
-* Tap-down visual confirmation of trackpad.
 * Auditory feedback of tap-drag for better blind interaction.
 * Change color/sound to alert when tilt exceeds tracking bounds.
 * Eye candy: background images, pulsating trackpad dot...etc.
