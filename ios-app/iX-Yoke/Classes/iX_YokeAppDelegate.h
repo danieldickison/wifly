@@ -26,6 +26,9 @@ extern NSString * const iXTiltUpdatedNotification;
     float touch_y;
     float tilt_x;
     float tilt_y;
+    float tilt_hold_x;
+    float tilt_hold_y;
+    BOOL tilt_hold;
     
     NSString *hostAddress;
     unsigned hostPort;
@@ -40,8 +43,11 @@ extern NSString * const iXTiltUpdatedNotification;
 // These should always each be in the range [0, 1]
 @property (nonatomic, assign) float touch_x;
 @property (nonatomic, assign) float touch_y;
-@property (nonatomic, assign) float tilt_x;
-@property (nonatomic, assign) float tilt_y;
+@property (nonatomic, assign, readonly) float tilt_x;
+@property (nonatomic, assign, readonly) float tilt_y;
+@property (nonatomic, assign, readonly) float tilt_hold_x;
+@property (nonatomic, assign, readonly) float tilt_hold_y;
+@property (nonatomic, assign) BOOL tilt_hold;
 
 // Sets the current tilt as the "center".
 - (void)resetTiltCenter;

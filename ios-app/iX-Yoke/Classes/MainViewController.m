@@ -48,8 +48,7 @@
 
 - (void)tiltUpdated:(NSNotification *)notification
 {
-    tiltView.xValue = SharedAppDelegate.tilt_x;
-    tiltView.yValue = 1.0f - SharedAppDelegate.tilt_y;
+    [tiltView setXValue:SharedAppDelegate.tilt_hold_x yValue:SharedAppDelegate.tilt_hold_y xCrosshair:SharedAppDelegate.tilt_x yCrosshair:SharedAppDelegate.tilt_y];
 }
 
 
@@ -79,6 +78,12 @@
 {
     SharedAppDelegate.touch_x = trackpad.xValue;
     SharedAppDelegate.touch_y = trackpad.yValue;
+}
+
+
+- (IBAction)tiltHold:(UISwitch *)holdSwitch
+{
+    SharedAppDelegate.tilt_hold = holdSwitch.on;
 }
 
 

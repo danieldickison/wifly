@@ -21,5 +21,6 @@
 
 - (IBAction)showInfo;
 - (IBAction)trackpadUpdated;
+- (IBAction)tiltHold:(UISwitch *)holdSwitch;
 
 @end

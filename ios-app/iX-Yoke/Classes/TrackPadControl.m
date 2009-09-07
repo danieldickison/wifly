@@ -52,13 +52,24 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 - (void)setXValue:(float)x
 {
     valuePoint.x = roundf(CGRectGetMinX(self.bounds) + pointRadius + (self.bounds.size.width - 2.0f*pointRadius) * x);
+    crosshairPoint.x = valuePoint.x;
     [self setNeedsDisplay];
 }
 
 - (void)setYValue:(float)y
 {
     valuePoint.y = roundf(CGRectGetMaxY(self.bounds) - pointRadius - (self.bounds.size.height - 2.0f*pointRadius) * y);
+    crosshairPoint.y = valuePoint.y;
     [self setNeedsDisplay];
+}
+
+
+- (void)setXValue:(float)x yValue:(float)y xCrosshair:(float)cx yCrosshair:(float)cy
+{
+    self.xValue = x;
+    self.yValue = y;
+    crosshairPoint.x = roundf(CGRectGetMinX(self.bounds) + pointRadius + (self.bounds.size.width - 2.0f*pointRadius) * cx);
+    crosshairPoint.y = roundf(CGRectGetMaxY(self.bounds) - pointRadius - (self.bounds.size.height - 2.0f*pointRadius) * cy);
 }
 
 
@@ -73,8 +84,8 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     
     
     // Draw the unconstrained value as crosshairs...
-    float valx = valuePoint.x;
-    float valy = valuePoint.y;
+    float valx = crosshairPoint.x;
+    float valy = crosshairPoint.y;
     CGContextMoveToPoint(context, CGRectGetMinX(bounds), valy);
     CGContextAddLineToPoint(context, CGRectGetMaxX(bounds), valy);
     CGContextMoveToPoint(context, valx, CGRectGetMinY(bounds));
@@ -168,6 +179,8 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
                 valuePoint = [touch locationInView:self];
                 valuePoint.x = MIN(CGRectGetMaxX(self.bounds) - pointRadius, MAX(CGRectGetMinX(self.bounds) + pointRadius, valuePoint.x));
                 valuePoint.y = MIN(CGRectGetMaxY(self.bounds) - pointRadius, MAX(CGRectGetMinY(self.bounds) + pointRadius, valuePoint.y));
+                crosshairPoint.x = valuePoint.x;
+                crosshairPoint.y = valuePoint.y;
                 [self setNeedsDisplay];
                 [self sendActionsForControlEvents:UIControlEventValueChanged];
             }
@@ -199,6 +212,8 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
         }
         valuePoint.x = MIN(CGRectGetMaxX(self.bounds) - pointRadius, MAX(CGRectGetMinX(self.bounds) + pointRadius, valuePoint.x));
         valuePoint.y = MIN(CGRectGetMaxY(self.bounds) - pointRadius, MAX(CGRectGetMinY(self.bounds) + pointRadius, valuePoint.y));
+        crosshairPoint.x = valuePoint.x;
+        crosshairPoint.y = valuePoint.y;
         [self setNeedsDisplay];
         [self sendActionsForControlEvents:UIControlEventValueChanged];
     }

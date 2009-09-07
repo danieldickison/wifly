@@ -19,6 +19,7 @@ typedef enum {
 @interface TrackPadControl : UIControl
 {
     CGPoint valuePoint;
+    CGPoint crosshairPoint;
     TrackPadInteractionMode interactionMode;
     CGFloat pointRadius;
 }
@@ -27,5 +28,8 @@ typedef enum {
 @property (nonatomic, assign) float yValue;
 @property (nonatomic, assign) TrackPadInteractionMode interactionMode;
 @property (nonatomic, assign) CGFloat pointRadius;
+
+// Use this if you want the crosshairs to be different from the value point.
+- (void)setXValue:(float)x yValue:(float)y xCrosshair:(float)cx yCrosshair:(float)cy;
 
 @end

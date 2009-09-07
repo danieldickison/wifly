@@ -31,7 +31,7 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
 
 
 @synthesize window;
-@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y, tilt_x, tilt_y;
+@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y, tilt_x, tilt_y, tilt_hold_x, tilt_hold_y, tilt_hold;
 
 
 - (void)setHostAddress:(NSString *)addr
@@ -132,6 +132,12 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
     // Project to the xy plane for pitch & roll.
     tilt_x = 0.5f * (1.0f + rotated[0]);
     tilt_y = 0.5f * (1.0f - rotated[1]);
+    
+    if (!tilt_hold)
+    {
+        tilt_hold_x = tilt_x;
+        tilt_hold_y = tilt_y;
+    }
     
     if (hostAddress)
     {
