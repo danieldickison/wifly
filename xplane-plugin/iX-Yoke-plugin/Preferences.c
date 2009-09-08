@@ -35,7 +35,7 @@ static const iXPreset readonly_presets[3] = {
         {
             {kAxisControlRoll, -1.0, 1.0},
             {kAxisControlPitch, -1.0, 1.0},
-            {kAxisControlYaw, -0.5, 0.5},
+            {kAxisControlYaw, -0.75, 0.75},
             {kAxisControlThrottle, 0.0, 1.0}
         }
     },
@@ -54,7 +54,7 @@ static const iXPreset readonly_presets[3] = {
             {kAxisControlRoll, -1.0, 1.0},
             {kAxisControlPitch, -1.0, 1.0},
             {kAxisControlYaw, -1.0, 1.0},
-            {kAxisControlPropPitch, 10.0, -1.0}
+            {kAxisControlPropPitch, -1.0, 10.0}
         }
     }
 };
@@ -75,7 +75,7 @@ static const int num_prefs = 3;
 
 static iXPref preferences[3] = {
     {"current-preset", kPrefTypeInt, 0},
-    {"auto-pause", kPrefTypeInt, 0},
+    {"auto-pause", kPrefTypeInt, 1},
     {"auto-resume", kPrefTypeInt, 0}
 };
 

@@ -10,7 +10,7 @@ ifeq ($(SYSTEM), Darwin)
     PLATFORM = mac
     PREPROC_MACROS = -DAPL=1 -DIBM=0 -DLIN=0
     PLATFORM_LINKER_FLAGS = -flat_namespace -undefined warning
-    PLATFORM_CODEGEN_FLAGS = -fPIC
+    PLATFORM_CODEGEN_FLAGS = -fPIC -arch i386
 else ifeq ($(SYSTEM), MINGW32_NT-5.1)
     PLATFORM = win
     PREPROC_MACROS = -DAPL=0 -DIBM=1 -DLIN=0

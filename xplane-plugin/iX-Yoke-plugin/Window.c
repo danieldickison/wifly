@@ -46,7 +46,7 @@ void show_window()
         debug("Creating config window...");
         
         int x1=200, y1=530, x2=500, y2=100;
-        window_id = XPCreateWidget(x1, y1, x2, y2, 0, "iX-Yoke", 1, NULL, xpWidgetClass_MainWindow);
+        window_id = XPCreateWidget(x1, y1, x2, y2, 0, "Wi-Fly", 1, NULL, xpWidgetClass_MainWindow);
         XPSetWidgetProperty(window_id, xpProperty_MainWindowHasCloseBoxes, 1);
         XPAddWidgetCallback(window_id, window_callback);
         
