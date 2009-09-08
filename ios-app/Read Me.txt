@@ -12,21 +12,17 @@ The X-Plane plugin acts as a server, to which the iPhone app sends commands.  Th
 TODO
 ----
 
-* Add "hold" back in.
-* Use ENGN_thro instead of ENGN_thro_use?
 * Make server update on every flight loop instead of a fixed rate (20Hz)?
 * Auto-coordinate roll+yaw should move nosewheel steering more.
 * Auditory feedback of tap-drag for better blind interaction.
 * Change color/sound to alert when tilt exceeds tracking bounds.
 * Eye candy: background images, pulsating trackpad dot...etc.
-
-
-Future Ideas
------------
-
 * Center and bounds ideas:
     - Two-finger drag for additional axes, e.g. 3-D cockpit panning.
     - Double-tap to re-center, or for tilt, set tilt center.
     - Double-tap to set current value as the tilt center?
+    - Option to auto-spring back to center.
+    - Null-zone
 * Send instrument readings back to iPhone for display?
-
+* Bonjour
+* Landscape mode with multiple trackpads or buttons
