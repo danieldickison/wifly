@@ -166,8 +166,8 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
     // Add menu for showing config window.
     debug("Adding menu...");
     XPLMMenuID pluginsMenu = XPLMFindPluginsMenu();
-    int subMenuItem = XPLMAppendMenuItem(pluginsMenu, "Wi-Fly", NULL, 1);
-    XPLMMenuID ixYokeMenu = XPLMCreateMenu("Wi-Fly", pluginsMenu, subMenuItem, menu_callback, NULL);
+    int subMenuItem = XPLMAppendMenuItem(pluginsMenu, "Wi-Fly Remote", NULL, 1);
+    XPLMMenuID ixYokeMenu = XPLMCreateMenu("Wi-Fly Remote", pluginsMenu, subMenuItem, menu_callback, NULL);
     XPLMAppendMenuItem(ixYokeMenu, "Setup Window", NULL, 0);
     
     // Register for timed callbacks.
