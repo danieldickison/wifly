@@ -144,8 +144,8 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
         uint8_t buffer[128];
         int i = 0;
         ix_put_tag(buffer, &i, kProtocolVersion1Tag);
-        ix_put_ratio(buffer, &i, tilt_x);
-        ix_put_ratio(buffer, &i, tilt_y);
+        ix_put_ratio(buffer, &i, tilt_hold_x);
+        ix_put_ratio(buffer, &i, tilt_hold_y);
         ix_put_ratio(buffer, &i, touch_x);
         ix_put_ratio(buffer, &i, touch_y);
         NSData *data = [[NSData alloc] initWithBytes:buffer length:i];
