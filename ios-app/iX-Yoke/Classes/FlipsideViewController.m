@@ -37,7 +37,6 @@
          : [NSString stringWithFormat:@"%d", SharedAppDelegate.hostPort]);
 
     tiltView.interactionMode = TrackPadTouchesIgnored;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:SharedAppDelegate];
 }
 
 - (void)viewDidUnload
@@ -48,6 +47,18 @@
     self.tiltView = nil;
     self.doneButton = nil;
     self.helpButton = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    SharedAppDelegate.tilt_hold = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:SharedAppDelegate];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
