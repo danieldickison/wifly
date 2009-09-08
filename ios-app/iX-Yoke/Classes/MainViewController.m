@@ -48,7 +48,7 @@
 
 - (void)tiltUpdated:(NSNotification *)notification
 {
-    [tiltView setXValue:SharedAppDelegate.tilt_hold_x yValue:SharedAppDelegate.tilt_hold_y xCrosshair:SharedAppDelegate.tilt_x yCrosshair:SharedAppDelegate.tilt_y];
+    [tiltView setXValue:SharedAppDelegate.tilt_hold_x yValue:(1.0f - SharedAppDelegate.tilt_hold_y) xCrosshair:SharedAppDelegate.tilt_x yCrosshair:(1.0f - SharedAppDelegate.tilt_y)];
 }
 
 
