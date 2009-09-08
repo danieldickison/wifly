@@ -155,8 +155,8 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
 	gRollRef = XPLMFindDataRef("sim/joystick/yolk_roll_ratio");
 	gYawRef = XPLMFindDataRef("sim/joystick/yolk_heading_ratio");
     gThrottleOverrideRef = XPLMFindDataRef("sim/operation/override/override_throttles");
-    gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro_use");
-    //gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro");
+    //gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro_use");
+    gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro");
     gPropSpeedRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_prop");
     gFlapRef = XPLMFindDataRef("sim/flightmodel/controls/flaprqst");
     gPropRef = XPLMFindDataRef("sim/flightmodel/engine/POINT_pitch_deg");
@@ -348,7 +348,6 @@ void apply_control_value(iXControlAxisRef control)
             XPLMSetDataf(gYawRef, value*0.2);
             break;
         case kAxisControlThrottle:
-            //XPLMSetDatai(gThrottleOverrideRef, 1);
             copy_float_to_array(value, eight_floats, 8);
             XPLMSetDatavf(gThrottleRef, eight_floats, 0, 8);
             break;
@@ -383,7 +382,8 @@ void update_overrides()
     XPLMSetDatai(gRollOverrideRef, override_roll);
     XPLMSetDatai(gYawOverrideRef, override_yaw);
     XPLMSetDatai(gPitchOverrideRef, override_pitch);
-    XPLMSetDatai(gThrottleOverrideRef, override_throttle);
+    // Only set this when using ENGN_thro_use, not for ENGN_thro
+    //XPLMSetDatai(gThrottleOverrideRef, override_throttle);
 }
 
 
