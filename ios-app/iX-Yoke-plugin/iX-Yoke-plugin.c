@@ -143,7 +143,7 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
 	/* Initialize plugin registration and description */
 	strcpy(outName, "Wi-Fly-plugin");
 	strcpy(outSig, "com.danieldickison.wi-fly-plugin");
-	strcpy(outDesc, "Lets the iPhone Wi-Fly app control X-Plane as a remote yoke/joystick.");
+	strcpy(outDesc, "Lets the Wi-Fly iPhone app control X-Plane as a remote yoke/joystick.");
 	
     // Find all the datarefs.
     debug("Finding datarefs...");
