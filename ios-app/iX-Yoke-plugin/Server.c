@@ -20,6 +20,7 @@ volatile long current_update_time = -1;
 volatile int avg_packet_latency = 50;
 char *server_ips = "";
 char *server_hostname = "";
+char *server_error_string = NULL;
 
 
 /****** UDP Server ******/
@@ -35,6 +36,11 @@ int get_packet_rate()
     if (avg_packet_latency == 0) return 20;
     
     return 1000 / avg_packet_latency;
+}
+
+char *get_server_error_string()
+{
+    return server_error_string;
 }
 
 
@@ -96,6 +102,7 @@ void *server_loop(void *arg)
     }
     
     server_msg = "Starting server loop.";
+    server_error_string = NULL;
     
     for (;;) 
     {
@@ -112,11 +119,13 @@ void *server_loop(void *arg)
             uint8_t tag = ix_get_tag(buffer, &i);
             if (tag == kServerKillTag)
             {
+                server_error_string = "Server killed. Disable then re-enable plugin.";
                 server_msg = "Server kill received";
                 goto stop_server;
             }
             else if (tag == kProtocolVersion1Tag)
             {
+                server_error_string = NULL;
                 for (int axis = 0; axis < kNumAxes; axis++)
                 {
                     get_axis((iXControlAxisID)axis)->value = ix_get_ratio(buffer, &i);
@@ -130,7 +139,10 @@ void *server_loop(void *arg)
                                           (1 - PACKET_RATE_SENSITIVITY) * avg_packet_latency);
                 }
             }
-            // else ignore packet
+            else
+            {
+                server_error_string = "New plugin required! http://danieldickison.com/wifly";
+            }
         }
     }
     
