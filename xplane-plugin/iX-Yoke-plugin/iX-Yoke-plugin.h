@@ -82,6 +82,8 @@ void *server_loop(void *arg);
 extern char *server_msg;
 extern char *server_hostname;
 extern char *server_ips;
+char *get_server_error_string();
+
 
 void update_overrides();
 

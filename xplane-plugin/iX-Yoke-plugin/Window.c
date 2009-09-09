@@ -137,7 +137,12 @@ int update_window()
     }
     else
     {
-        XPSetWidgetDescriptor(connection_label_id, "Connection: No signal");
+        char *msg = get_server_error_string();
+        if (msg == NULL)
+        {
+            msg = "Connection: No signal";
+        }
+        XPSetWidgetDescriptor(connection_label_id, msg);
     }
     
     for (int i = 0; i < kNumAxes; i++)
