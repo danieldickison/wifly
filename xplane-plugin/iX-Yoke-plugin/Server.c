@@ -128,7 +128,9 @@ void *server_loop(void *arg)
                 server_error_string = NULL;
                 for (int axis = 0; axis < kNumAxes; axis++)
                 {
-                    get_axis((iXControlAxisID)axis)->value = ix_get_ratio(buffer, &i);
+                    iXControlAxisRef axisRef = get_axis((iXControlAxisID)axis);
+                    axisRef->prev_value = axisRef->value;
+                    axisRef->value = ix_get_ratio(buffer, &i);
                 }
                 int prev_update_time = current_update_time;
                 current_update_time = get_ms_time();

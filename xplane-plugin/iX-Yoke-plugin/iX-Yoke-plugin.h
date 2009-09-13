@@ -105,6 +105,7 @@ typedef enum {
 
 typedef struct {
     iXControlType type;
+    float prev_value;
     float value;
     float min;
     float max;
