@@ -24,10 +24,10 @@ void menu_callback(void *menuRef, void *itemRef);
 // Axes
 
 iXControlAxis _axes[4] = {
-    {kAxisControlRoll, 0.5f, -1.0f, 1.0f, "Tilt X",0,0,0,0},
-    {kAxisControlPitch, 0.5f, -1.0f, 1.0f, "Tilt Y",0,0,0,0},
-    {kAxisControlYaw, 0.5f, -1.0f, 1.0f, "Touch X",0,0,0,0},
-    {kAxisControlThrottle, 0.0f, 0.0f, 1.0f, "Touch Y",0,0,0,0}
+    {kAxisControlRoll, 0.5f, 0.5f, -1.0f, 1.0f, "Tilt X",0,0,0,0},
+    {kAxisControlPitch, 0.5f, 0.5f, -1.0f, 1.0f, "Tilt Y",0,0,0,0},
+    {kAxisControlYaw, 0.5f, 0.5f, -1.0f, 1.0f, "Touch X",0,0,0,0},
+    {kAxisControlThrottle, 0.0f, 0.0f, 0.0f, 1.0f, "Touch Y",0,0,0,0}
 };
 
 iXControlAxisRef get_axis(iXControlAxisID axis_id)
@@ -330,6 +330,9 @@ void copy_float_to_array(float x, float *arr, int n)
 
 void apply_control_value(iXControlAxisRef control)
 {
+    // Only apply changed axes to avoid conflicting with autopilot (autothrottle, in particular).
+    if (control->value == control->prev_value) return;
+    
     float eight_floats[8];
     float value = control->min + control->value * (control->max - control->min);
     switch (control->type)

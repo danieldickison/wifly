@@ -74,9 +74,9 @@ typedef struct {
 static const int num_prefs = 3;
 
 static iXPref preferences[3] = {
-    {"current-preset", kPrefTypeInt, 0},
-    {"auto-pause", kPrefTypeInt, 1},
-    {"auto-resume", kPrefTypeInt, 0}
+    {"current-preset", kPrefTypeInt, (void *)0},
+    {"auto-pause", kPrefTypeInt, (void *)1},
+    {"auto-resume", kPrefTypeInt, (void *)0}
 };
 
 const char * const kPrefCurrentPreset = preferences[0].name;
