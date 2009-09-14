@@ -64,6 +64,7 @@ void *server_loop(void *arg)
     if (-1 == bind(sock, (struct sockaddr *)&addr, sizeof(struct sockaddr_in)))
     {
         server_msg = "Unable to bind server socket.";
+        server_error_string = "Socket error. Disable then re-enable plugin.";
         goto stop_server;
     }
     
@@ -110,6 +111,7 @@ void *server_loop(void *arg)
         if (recv_size < 0)
         {
             server_msg = strerror(errno);
+            server_error_string = "Network error. Disable then re-enable plugin.";
             goto stop_server;
         }
         
@@ -119,8 +121,8 @@ void *server_loop(void *arg)
             uint8_t tag = ix_get_tag(buffer, &i);
             if (tag == kServerKillTag)
             {
+                server_msg = "Server kill received.";
                 server_error_string = "Server killed. Disable then re-enable plugin.";
-                server_msg = "Server kill received";
                 goto stop_server;
             }
             else if (tag == kProtocolVersion1Tag)
