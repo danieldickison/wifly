@@ -29,7 +29,6 @@ TODO
 
 ### Plugin ###
 
-* Only update datarefs when axis actually moved -- this would fix autothrottle.
 * Make server update on every flight loop instead of a fixed rate (20Hz)?
 * Auto-coordinate roll+yaw should move nosewheel steering more.
 * Send instrument readings back to iPhone for display?
