@@ -142,7 +142,7 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "iX-Yoke-plugin" */;
+			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "Wi-Fly-plugin" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* iX-Yoke-plugin */;
@@ -284,7 +284,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "iX-Yoke-plugin" */ = {
+		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "Wi-Fly-plugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB916508733D950010E9CD /* Debug */,
