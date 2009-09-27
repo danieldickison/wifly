@@ -26,10 +26,3 @@ TODO
 * Auditory feedback of tap-drag for better blind interaction.
 * Eye candy: background images, pulsating trackpad dot...etc.
 * Landscape mode with multiple trackpads or buttons
-
-### Plugin ###
-
-* Make server update on every flight loop instead of a fixed rate (20Hz)?
-* Auto-coordinate roll+yaw should move nosewheel steering more.
-* Send instrument readings back to iPhone for display?
-* Bonjour
