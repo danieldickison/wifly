@@ -24,12 +24,12 @@ else ifeq ($(SYSTEM), Linux)
 endif
 
 CC = gcc
-INCLUDES = -ISDK/CHeaders/Widgets -ISDK/CHeaders/XPLM -IThirdParty
+INCLUDES = -ISDK/CHeaders/Widgets -ISDK/CHeaders/XPLM -IThirdParty -I.
 WARNING_FLAGS = -Wall -Wno-sign-compare -Wno-unknown-pragmas
 CFLAGS = -std=c99 $(PLATFORM_CODEGEN_FLAGS) $(WARNING_FLAGS) $(PREPROC_MACROS) $(INCLUDES)
 CXXFLAGS = $(PLATFORM_CODEGEN_FLAGS) $(WARNING_FLAGS) $(PREPROC_MACROS) $(INCLUDES)
 LDFLAGS = -dynamiclib -shared -static-libgcc $(PLATFORM_CODEGEN_FLAGS) $(PLATFORM_LINKER_FLAGS)
-OBJECTS = iX-Yoke-plugin.o Preferences.o Server.o Window.o bsd-strlcat.o ThirdParty/XPListBox.o ThirdParty/XPPopups.o
+OBJECTS = src/iX-Yoke-plugin.o src/Preferences.o src/Server.o src/Window.o src/bsd-strlcat.o ThirdParty/XPListBox.o ThirdParty/XPPopups.o
 PRODUCT = Wi-Fly-$(PLATFORM).xpl
 
 
