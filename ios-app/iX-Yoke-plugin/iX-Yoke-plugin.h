@@ -70,23 +70,17 @@ int MacToUnixPath(const char * inPath, char * outPath, int outPathMaxLen);
 
 void debug(char *str);
 
-
-#if IBM
-void server_loop(void *arg);
-extern HANDLE server_thread;
-#else
-extern pthread_t server_thread;
-void *server_loop(void *arg);
-#endif
-
-extern char *server_msg;
-extern char *server_hostname;
-extern char *server_ips;
-char *get_server_error_string();
-
-
 void update_overrides();
 
+
+
+// Server.c
+
+void start_server();
+void stop_server();
+char *get_server_error_string(); // Returns NULL if no msg.
+void get_server_info(char *hostname, size_t hostname_size,
+                     char *ips, size_t ips_size);
 
 
 // The display strings corresponding to iXControlType.

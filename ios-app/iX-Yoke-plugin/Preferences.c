@@ -126,7 +126,7 @@ void load_prefs()
         // Start of presets section.
         if (strstr(buffer, "[PRESETS]") == buffer)
         {
-            debug("Loading presets");
+            debug("Loading presets...");
             process_presets = 1;
             continue;
         }

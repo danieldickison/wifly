@@ -16,6 +16,8 @@
 
 // Callbacks
 
+long previous_packet_time = -1;
+int connected = 1;
 float flight_loop_callback(float inElapsedSinceLastCall, float inElapsedTimeSinceLastFlightLoop, int inCounter, void *inRefcon); 
 void menu_callback(void *menuRef, void *itemRef);
 
@@ -52,22 +54,6 @@ XPLMDataRef gPropRef = NULL;
 XPLMDataRef gFlapRef = NULL;
 XPLMDataRef gNoseSteerRef = NULL;
 XPLMDataRef gPausedRef = NULL;
-
-
-
-// Server etc.
-#if IBM
-HANDLE server_thread = NULL;
-void server_loop(LPVOID pParameter);
-#else
-pthread_t server_thread = NULL;
-void *server_loop(void* pParameter);
-#endif
-
-char *server_msg = NULL;
-char *server_ip = NULL;
-
-int connected = 1;
 
 
 void apply_control_value(iXControlAxisRef control);
@@ -170,12 +156,6 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
     XPLMMenuID ixYokeMenu = XPLMCreateMenu("Wi-Fly Remote", pluginsMenu, subMenuItem, menu_callback, NULL);
     XPLMAppendMenuItem(ixYokeMenu, "Setup Window", NULL, 0);
     
-    // Register for timed callbacks.
-    debug("Registering callback...");
-    XPLMRegisterFlightLoopCallback(flight_loop_callback,
-                                   1.0, // Start in a second...
-                                   NULL);
-    
 	return 1;
 }
 
@@ -185,8 +165,6 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
  */
 PLUGIN_API void	XPluginStop(void)
 {
-	XPLMUnregisterFlightLoopCallback(flight_loop_callback, NULL);
-    destroy_window();
 }
 
 
@@ -196,15 +174,16 @@ PLUGIN_API void	XPluginStop(void)
 PLUGIN_API int XPluginEnable(void)
 {
     debug("Starting server");
-#if IBM
-	    WSADATA wsaData;
-		WSAStartup(MAKEWORD(1, 1), &wsaData);
-		_beginthread(server_loop, 0, NULL);
-#else
-	pthread_create(&server_thread, NULL, server_loop, NULL);
-#endif
-    
+    previous_packet_time = -1;
+    connected = 1;
+    start_server();
     load_prefs();
+    
+    // Register for timed callbacks.
+    debug("Registering callback...");
+    XPLMRegisterFlightLoopCallback(flight_loop_callback,
+                                   1.0, // Start in a second...
+                                   NULL);
 	return 1;
 }
 
@@ -214,6 +193,9 @@ PLUGIN_API int XPluginEnable(void)
  */
 PLUGIN_API void XPluginDisable(void)
 {
+	XPLMUnregisterFlightLoopCallback(flight_loop_callback, NULL);
+    destroy_window();
+    
     XPLMSetDatai(gStickOverrideRef, 0);
     XPLMSetDatai(gPitchOverrideRef, 0);
     XPLMSetDatai(gYawOverrideRef, 0);
@@ -221,40 +203,7 @@ PLUGIN_API void XPluginDisable(void)
     XPLMSetDatai(gThrottleOverrideRef, 0);
     
     debug("Stopping server");
-    
-    // Send a kill tag to local server port.
-    int sock;
-    struct sockaddr_in sa;
-    int bytes_sent;
-    int buffer_length = 1;
-    int8_t buffer[1];
-    buffer[0] = kServerKillTag;
-    
-    sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if (-1 == sock) /* if socket failed to initialize, exit */
-    {
-        debug("Error creating socket to send server kill message");
-        goto server_kill_end;
-    }
-    
-    memset(&sa, 0, sizeof(sa));
-    sa.sin_family = AF_INET;
-    sa.sin_addr.s_addr = htonl(0x7F000001);
-    sa.sin_port = htons(kServerPort);
-    
-    bytes_sent = sendto(sock, buffer, buffer_length, 0, (struct sockaddr*)&sa, sizeof (struct sockaddr_in));
-    if (bytes_sent < 0)
-    {
-        debug(strerror(errno));
-        goto server_kill_end;
-    }
-    
-server_kill_end:
-    closesocket(sock);
-	// Should we try to kill the server thread by another means?
-#if IBM
-    WSACleanup();
-#endif
+    stop_server();
 }
 
 
@@ -274,7 +223,6 @@ float flight_loop_callback(float inElapsedSinceLastCall,
                            int inCounter,
                            void *inRefcon)
 {
-    static long previous_packet_time = -1;
     long packet_time = get_last_packet_time();
     
     // Pause and show window if no update in a second.
@@ -308,12 +256,6 @@ float flight_loop_callback(float inElapsedSinceLastCall,
         
         previous_packet_time = packet_time;
         connected = 1;
-    }
-    
-    if (server_msg != NULL)
-    {
-        debug(server_msg);
-        server_msg = NULL;
     }
     
     update_window();    
