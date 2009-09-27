@@ -56,7 +56,7 @@
 		0867D691FE84028FC02AAC07 /* iX-Yoke-plugin */ = {
 			isa = PBXGroup;
 			children = (
-				0B6341480FA8C64000C511A9 /* iX_Yoke_Network.h */,
+				0BA805AF106FD5480076932C /* Headers */,
 				0B1DB7740FAE7FB900B867C5 /* ThirdParty */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
@@ -76,15 +76,14 @@
 		08FB77ACFE841707C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				0B8C6B2C0FB6423100B67754 /* iX-Yoke-plugin.h */,
 				4AED38EA0DCCE6F700B89CAC /* iX-Yoke-plugin.c */,
 				0B8C6B280FB6421700B67754 /* Server.c */,
 				0B8C6B3A0FB7413800B67754 /* Window.c */,
 				0B8C6E4A0FB7E00600B67754 /* Preferences.c */,
 				0BF5A978102E48F100CCADD3 /* bsd-strlcat.c */,
-				32BAE0B70371A74B00C91783 /* iX-Yoke-plugin_Prefix.pch */,
 			);
 			name = Source;
+			path = src;
 			sourceTree = "<group>";
 		};
 		0B1DB7740FAE7FB900B867C5 /* ThirdParty */ = {
@@ -95,6 +94,16 @@
 				0B1DB7770FAE7FB900B867C5 /* XPWidgetsEx.h */,
 			);
 			path = ThirdParty;
+			sourceTree = "<group>";
+		};
+		0BA805AF106FD5480076932C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				0B6341480FA8C64000C511A9 /* iX_Yoke_Network.h */,
+				0B8C6B2C0FB6423100B67754 /* iX-Yoke-plugin.h */,
+				32BAE0B70371A74B00C91783 /* iX-Yoke-plugin_Prefix.pch */,
+			);
+			name = Headers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
