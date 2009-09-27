@@ -1,0 +1,20 @@
+Wi-Fly-plugin
+=======
+
+Daniel Dickison <danieldickison@gmail.com>
+2009
+
+This is an X-Plane plugin and an iPhone app that lets you use the iPhone as a remote control yoke for X-Plane.
+
+The X-Plane plugin acts as a server, to which the iPhone app sends commands.  This is currently implemented simply as a UDP socket with no verification or connection acknowledgement.
+
+
+TODO
+----
+
+### Plugin ###
+
+* Make server update on every flight loop instead of a fixed rate (20Hz)?
+* Auto-coordinate roll+yaw should move nosewheel steering more.
+* Send instrument readings back to iPhone for display?
+* Bonjour
