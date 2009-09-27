@@ -32,6 +32,7 @@ void destroy_window()
 {
     if (window_id != 0)
     {
+        debug("Destroying config window...");
         XPDestroyWidget(window_id, 1);
         window_id = 0;
     }
@@ -310,13 +311,18 @@ int pause_checkbox_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long
 
 void update_settings_display()
 {
+    char hostname[256];
+    char ips[256];
+    get_server_info(hostname, 256, ips, 256);
+    
     char label[256];
+
     strcpy(label, "Host Name: ");
-    strlcat(label, server_hostname, 256);
+    strlcat(label, hostname, 256);
     XPSetWidgetDescriptor(host_label_id, label);
     
     strcpy(label, "Host IP(s): ");
-    strlcat(label, server_ips, 256);
+    strlcat(label, ips, 256);
     XPSetWidgetDescriptor(ip_label_id, label);
     
     char preset_menu_str[65*48];
