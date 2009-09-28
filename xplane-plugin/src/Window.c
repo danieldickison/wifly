@@ -30,6 +30,7 @@ int axis_popup_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inP
 int window_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
 int textfield_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
 int pause_checkbox_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
+int refresh_button_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
 
 XPWidgetID window_id = 0;
 XPWidgetID preset_popup_id = 0;
@@ -61,7 +62,7 @@ void show_window()
         // Create config window.
         debug("Creating config window...");
         
-        int x1=200, y1=530, x2=500, y2=100;
+        int x1=200, y1=530, x2=500, y2=70;
         window_id = XPCreateWidget(x1, y1, x2, y2, 0, "Wi-Fly Remote", 1, NULL, xpWidgetClass_MainWindow);
         XPSetWidgetProperty(window_id, xpProperty_MainWindowHasCloseBoxes, 1);
         XPAddWidgetCallback(window_id, window_callback);
@@ -69,7 +70,7 @@ void show_window()
         x1 += 10; x2 -= 10;
         y1 -= 30; y2 += 10;
         
-        // Add IP label.
+        // Add server info labels.
         host_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Host Name:", 0, window_id, xpWidgetClass_Caption);
         y1 -= 17;
         ip_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Host IP(s):", 0, window_id, xpWidgetClass_Caption);
@@ -81,6 +82,14 @@ void show_window()
         connection_label_id = XPCreateWidget(x1, y1, x2, y1-20, 1, "Connection:", 0, window_id, xpWidgetClass_Caption);
         y1 -= 23;
         
+        // Add refresh button.
+        XPWidgetID refresh_button = XPCreateWidget(x1, y1, x1+100, y1-20, 1, "Refresh", 0, window_id, xpWidgetClass_Button);
+        XPSetWidgetProperty(refresh_button, xpProperty_ButtonType, xpButtonBehaviorPushButton);
+        XPSetWidgetProperty(refresh_button, xpProperty_ButtonBehavior, xpButtonBehaviorPushButton);
+        XPAddWidgetCallback(refresh_button, refresh_button_callback);
+        y1 -= 30;
+        
+        // Add check boxes.
         XPCreateWidget(x1+20, y1, x2, y1-20, 1, "Auto-pause when disconnected", 0, window_id, xpWidgetClass_Caption);
         auto_pause_checkbox_id = XPCreateWidget(x1, y1, x1+20, y1-20, 1, "", 0, window_id, xpWidgetClass_Button);
         XPSetWidgetProperty(auto_pause_checkbox_id, xpProperty_ButtonType, xpButtonBehaviorCheckBox);
@@ -317,6 +326,17 @@ int pause_checkbox_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long
             set_pref_int(kPrefAutoResume, inParam2);
         }
         save_prefs();
+        return 1;
+    }
+    return 0;
+}
+
+
+int refresh_button_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2)
+{
+    if (inMessage == xpMsg_PushButtonPressed)
+    {
+        update_settings_display();
         return 1;
     }
     return 0;
