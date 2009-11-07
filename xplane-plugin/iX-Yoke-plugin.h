@@ -84,7 +84,7 @@ long get_ms_time();
 int MacToUnixPath(const char * inPath, char * outPath, int outPathMaxLen);
 #endif
 
-void debug(char *str);
+void iXDebug(char *str);
 
 void update_overrides();
 

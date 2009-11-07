@@ -96,7 +96,7 @@ void stop_server()
     sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (-1 == sock) /* if socket failed to initialize, exit */
     {
-        debug("Error creating socket to send server kill message");
+        iXDebug("Error creating socket to send server kill message");
         goto server_kill_end;
     }
     
@@ -108,7 +108,7 @@ void stop_server()
     bytes_sent = sendto(sock, buffer, buffer_length, 0, (struct sockaddr*)&sa, sizeof (struct sockaddr_in));
     if (bytes_sent < 0)
     {
-        debug(strerror(errno));
+        iXDebug(strerror(errno));
         goto server_kill_end;
     }
     
@@ -124,7 +124,7 @@ server_kill_end:
 void get_server_info(char *hostname, size_t hostname_size,
                      char *ips, size_t ips_size)
 {
-    debug("Updating server info");
+    iXDebug("Updating server info");
     // Retrieve this machine's IP addresses.
     // Using getifaddrs() would handle every network adapter, but is not Win32-compatible.
     // This method (using gethostname() and gethostbyname()) is probably good enough for most cases.

@@ -75,7 +75,7 @@ XPLMDataRef gPausedRef = NULL;
 void apply_control_value(iXControlAxisRef control);
 
 
-void debug(char *str)
+void iXDebug(char *str)
 {
     char cat[256] = "iX-Yoke: ";
     strlcat(cat, str, 256-1);
@@ -151,7 +151,7 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
 	strcpy(outDesc, "Lets the Wi-Fly iPhone app control X-Plane as a remote yoke/joystick.");
 	
     // Find all the datarefs.
-    debug("Finding datarefs...");
+    iXDebug("Finding datarefs...");
 	gStickOverrideRef = XPLMFindDataRef("sim/operation/override/override_joystick");
 	gPitchOverrideRef = XPLMFindDataRef("sim/operation/override/override_joystick_pitch");
 	gRollOverrideRef = XPLMFindDataRef("sim/operation/override/override_joystick_roll");
@@ -170,7 +170,7 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
     gPausedRef = XPLMFindDataRef("sim/time/paused");
     
     // Add menu for showing config window.
-    debug("Adding menu...");
+    iXDebug("Adding menu...");
     XPLMMenuID pluginsMenu = XPLMFindPluginsMenu();
     int subMenuItem = XPLMAppendMenuItem(pluginsMenu, "Wi-Fly Remote", NULL, 1);
     XPLMMenuID ixYokeMenu = XPLMCreateMenu("Wi-Fly Remote", pluginsMenu, subMenuItem, menu_callback, NULL);
@@ -193,14 +193,14 @@ PLUGIN_API void	XPluginStop(void)
  */
 PLUGIN_API int XPluginEnable(void)
 {
-    debug("Starting server");
+    iXDebug("Starting server");
     previous_packet_time = -1;
     connected = 1;
     start_server();
     load_prefs();
     
     // Register for timed callbacks.
-    debug("Registering callback...");
+    iXDebug("Registering callback...");
     XPLMRegisterFlightLoopCallback(flight_loop_callback,
                                    1.0, // Start in a second...
                                    NULL);
@@ -222,7 +222,7 @@ PLUGIN_API void XPluginDisable(void)
     XPLMSetDatai(gRollOverrideRef, 0);
     XPLMSetDatai(gThrottleOverrideRef, 0);
     
-    debug("Stopping server");
+    iXDebug("Stopping server");
     stop_server();
 }
 

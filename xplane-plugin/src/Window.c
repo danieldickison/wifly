@@ -48,7 +48,7 @@ void destroy_window()
 {
     if (window_id != 0)
     {
-        debug("Destroying config window...");
+        iXDebug("Destroying config window...");
         XPDestroyWidget(window_id, 1);
         window_id = 0;
     }
@@ -60,7 +60,7 @@ void show_window()
     if (window_id == 0)
     {
         // Create config window.
-        debug("Creating config window...");
+        iXDebug("Creating config window...");
         
         int x1=200, y1=530, x2=500, y2=70;
         window_id = XPCreateWidget(x1, y1, x2, y2, 0, "Wi-Fly Remote", 1, NULL, xpWidgetClass_MainWindow);
