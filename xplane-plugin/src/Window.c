@@ -109,11 +109,11 @@ void show_window()
         XPSetWidgetProperty(subwin, xpProperty_SubWindowType, xpSubWindowStyle_SubWindow);
         XPAddWidgetCallback(subwin, XPUFixedLayout);
         
-        x1 += 10; x2 -= 10; y1 -= 10; y2 = y1;
+        x1 += 10; x2 -= 10; y1 -= 10; y2 = y1-25;
         
         // Add preset controls.
         XPCreateWidget(x1, y1, x1+50, y1-20, 1, "Preset:", 0, subwin, xpWidgetClass_Caption);
-        preset_popup_id = XPCreatePopup(x1+55, y1, x2, y1-25, 1, "Presets", subwin);
+        preset_popup_id = XPCreatePopup(x1+55, y1, x2, y2, 1, "Presets", subwin);
         XPAddWidgetCallback(preset_popup_id, preset_popup_callback);
         
         y1 -= 30; y2 = y1;
