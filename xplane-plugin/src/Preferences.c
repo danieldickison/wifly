@@ -122,7 +122,7 @@ FILE *get_prefs_file(char *mode)
 
 void load_prefs()
 {
-    debug("Loading prefs...");
+    iXDebug("Loading prefs...");
     
     FILE *f = get_prefs_file("r");
     if (!f) goto fail;
@@ -132,19 +132,13 @@ void load_prefs()
     if (version != PREFS_VERSION) goto fail;
     
     char buffer[256];
-    int process_presets = 0;
     while (fgets(buffer, 256, f))
     {
         // Skip blank line.
         if (strlen(buffer) <= 1) continue;
         
         // Start of presets section.
-        if (strstr(buffer, "[PRESETS]") == buffer)
-        {
-            debug("Loading presets...");
-            process_presets = 1;
-            continue;
-        }
+        if (strstr(buffer, "[PRESETS]") == buffer) break;
         
         // Split buffer into name and data by the equals sign.
         char *name_end = strstr(buffer, " = ");
@@ -154,43 +148,89 @@ void load_prefs()
         char *name = buffer;
         char *data = name_end + 3;
 
-        if (process_presets)
+        iXPref *pref = get_pref(name);
+        if (pref == NULL)
+        {
+            iXDebug("Unknown pref:");
+            iXDebug(name);
+            iXDebug(data);
+            continue;
+        }
+        if (pref->type == kPrefTypeInt)
+        {
+            pref->value = (void *)strtol(data, NULL, 10);
+        }
+        else if (pref->type == kPrefTypeString)
         {
             // TODO
         }
-        else
+    }
+    
+    iXDebug("Loading presets...");
+    int preset_index = 0;
+    while(fgets(buffer, 256, f))
+    {
+        // Skip blank line.
+        if (strlen(buffer) <= 1) continue;
+        
+        // Strip off newline from the name.
+        if (buffer[strlen(buffer) - 1] == '\n')
+            buffer[strlen(buffer) - 1] = '\0';
+        strcpy(presets[preset_index].name, buffer);
+        iXDebug(buffer);
+        
+        int num_axes;
+        if (fscanf(f, "%d ", &num_axes) != 1)
         {
-            iXPref *pref = get_pref(name);
-            if (pref == NULL)
+            iXDebug("Invalid axis count encountered.");
+            goto presets_end;
+        }
+        if (num_axes > kNumAxes)
+        {
+            iXDebug("Too many axes specified; extras will be ignored.");
+        }
+        for (int axis_index = 0; axis_index < num_axes; axis_index++)
+        {
+            if (fgets(buffer, 256, f) == NULL)
             {
-                debug("Unknown pref:");
-                debug(name);
-                debug(data);
-                continue;
+                iXDebug("Error or EOF while parsing preset!");
+                goto presets_end;
             }
-            if (pref->type == kPrefTypeInt)
+            int type;
+            float min, max;
+            if (sscanf(buffer, "%d %f %f ", &type, &min, &max) != 3)
             {
-                pref->value = (void *)strtol(data, NULL, 10);
+                iXDebug("Invalid preset axis data:");
+                iXDebug(buffer);
+                goto presets_end;
             }
-            else if (pref->type == kPrefTypeString)
+            if (axis_index < kNumAxes)
             {
-                // TODO
+                presets[preset_index].axes[axis_index].type = type;
+                presets[preset_index].axes[axis_index].min = min;
+                presets[preset_index].axes[axis_index].max = max;
             }
         }
+        
+        preset_index++;
     }
+presets_end:
+    num_presets = preset_index;
+    
     set_current_preset(get_pref_int(kPrefCurrentPreset));
     fclose(f);
     return;
     
 fail:
-    debug("load_prefs failed");
+    iXDebug("load_prefs failed");
     set_current_preset(0);
+    if (f) fclose(f);
 }
 
 
 void save_prefs()
 {
-    debug("Saving prefs...");
+    iXDebug("Saving prefs...");
     
     FILE *f = get_prefs_file("w");
     if (!f) return;
@@ -209,17 +249,16 @@ void save_prefs()
         }
     }
     
-    fwrite("\n[PRESETS]\n\n", sizeof(char), 12, f);
+    fwrite("\n[PRESETS]\n", sizeof(char), 12, f);
     for (int i = 0; i < num_presets; i++)
     {
-        fprintf(f, "%s = ", presets[i].name);
+        fprintf(f, "\n%s\n%d\n", presets[i].name, kNumAxes);
         for (int j = 0; j < kNumAxes; j++)
         {
-            fprintf(f, "(%d %f %f) ",
+            fprintf(f, "%d %f %f\n",
                     presets[i].axes[j].type,
                     (double)presets[i].axes[j].min,
                     (double)presets[i].axes[j].max);
-            fwrite("\n", sizeof(char), 1, f);
         }
     }
     
