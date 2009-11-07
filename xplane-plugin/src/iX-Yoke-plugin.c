@@ -67,6 +67,7 @@ XPLMDataRef gThrottleRef = NULL;
 XPLMDataRef gPropSpeedRef = NULL;
 XPLMDataRef gPropRef = NULL;
 XPLMDataRef gFlapRef = NULL;
+XPLMDataRef gSpdbrkRef = NULL;
 XPLMDataRef gNoseSteerRef = NULL;
 XPLMDataRef gPausedRef = NULL;
 
@@ -121,13 +122,16 @@ int MacToUnixPath(const char * inPath, char * outPath, int outPathMaxLen)
 {
     CFStringRef inStr = CFStringCreateWithCString(kCFAllocatorDefault, inPath, kCFStringEncodingMacRoman);
     if (inStr == NULL) return -1;
+    
     CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, inStr, kCFURLHFSPathStyle,0);
-    CFStringRef outStr = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
-    if (!CFStringGetCString(outStr, outPath, outPathMaxLen, kCFURLPOSIXPathStyle)) return -1;
-    CFRelease(outStr);
-    CFRelease(url);
     CFRelease(inStr);
-    return 0;
+    
+    CFStringRef outStr = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
+    CFRelease(url);
+    
+    int success = CFStringGetCString(outStr, outPath, outPathMaxLen, kCFURLPOSIXPathStyle);
+    CFRelease(outStr);
+    return (success ? 0 : -1);
 }
 #endif
 
@@ -160,6 +164,7 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
     gThrottleRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_thro");
     gPropSpeedRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_prop");
     gFlapRef = XPLMFindDataRef("sim/flightmodel/controls/flaprqst");
+    gSpdbrkRef = XPLMFindDataRef("sim/flightmodel/controls/sbrkrqst");
     gPropRef = XPLMFindDataRef("sim/flightmodel/engine/POINT_pitch_deg");
     gNoseSteerRef = XPLMFindDataRef("sim/cockpit2/controls/nosewheel_steer_on");
     gPausedRef = XPLMFindDataRef("sim/time/paused");
@@ -314,6 +319,9 @@ void apply_control_value(iXControlAxisRef control)
         case kAxisControlPropPitch:
             copy_float_to_array(value, eight_floats, 8);
             XPLMSetDatavf(gPropRef, eight_floats, 0, 8);
+            break;
+        case kAxisControlSpeedBrake:
+            XPLMSetDataf(gSpdbrkRef, value);
             break;
         case kAxisControlOff:
             // Do nothing.

@@ -100,7 +100,7 @@ void get_server_info(char *hostname, size_t hostname_size,
 
 
 // The display strings corresponding to iXControlType.
-#define axis_choices "Off;Pitch;Roll;Yaw;Roll and Yaw;Throttle;Prop Pitch"
+#define axis_choices "Off;Pitch;Roll;Yaw;Roll and Yaw;Throttle;Prop Pitch;Speed Brake"
 
 typedef enum {
     kAxisControlOff = 0,
@@ -109,7 +109,8 @@ typedef enum {
     kAxisControlYaw,
     kAxisControlRollAndYaw,
     kAxisControlThrottle,
-    kAxisControlPropPitch
+    kAxisControlPropPitch,
+    kAxisControlSpeedBrake
 } iXControlType;
 
 
