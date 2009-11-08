@@ -68,6 +68,7 @@ XPLMDataRef gPropSpeedRef = NULL;
 XPLMDataRef gPropRef = NULL;
 XPLMDataRef gFlapRef = NULL;
 XPLMDataRef gSpdbrkRef = NULL;
+XPLMDataRef gThrustVectorRef = NULL;
 XPLMDataRef gNoseSteerRef = NULL;
 XPLMDataRef gPausedRef = NULL;
 
@@ -165,6 +166,7 @@ PLUGIN_API int XPluginStart(char *outName, char *outSig, char *outDesc)
     gPropSpeedRef = XPLMFindDataRef("sim/flightmodel/engine/ENGN_prop");
     gFlapRef = XPLMFindDataRef("sim/flightmodel/controls/flaprqst");
     gSpdbrkRef = XPLMFindDataRef("sim/flightmodel/controls/sbrkrqst");
+    gThrustVectorRef = XPLMFindDataRef("sim/flightmodel/controls/vectrqst");
     gPropRef = XPLMFindDataRef("sim/flightmodel/engine/POINT_pitch_deg");
     gNoseSteerRef = XPLMFindDataRef("sim/cockpit2/controls/nosewheel_steer_on");
     gPausedRef = XPLMFindDataRef("sim/time/paused");
@@ -322,6 +324,9 @@ void apply_control_value(iXControlAxisRef control)
             break;
         case kAxisControlSpeedBrake:
             XPLMSetDataf(gSpdbrkRef, value);
+            break;
+        case kAxisControlVector:
+            XPLMSetDataf(gThrustVectorRef, value);
             break;
         case kAxisControlOff:
             // Do nothing.
