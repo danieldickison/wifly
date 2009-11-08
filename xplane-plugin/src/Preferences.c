@@ -41,7 +41,7 @@ typedef struct {
 
 
 static int num_presets = 0;
-static iXPreset presets[32];
+static iXPreset presets[MAX_USER_PRESETS];
 
 static const int num_readonly_presets = 3;
 static const iXPreset readonly_presets[3] = {
@@ -266,18 +266,24 @@ void save_prefs()
 }
 
 
-int get_preset_names(char **outNames)
+int get_preset_names(iXPresetType types, char **outNames)
 {
     int i = 0;
-    for (int j = 0; j < num_readonly_presets; j++)
+    if (types & kPresetTypeReadOnly)
     {
-        outNames[i++] = (char*)readonly_presets[j].name;
+        for (int j = 0; j < num_readonly_presets; j++)
+        {
+            outNames[i++] = (char*)readonly_presets[j].name;
+        }
     }
-    for (int j = 0; j < num_presets; j++)
+    if (types & kPresetTypeUser)
     {
-        outNames[i++] = (char*)presets[j].name;
+        for (int j = 0; j < num_presets; j++)
+        {
+            outNames[i++] = (char*)presets[j].name;
+        }
     }
-    return num_presets + num_readonly_presets;
+    return i;
 }
 
 
@@ -311,8 +317,15 @@ void set_current_preset(int i)
 }
 
 
-void save_preset_as(const char *inName)
+void save_preset(int preset_index, const char *inName)
 {
+    if (preset_index > num_presets ||
+        preset_index >= 32)
+    {
+        iXDebug("New preset index out of bounds!");
+        return;
+    }
+    
     iXPreset new_preset;
     strncpy(new_preset.name, inName, 64);
     new_preset.name[63] = '\0';
@@ -324,12 +337,9 @@ void save_preset_as(const char *inName)
         new_preset.axes[i].max = control->max;
     }
     
-    // On overflow, just replace the last preset.  Hacky, but I think good enough for now.
-    if (num_presets == 32) num_presets--;
-    
-    presets[num_presets] = new_preset;
-    set_pref_int(kPrefCurrentPreset, num_readonly_presets + num_presets);
-    num_presets++;
+    presets[preset_index] = new_preset;
+    set_pref_int(kPrefCurrentPreset, num_readonly_presets + preset_index);
+    if (preset_index == num_presets) num_presets++;
     save_prefs();
 }
 

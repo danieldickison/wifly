@@ -31,6 +31,11 @@ int window_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam
 int textfield_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
 int pause_checkbox_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
 int refresh_button_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
+int delete_button_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
+int save_button_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
+
+void get_preset_menu_str(char *outStr);
+void update_settings_display();
 
 XPWidgetID window_id = 0;
 XPWidgetID preset_popup_id = 0;
@@ -39,9 +44,20 @@ XPWidgetID ip_label_id = 0;
 XPWidgetID connection_label_id = 0;
 XPWidgetID auto_pause_checkbox_id = 0;
 XPWidgetID auto_resume_checkbox_id = 0;
+XPWidgetID save_button_id = 0;
+XPWidgetID delete_button_id = 0;
 
-void get_preset_menu_str(char *outStr);
-void update_settings_display();
+void show_save_preset_window();
+void destroy_save_preset_window();
+int get_save_preset_menu_str(char *outStr);
+
+int save_preset_confirm_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
+int save_preset_cancel_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2);
+
+XPWidgetID save_preset_window_id = 0;
+XPWidgetID save_preset_textfield_id = 0;
+XPWidgetID save_preset_popup_id = 0;
+
 
 
 void destroy_window()
@@ -62,7 +78,7 @@ void show_window()
         // Create config window.
         iXDebug("Creating config window...");
         
-        int x1=200, y1=530, x2=500, y2=70;
+        int x1=200, y1=530, x2=500, y2=40;
         window_id = XPCreateWidget(x1, y1, x2, y2, 0, "Wi-Fly Remote", 1, NULL, xpWidgetClass_MainWindow);
         XPSetWidgetProperty(window_id, xpProperty_MainWindowHasCloseBoxes, 1);
         XPAddWidgetCallback(window_id, window_callback);
@@ -115,6 +131,17 @@ void show_window()
         XPCreateWidget(x1, y1, x1+50, y1-20, 1, "Preset:", 0, subwin, xpWidgetClass_Caption);
         preset_popup_id = XPCreatePopup(x1+55, y1, x2, y2, 1, "Presets", subwin);
         XPAddWidgetCallback(preset_popup_id, preset_popup_callback);
+        y1 -= 30;
+        
+        // Add preset save/delete buttons.
+        delete_button_id = XPCreateWidget(x2-170, y1, x2-90, y1-20, 1, "Delete", 0, window_id, xpWidgetClass_Button);
+        XPSetWidgetProperty(delete_button_id, xpProperty_ButtonType, xpButtonBehaviorPushButton);
+        XPSetWidgetProperty(delete_button_id, xpProperty_ButtonBehavior, xpButtonBehaviorPushButton);
+        XPAddWidgetCallback(delete_button_id, delete_button_callback);
+        save_button_id = XPCreateWidget(x2-80, y1, x2, y1-20, 1, "Save...", 0, window_id, xpWidgetClass_Button);
+        XPSetWidgetProperty(save_button_id, xpProperty_ButtonType, xpButtonBehaviorPushButton);
+        XPSetWidgetProperty(save_button_id, xpProperty_ButtonBehavior, xpButtonBehaviorPushButton);
+        XPAddWidgetCallback(save_button_id, save_button_callback);
         
         y1 -= 30; y2 = y1;
         
@@ -343,6 +370,29 @@ int refresh_button_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long
 }
 
 
+int delete_button_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2)
+{
+    if (inMessage == xpMsg_PushButtonPressed)
+    {
+        delete_preset(current_preset());
+        update_settings_display();
+        return 1;
+    }
+    return 0;
+}
+
+
+int save_button_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2)
+{
+    if (inMessage == xpMsg_PushButtonPressed)
+    {
+        show_save_preset_window();
+        return 1;
+    }
+    return 0;
+}
+
+
 
 void update_settings_display()
 {
@@ -388,7 +438,7 @@ void update_settings_display()
 void get_preset_menu_str(char *outStr)
 {
     char *names[48];
-    int n = get_preset_names(names);
+    int n = get_preset_names(kPresetTypeBoth, names);
     strcpy(outStr, "Custom");
     for (int i = 0; i < n; i++)
     {
@@ -397,3 +447,115 @@ void get_preset_menu_str(char *outStr)
     }
 }
 
+
+////// Save Preset Window //////
+
+void show_save_preset_window()
+{
+    if (save_preset_window_id == 0)
+    {
+        // Create config window.
+        iXDebug("Creating save preset window...");
+        
+        int x1, y1, x2, y2;
+        XPGetWidgetGeometry(window_id, &x1, &y1, &x2, &y2);
+        x1 += 20; x2 += 40;
+        y1 -= 20; y2 = y1 - 130;
+        
+        save_preset_window_id = XPCreateWidget(x1, y1, x2, y2, 0, "Wi-Fly - Save Preset", 1, NULL, xpWidgetClass_MainWindow);
+        
+        x1 += 10; x2 -= 10;
+        y1 -= 30; y2 = y1-20;
+        
+        // Add name text field.
+        XPCreateWidget(x1, y1, x1+50, y2, 1, "Save As:", 0, save_preset_window_id, xpWidgetClass_Caption);
+        save_preset_textfield_id = XPCreateWidget(x1+60, y1, x2, y2, 1, "Untitled", 0, save_preset_window_id, xpWidgetClass_TextField);
+        
+        y1 -= 30; y2 -= 30;
+        
+        // Add replace preset popup.
+        XPCreateWidget(x1, y1, x1+90, y2, 1, "Replace Preset:", 0, save_preset_window_id, xpWidgetClass_Caption);
+        char preset_menu_str[65*48];
+        int num_items = get_save_preset_menu_str(preset_menu_str);
+        save_preset_popup_id = XPCreatePopup(x1+100, y1, x2, y2, 1, preset_menu_str, save_preset_window_id);
+        XPSetWidgetProperty(save_preset_popup_id, xpProperty_PopupCurrentItem, num_items);
+        
+        y1 -= 30; y2 -= 30;
+        
+        // Add cancel and save buttons.
+        XPWidgetID cancel_button = XPCreateWidget(x2-210, y1, x2-110, y2, 1, "Cancel", 0, save_preset_window_id, xpWidgetClass_Button);
+        XPSetWidgetProperty(cancel_button, xpProperty_ButtonType, xpButtonBehaviorPushButton);
+        XPSetWidgetProperty(cancel_button, xpProperty_ButtonBehavior, xpButtonBehaviorPushButton);
+        XPAddWidgetCallback(cancel_button, save_preset_cancel_callback);
+        XPWidgetID save_button = XPCreateWidget(x2-100, y1, x2, y2, 1, "Save", 0, save_preset_window_id, xpWidgetClass_Button);
+        XPSetWidgetProperty(save_button, xpProperty_ButtonType, xpButtonBehaviorPushButton);
+        XPSetWidgetProperty(save_button, xpProperty_ButtonBehavior, xpButtonBehaviorPushButton);
+        XPAddWidgetCallback(save_button, save_preset_confirm_callback);
+    }
+    
+    XPHideWidget(save_button_id);
+    XPHideWidget(delete_button_id);
+    
+    XPShowWidget(save_preset_window_id);
+    XPSetKeyboardFocus(save_preset_textfield_id);
+}
+
+void destroy_save_preset_window()
+{
+    if (save_preset_window_id != 0)
+    {
+        iXDebug("Destroying save preset window...");
+        XPDestroyWidget(save_preset_window_id, 1);
+        save_preset_window_id = 0;
+        
+        if (window_id != 0)
+        {
+            XPShowWidget(save_button_id);
+            XPShowWidget(delete_button_id);
+        }
+    }
+}
+
+int save_preset_confirm_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2)
+{
+    if (inMessage == xpMsg_PushButtonPressed)
+    {
+        int index = (int)XPGetWidgetProperty(save_preset_popup_id, xpProperty_PopupCurrentItem, NULL);
+        char name[64];
+        XPGetWidgetDescriptor(save_preset_textfield_id, name, 64);
+        name[63] = '\0';
+        save_preset(index, name);
+        destroy_save_preset_window();
+        update_settings_display();
+        return 1;
+    }
+    return 0;
+}
+
+int save_preset_cancel_callback(XPWidgetMessage inMessage, XPWidgetID inWidget, long inParam1, long inParam2)
+{
+    if (inMessage == xpMsg_PushButtonPressed)
+    {
+        destroy_save_preset_window();
+        return 1;
+    }
+    return 0;
+}
+
+
+int get_save_preset_menu_str(char *outStr)
+{
+    char *names[MAX_USER_PRESETS];
+    int n = get_preset_names(kPresetTypeUser, names);
+    if (n > 0) strcpy(outStr, names[0]);
+    for (int i = 1; i < n; i++)
+    {
+        strcat(outStr, ";");
+        strcat(outStr, names[i]);
+    }
+    if (n < MAX_USER_PRESETS-1)
+    {
+        strcat(outStr, ";[Create New Preset]");
+    }
+    return n;
+}

@@ -152,12 +152,21 @@ int currently_connected();
 
 // Prefs and Presets
 
+#define MAX_USER_PRESETS 32
+
+typedef enum {
+    kPresetTypeNone = 0,
+    kPresetTypeReadOnly = 1,
+    kPresetTypeUser = 2,
+    kPresetTypeBoth = 3
+} iXPresetType;
+
 void load_prefs();
 void save_prefs();
-int get_preset_names(char **outNames);
+int get_preset_names(iXPresetType types, char **outNames);
 int current_preset(); // Returns -1 for "Custom".
 void set_current_preset(int i); // Pass -1 for "Custom".
-void save_preset_as(const char *inName);
+void save_preset(int preset_index, const char *inName);
 void delete_preset(int i);
 int get_pref_int(const char *inPrefName);
 void set_pref_int(const char *inPrefName, int val);
