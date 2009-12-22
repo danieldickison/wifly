@@ -10,6 +10,7 @@
 #import "iX_YokeAppDelegate.h"
 #import "HelpViewController.h"
 #import "TrackPadControl.h"
+#import "CalibrationViewController.h"
 
 
 @implementation FlipsideViewController
@@ -27,8 +28,8 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.leftBarButtonItem = doneButton;
-    self.navigationItem.rightBarButtonItem = helpButton;
+    self.navigationItem.rightBarButtonItem = doneButton;
+    self.navigationItem.leftBarButtonItem = helpButton;
     self.title = NSLocalizedString(@"Setup", @"");
     
     ipField.text = SharedAppDelegate.hostAddress;
@@ -76,9 +77,11 @@
 }
 
 
-- (IBAction)setTiltCenter
+- (IBAction)calibrate
 {
-    [SharedAppDelegate resetTiltCenter];
+    CalibrationViewController *calibrationController = [[CalibrationViewController alloc] initWithNibName:@"CalibrationView" bundle:nil];
+    [self.navigationController pushViewController:calibrationController animated:YES];
+    [calibrationController release];
 }
 
 

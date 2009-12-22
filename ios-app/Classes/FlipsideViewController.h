@@ -27,7 +27,7 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *helpButton;
 - (IBAction)done;
-- (IBAction)setTiltCenter;
+- (IBAction)calibrate;
 - (IBAction)ipFieldChanged;
 - (IBAction)portFieldChanged;
 - (IBAction)showHelp;
