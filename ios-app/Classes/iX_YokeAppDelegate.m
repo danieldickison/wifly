@@ -23,12 +23,6 @@ static void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int a
 static void rotMat(float* outMat9, const float* axis3, float theta);
 
 
-#if TARGET_IPHONE_SIMULATOR
-@interface FakeAcceleration : UIAcceleration
-@end
-#endif
-
-
 @implementation iX_YokeAppDelegate
 
 
@@ -101,11 +95,6 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     
     // Prevent sleep so we don't suddenly lose accelerometer readings when there are no touches for a while.
     application.idleTimerDisabled = YES;
-    
-#if TARGET_IPHONE_SIMULATOR
-    NSLog(@"Simulator mode: scheduling random accelerometer events.");
-    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(simulatorDummyAccelerometerFired) userInfo:nil repeats:YES];
-#endif
 }
 
 
@@ -245,41 +234,7 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
 }
 
 
-
-
-#if TARGET_IPHONE_SIMULATOR
-- (void)simulatorDummyAccelerometerFired
-{
-    UIAcceleration *accel = [[[FakeAcceleration alloc] init] autorelease];
-    [self accelerometer:[UIAccelerometer sharedAccelerometer] didAccelerate:accel];
-}
-#endif
-
-
 @end
-
-
-
-#if TARGET_IPHONE_SIMULATOR
-@implementation FakeAcceleration
-
-- (UIAccelerationValue)x
-{
-    return ((double)rand() / RAND_MAX) - 0.5;
-}
-
-- (UIAccelerationValue)y
-{
-    return ((double)rand() / RAND_MAX) - 0.5;
-}
-
-- (UIAccelerationValue)z
-{
-    return ((double)rand() / RAND_MAX) - 0.5;
-}
-
-@end
-#endif
 
 
 

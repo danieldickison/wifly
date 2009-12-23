@@ -16,6 +16,8 @@
 		0B8BA85C10572D8A00D42EDD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8BA85B10572D8A00D42EDD /* Default.png */; };
 		0BBF386C10E0FE0A009371F9 /* CalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */; };
 		0BBF387010E0FE63009371F9 /* CalibrationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BBF386F10E0FE63009371F9 /* CalibrationView.xib */; };
+		0BBF390710E26C6B009371F9 /* libisimulate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBF390610E26C6B009371F9 /* libisimulate.a */; };
+		0BBF391610E26CD7009371F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBF391510E26CD7009371F9 /* CoreLocation.framework */; };
 		0BD16DB810514E310095D600 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16DB610514E310095D600 /* Icon.png */; };
 		0BD16E2E1051708A0095D600 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD16E2D1051708A0095D600 /* HelpViewController.m */; };
 		0BD16E33105172F20095D600 /* local-help in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16E2F105172F20095D600 /* local-help */; };
@@ -50,6 +52,8 @@
 		0BBF386A10E0FE0A009371F9 /* CalibrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalibrationViewController.h; path = Classes/CalibrationViewController.h; sourceTree = "<group>"; };
 		0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalibrationViewController.m; path = Classes/CalibrationViewController.m; sourceTree = "<group>"; };
 		0BBF386F10E0FE63009371F9 /* CalibrationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CalibrationView.xib; path = Nibs/CalibrationView.xib; sourceTree = "<group>"; };
+		0BBF390610E26C6B009371F9 /* libisimulate.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libisimulate.a; sourceTree = "<group>"; };
+		0BBF391510E26CD7009371F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0BD16DB610514E310095D600 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/ICONS/Icon.png; sourceTree = "<group>"; };
 		0BD16DB710514E310095D600 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = file; name = iTunesArtwork; path = Images/ICONS/iTunesArtwork; sourceTree = "<group>"; };
 		0BD16E2C1051708A0095D600 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpViewController.h; path = Classes/HelpViewController.h; sourceTree = "<group>"; };
@@ -81,6 +85,8 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */,
+				0BBF390710E26C6B009371F9 /* libisimulate.a in Frameworks */,
+				0BBF391610E26CD7009371F9 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,9 +221,11 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0BBF390610E26C6B009371F9 /* libisimulate.a */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765580DF743DE002DB57D /* CoreGraphics.framework */,
+				0BBF391510E26CD7009371F9 /* CoreLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -327,6 +335,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0BBF333F0FCCB9D500F4F71B /* debug.xcconfig */;
 			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
 			};
 			name = Debug;
 		};
@@ -334,6 +343,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0BBF333F0FCCB9D500F4F71B /* debug.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 			};
 			name = Debug;
 		};
@@ -341,6 +354,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */;
 			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
 			};
 			name = Beta;
 		};
@@ -348,6 +362,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 			};
 			name = Beta;
 		};
@@ -355,6 +373,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0BBF33430FCCBB8500F4F71B /* release.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 			};
 			name = Release;
 		};
@@ -362,6 +384,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0BBF33430FCCBB8500F4F71B /* release.xcconfig */;
 			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
 			};
 			name = Release;
 		};
