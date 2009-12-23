@@ -49,8 +49,12 @@ extern NSString * const iXTiltUpdatedNotification;
 @property (nonatomic, assign, readonly) float tilt_hold_y;
 @property (nonatomic, assign) BOOL tilt_hold;
 
+- (void)getAccelerationVector:(float *)outVector3;
+
 // Sets the current tilt as the "center".
 - (void)resetTiltCenter;
+
+- (void)setCalibrationWithCenterVector:(float[3])cv forwardVector:(float[3])fv;
 
 @end
 

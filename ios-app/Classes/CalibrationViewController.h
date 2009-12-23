@@ -16,6 +16,8 @@
     UIBarButtonItem *doneButton;
     UIBarButtonItem *cancelButton;
     int currentStep;
+    float centerVector[3];
+    float forwardVector[3];
 }
 
 @property (nonatomic, retain) IBOutlet TrackPadControl *tiltView;

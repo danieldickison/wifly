@@ -72,7 +72,7 @@ enum {
 
 - (IBAction)done
 {
-    //[SharedAppDelegate setCalibrationCenter...];
+    [SharedAppDelegate setCalibrationWithCenterVector:centerVector forwardVector:forwardVector];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -96,6 +96,15 @@ enum {
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    if (currentStep == kStepTapCenter)
+    {
+        [SharedAppDelegate getAccelerationVector:centerVector];
+    }
+    else if (currentStep == kStepTapForward)
+    {
+        [SharedAppDelegate getAccelerationVector:forwardVector];
+    }
+    
     if (currentStep != kStepDone) currentStep++;
     [self updateInstructions];
 }
