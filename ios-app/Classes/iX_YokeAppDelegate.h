@@ -29,6 +29,7 @@ extern NSString * const iXTiltUpdatedNotification;
     float tilt_hold_x;
     float tilt_hold_y;
     BOOL tilt_hold;
+    BOOL auto_hold;
     
     NSString *hostAddress;
     unsigned hostPort;
@@ -48,6 +49,7 @@ extern NSString * const iXTiltUpdatedNotification;
 @property (nonatomic, assign, readonly) float tilt_hold_x;
 @property (nonatomic, assign, readonly) float tilt_hold_y;
 @property (nonatomic, assign) BOOL tilt_hold;
+@property (nonatomic, assign) BOOL auto_hold;
 
 - (void)getAccelerationVector:(float[3])outVector3;
 

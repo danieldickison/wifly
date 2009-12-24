@@ -15,14 +15,20 @@
     TrackPadControl *trackpad;
     TrackPadControl *tiltView;
     UISwitch *holdSwitch;
+    UISwitch *autoHoldSwitch;
+    int trackpadTouchCount;
 }
 
 @property (nonatomic, retain) IBOutlet TrackPadControl *trackpad;
 @property (nonatomic, retain) IBOutlet TrackPadControl *tiltView;
 @property (nonatomic, retain) IBOutlet UISwitch *holdSwitch;
+@property (nonatomic, retain) IBOutlet UISwitch *autoHoldSwitch;
 
 - (IBAction)showInfo;
 - (IBAction)trackpadUpdated;
+- (IBAction)trackpadTouchDown;
+- (IBAction)trackpadTouchUp;
 - (IBAction)tiltHold;
+- (IBAction)autoHold;
 
 @end

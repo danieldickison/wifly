@@ -27,7 +27,7 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
 
 
 @synthesize window;
-@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y, tilt_x, tilt_y, tilt_hold_x, tilt_hold_y, tilt_hold;
+@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y, tilt_x, tilt_y, tilt_hold_x, tilt_hold_y, tilt_hold, auto_hold;
 
 
 - (void)setHostAddress:(NSString *)addr
@@ -53,6 +53,7 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     [defaults setFloat:touch_x forKey:@"touch_x"];
     [defaults setFloat:touch_y forKey:@"touch_y"];
     [defaults setBool:tilt_hold forKey:@"tilt_hold"];
+    [defaults setBool:auto_hold forKey:@"auto_hold"];
     [defaults setFloat:tilt_hold_x forKey:@"tilt_hold_x"];
     [defaults setFloat:tilt_hold_y forKey:@"tilt_hold_y"];
 }
@@ -71,6 +72,7 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     tilt_x = 0.5f;
     tilt_y = 0.5f;
     tilt_hold = [defaults boolForKey:@"tilt_hold"];
+    auto_hold = [defaults boolForKey:@"auto_hold"];
     tilt_hold_x = [defaults floatForKey:@"tilt_hold_x"];
     tilt_hold_y = [defaults floatForKey:@"tilt_hold_y"];
     NSArray *savedTiltMatrix = [defaults objectForKey:@"tiltTransformMatrix"];

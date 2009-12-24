@@ -167,6 +167,11 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 {
     if (interactionMode == TrackPadTouchesIgnored) return;
     
+    for (int i = 0; i < [touches count]; i++)
+    {
+        [self sendActionsForControlEvents:UIControlEventTouchDown];
+    }
+    
     NSSet *myTouches = [event touchesForView:self];
     // Single-touch for moving; two-fingers used to be for zooming...not any more.
     if ([myTouches count] == 1)
@@ -219,5 +224,12 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     }
 }
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (int i = 0; i < [touches count]; i++)
+    {
+        [self sendActionsForControlEvents:UIControlEventTouchUpInside];
+    }
+}
 
 @end

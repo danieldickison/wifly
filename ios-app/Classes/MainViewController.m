@@ -16,7 +16,7 @@
 
 @implementation MainViewController
 
-@synthesize trackpad, tiltView, holdSwitch;
+@synthesize trackpad, tiltView, holdSwitch, autoHoldSwitch;
 
 -(void)dealloc
 {
@@ -37,6 +37,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:SharedAppDelegate];
     
     holdSwitch.on = SharedAppDelegate.tilt_hold;
+    autoHoldSwitch.on = SharedAppDelegate.auto_hold;
 }
 
 - (void)viewDidUnload
@@ -45,6 +46,7 @@
     self.trackpad = nil;
     self.tiltView = nil;
     self.holdSwitch = nil;
+    self.autoHoldSwitch = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -84,11 +86,43 @@
 }
 
 
+- (IBAction)trackpadTouchDown
+{
+    if (trackpadTouchCount == 0 &&
+        SharedAppDelegate.auto_hold)
+    {
+        SharedAppDelegate.tilt_hold = NO;
+        [holdSwitch setOn:NO animated:YES];
+    }
+    trackpadTouchCount++;
+}
+
+- (IBAction)trackpadTouchUp
+{
+    trackpadTouchCount--;
+    if (trackpadTouchCount == 0 &&
+        SharedAppDelegate.auto_hold)
+    {
+        SharedAppDelegate.tilt_hold = YES;
+        [holdSwitch setOn:YES animated:YES];
+    }
+}
+
+
+
 - (IBAction)tiltHold
 {
     SharedAppDelegate.tilt_hold = holdSwitch.on;
+    SharedAppDelegate.auto_hold = NO;
+    [autoHoldSwitch setOn:NO animated:YES];
 }
 
+- (IBAction)autoHold
+{
+    SharedAppDelegate.auto_hold = autoHoldSwitch.on;
+    SharedAppDelegate.tilt_hold = autoHoldSwitch.on;
+    [holdSwitch setOn:autoHoldSwitch.on animated:YES];
+}
 
 
 @end
