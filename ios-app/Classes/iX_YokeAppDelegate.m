@@ -56,15 +56,33 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-    [[NSUserDefaults standardUserDefaults]
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults
      registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
                        [NSNumber numberWithFloat:0.5f], @"touch_x",
                        [NSNumber numberWithFloat:0.5f], @"touch_y",
                        nil]];
-    touch_x = [[NSUserDefaults standardUserDefaults] floatForKey:@"touch_x"];
-    touch_y = [[NSUserDefaults standardUserDefaults] floatForKey:@"touch_y"];
+    touch_x = [defaults floatForKey:@"touch_x"];
+    touch_y = [defaults floatForKey:@"touch_y"];
     tilt_x = 0.5f;
     tilt_y = 0.5f;
+    NSArray *savedTiltMatrix = [defaults objectForKey:@"tiltTransformMatrix"];
+    if ([savedTiltMatrix count] == 9)
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            tiltTransformMatrix[i] = [[savedTiltMatrix objectAtIndex:i] floatValue];
+        }
+    }
+    else
+    {
+        // Default transform is portrait orientation tilted forward ~45 degrees.
+        tiltTransformMatrix[0] = 1.0f;
+        tiltTransformMatrix[4] = 0.707f;
+        tiltTransformMatrix[5] = 0.707f;
+        tiltTransformMatrix[7] = -0.707f;
+        tiltTransformMatrix[8] = 0.707f;
+    }
     
     socket = [[AsyncUdpSocket alloc] initWithDelegate:self];
     
@@ -83,10 +101,6 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     mainViewController.view.frame = [UIScreen mainScreen].applicationFrame;
 	[window addSubview:[mainViewController view]];
     [window makeKeyAndVisible];
-    
-    
-    // We want to auto-calibrate after a few accelerometer readings have been taken.  2 seconds is probably good enough.
-    [self performSelector:@selector(resetTiltCenter) withObject:nil afterDelay:1.0];
     
     if ([self.hostAddress length] == 0) // also true if it's nil
     {
@@ -107,7 +121,7 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
 
 
 
-- (void)getAccelerationVector:(float *)outVector3
+- (void)getAccelerationVector:(float[3])outVector3
 {
     outVector3[0] = acceleration[0];
     outVector3[1] = acceleration[1];
@@ -127,7 +141,7 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     
     // Apply the rotation matrix to center it about the z-axis.
     float rotated[3];
-    matMult(rotated, centerTiltRotationMatrix, acceleration, 3, 3, 1);
+    matMult(rotated, tiltTransformMatrix, acceleration, 3, 3, 1);
     
     // Project to the xy plane for pitch & roll.
     tilt_x = 0.5f * (1.0f + rotated[0]);
@@ -157,32 +171,6 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:iXTiltUpdatedNotification object:self];
-}
-
-
-- (void)resetTiltCenter
-{
-    //float ySqr = yAvg*yAvg;
-    //pitchOffset = -atan2f(zAvg, sqrtf(ySqr + xAvg*xAvg));
-    //rollOffset = -atan2f(xAvg, sqrtf(ySqr + zAvg*zAvg));
-    
-    // This version only centers with respect to rotation about the x-axis -- that is, pitch.  This seems more intuitive since you rarely need to have the center of tilt be sideways.  For landscape mode, this will have to be rotation about the y-axis.
-    float y = -acceleration[1];
-    float z = acceleration[2];
-    float theta = asinf(y / sqrtf(y*y + z*z));
-    if (z > 0) theta = M_PI - theta;
-    float c = cosf(theta);
-    float s = sinf(theta);
-    
-    centerTiltRotationMatrix[0] = 1;
-    centerTiltRotationMatrix[1] = 0;
-    centerTiltRotationMatrix[2] = 0;
-    centerTiltRotationMatrix[3] = 0;
-    centerTiltRotationMatrix[4] = c;
-    centerTiltRotationMatrix[5] = s;
-    centerTiltRotationMatrix[6] = 0;
-    centerTiltRotationMatrix[7] = -s;
-    centerTiltRotationMatrix[8] = c;
 }
 
 
@@ -234,7 +222,17 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     // Compose the 2 rotations and the flip.
     float rotations[9];
     matMult(rotations, rotation2, rotation1, 3, 3, 3);
-    matMult(centerTiltRotationMatrix, scaleFlip, rotations, 3, 3, 3);
+    matMult(tiltTransformMatrix, scaleFlip, rotations, 3, 3, 3);
+    
+    
+    // Save the transform matrix in prefs.
+    NSMutableArray *saveTransform = [[NSMutableArray alloc] initWithCapacity:9];
+    for (int i = 0; i < 9; i++)
+    {
+        [saveTransform addObject:[NSNumber numberWithFloat:tiltTransformMatrix[i]]];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:saveTransform forKey:@"tiltTransformMatrix"];
+    [saveTransform release];
     
     NSLog(@"Calibration has been set:");
     NSLog(@"Center vector: <%f, %f, %f>", cv[0], cv[1], cv[2]);

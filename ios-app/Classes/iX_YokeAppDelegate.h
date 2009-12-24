@@ -20,7 +20,7 @@ extern NSString * const iXTiltUpdatedNotification;
     MainViewController *mainViewController;
     
     float acceleration[3];
-    float centerTiltRotationMatrix[9];
+    float tiltTransformMatrix[9];
     
     float touch_x;
     float touch_y;
@@ -49,10 +49,7 @@ extern NSString * const iXTiltUpdatedNotification;
 @property (nonatomic, assign, readonly) float tilt_hold_y;
 @property (nonatomic, assign) BOOL tilt_hold;
 
-- (void)getAccelerationVector:(float *)outVector3;
-
-// Sets the current tilt as the "center".
-- (void)resetTiltCenter;
+- (void)getAccelerationVector:(float[3])outVector3;
 
 - (void)setCalibrationWithCenterVector:(float[3])cv forwardVector:(float[3])fv;
 
