@@ -53,7 +53,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    SharedAppDelegate.tilt_hold = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:SharedAppDelegate];
 }
 
@@ -66,8 +65,7 @@
 
 - (void)tiltUpdated:(NSNotification *)notification
 {
-    tiltView.xValue = SharedAppDelegate.tilt_x;
-    tiltView.yValue = 1.0f - SharedAppDelegate.tilt_y;
+    [tiltView setXValue:SharedAppDelegate.tilt_hold_x yValue:(1.0f - SharedAppDelegate.tilt_hold_y) xCrosshair:SharedAppDelegate.tilt_x yCrosshair:(1.0f - SharedAppDelegate.tilt_y)];
 }
 
 

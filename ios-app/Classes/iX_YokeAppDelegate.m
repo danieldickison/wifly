@@ -49,8 +49,12 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [[NSUserDefaults standardUserDefaults] setFloat:touch_x forKey:@"touch_x"];
-    [[NSUserDefaults standardUserDefaults] setFloat:touch_y forKey:@"touch_y"];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setFloat:touch_x forKey:@"touch_x"];
+    [defaults setFloat:touch_y forKey:@"touch_y"];
+    [defaults setBool:tilt_hold forKey:@"tilt_hold"];
+    [defaults setFloat:tilt_hold_x forKey:@"tilt_hold_x"];
+    [defaults setFloat:tilt_hold_y forKey:@"tilt_hold_y"];
 }
 
 
@@ -66,6 +70,9 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     touch_y = [defaults floatForKey:@"touch_y"];
     tilt_x = 0.5f;
     tilt_y = 0.5f;
+    tilt_hold = [defaults boolForKey:@"tilt_hold"];
+    tilt_hold_x = [defaults floatForKey:@"tilt_hold_x"];
+    tilt_hold_y = [defaults floatForKey:@"tilt_hold_y"];
     NSArray *savedTiltMatrix = [defaults objectForKey:@"tiltTransformMatrix"];
     if ([savedTiltMatrix count] == 9)
     {
@@ -104,7 +111,7 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     
     if ([self.hostAddress length] == 0) // also true if it's nil
     {
-        [mainViewController performSelector:@selector(showInfo) withObject:nil afterDelay:1.0];
+        [mainViewController performSelector:@selector(showInfo) withObject:nil afterDelay:0.5];
     }
     
     // Prevent sleep so we don't suddenly lose accelerometer readings when there are no touches for a while.

@@ -14,13 +14,15 @@
 {
     TrackPadControl *trackpad;
     TrackPadControl *tiltView;
+    UISwitch *holdSwitch;
 }
 
 @property (nonatomic, retain) IBOutlet TrackPadControl *trackpad;
 @property (nonatomic, retain) IBOutlet TrackPadControl *tiltView;
+@property (nonatomic, retain) IBOutlet UISwitch *holdSwitch;
 
 - (IBAction)showInfo;
 - (IBAction)trackpadUpdated;
-- (IBAction)tiltHold:(UISwitch *)holdSwitch;
+- (IBAction)tiltHold;
 
 @end
