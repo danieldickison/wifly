@@ -59,6 +59,7 @@
 		0BD16E2C1051708A0095D600 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpViewController.h; path = Classes/HelpViewController.h; sourceTree = "<group>"; };
 		0BD16E2D1051708A0095D600 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpViewController.m; path = Classes/HelpViewController.m; sourceTree = "<group>"; };
 		0BD16E2F105172F20095D600 /* local-help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "local-help"; sourceTree = "<group>"; };
+		0BD62FEF10E35FCC0006F74B /* Read Me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Read Me.txt"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iX_YokeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iX_YokeAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iX_YokeAppDelegate.m; sourceTree = "<group>"; };
@@ -179,6 +180,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				0BD62FEF10E35FCC0006F74B /* Read Me.txt */,
 				0BBF33340FCCB8A200F4F71B /* Build Config */,
 				0B08BDD70FA447A000BAF947 /* 3rd Party */,
 				0B08BD2D0FA3CFE300BAF947 /* Classes */,

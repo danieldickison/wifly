@@ -14,14 +14,12 @@ TODO
 
 ### App ###
 
-* Save calibration, hold state and position between sessions.  This would make relaunching a lot smoother.
 * Center and bounds ideas:
     - Two-finger drag for additional axes, e.g. 3-D cockpit panning.
     - Double-tap to re-center, or for tilt, set tilt center.
     - Double-tap to set current value as the tilt center?
     - Option to auto-spring back to center.
     - Null-zone
-* Auto-hold when finger is off the trackpad.
 * Change color/sound to alert when tilt exceeds tracking bounds.
 * Auditory feedback of tap-drag for better blind interaction.
 * Eye candy: background images, pulsating trackpad dot...etc.
