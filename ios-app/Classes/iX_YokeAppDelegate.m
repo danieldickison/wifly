@@ -133,6 +133,9 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     tilt_x = 0.5f * (1.0f + rotated[0]);
     tilt_y = 0.5f * (1.0f - rotated[1]);
     
+    tilt_x = MAX(0.0f, MIN(1.0f, tilt_x));
+    tilt_y = MAX(0.0f, MIN(1.0f, tilt_y));
+    
     if (!tilt_hold)
     {
         tilt_hold_x = tilt_x;
@@ -223,14 +226,15 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     rotMat(rotation2, faxis, ftheta);
     
     
-    // Finally, flip the y axis.
-    float flip[9] = {1, 0, 0, 0, -1, 0, 0, 0, 1};
+    // Finally, scale up  flip the y axis.
+    float scale = 1.0f / sqrt(fvp[0]*fvp[0] + fvp[1]*fvp[1]);
+    float scaleFlip[9] = {scale, 0, 0, 0, -scale, 0, 0, 0, scale};
     
     
     // Compose the 2 rotations and the flip.
     float rotations[9];
     matMult(rotations, rotation2, rotation1, 3, 3, 3);
-    matMult(centerTiltRotationMatrix, flip, rotations, 3, 3, 3);
+    matMult(centerTiltRotationMatrix, scaleFlip, rotations, 3, 3, 3);
     
     NSLog(@"Calibration has been set:");
     NSLog(@"Center vector: <%f, %f, %f>", cv[0], cv[1], cv[2]);
