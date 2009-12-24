@@ -216,14 +216,21 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     
     // fv' projected to x-y plane is just the x and y componenst of fv'.
     // Therefore theta = atan(fvp[x] / fvp[y])
-    float ftheta = atanf(fvp[0] / fvp[1]);
+    float ftheta = -atanf(fvp[0] / fvp[1]);
+    if (fvp[1] > 0) ftheta += M_PI;
     float faxis[3] = {0.0f, 0.0f, 1.0f};
     float rotation2[9];
     rotMat(rotation2, faxis, ftheta);
     
     
-    // Compose the two rotation matrices to obtain the final transform.
-    matMult(centerTiltRotationMatrix, rotation2, rotation1, 3, 3, 3);
+    // Finally, flip the y axis.
+    float flip[9] = {1, 0, 0, 0, -1, 0, 0, 0, 1};
+    
+    
+    // Compose the 2 rotations and the flip.
+    float rotations[9];
+    matMult(rotations, rotation2, rotation1, 3, 3, 3);
+    matMult(centerTiltRotationMatrix, flip, rotations, 3, 3, 3);
     
     NSLog(@"Calibration has been set:");
     NSLog(@"Center vector: <%f, %f, %f>", cv[0], cv[1], cv[2]);
