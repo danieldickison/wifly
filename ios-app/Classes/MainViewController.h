@@ -9,26 +9,27 @@
 #import "FlipsideViewController.h"
 
 @class TrackPadControl;
+@class MultiStateButton;
 
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate>
 {
     TrackPadControl *trackpad;
     TrackPadControl *tiltView;
-    UISwitch *holdSwitch;
-    UISwitch *autoHoldSwitch;
+    MultiStateButton *holdButton;
+    MultiStateButton *autoCenterButton;
     int trackpadTouchCount;
 }
 
 @property (nonatomic, retain) IBOutlet TrackPadControl *trackpad;
 @property (nonatomic, retain) IBOutlet TrackPadControl *tiltView;
-@property (nonatomic, retain) IBOutlet UISwitch *holdSwitch;
-@property (nonatomic, retain) IBOutlet UISwitch *autoHoldSwitch;
+@property (nonatomic, retain) IBOutlet MultiStateButton *holdButton;
+@property (nonatomic, retain) IBOutlet MultiStateButton *autoCenterButton;
 
 - (IBAction)showInfo;
 - (IBAction)trackpadUpdated;
 - (IBAction)trackpadTouchDown;
 - (IBAction)trackpadTouchUp;
-- (IBAction)tiltHold;
-- (IBAction)autoHold;
+- (IBAction)holdAction;
+- (IBAction)autoCenterAction;
 
 @end

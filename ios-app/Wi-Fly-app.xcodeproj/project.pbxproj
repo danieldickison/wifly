@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B020488111F1DA000FB4E71 /* Toggle Button Center X Y.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B02047E111F1DA000FB4E71 /* Toggle Button Center X Y.png */; };
+		0B020489111F1DA000FB4E71 /* Toggle Button Center X.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B02047F111F1DA000FB4E71 /* Toggle Button Center X.png */; };
+		0B02048A111F1DA000FB4E71 /* Toggle Button Center Y.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020480111F1DA000FB4E71 /* Toggle Button Center Y.png */; };
+		0B02048B111F1DA000FB4E71 /* Toggle Button Center.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020481111F1DA000FB4E71 /* Toggle Button Center.png */; };
+		0B02048D111F1DA000FB4E71 /* Toggle Button Tilt Auto On.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020483111F1DA000FB4E71 /* Toggle Button Tilt Auto On.png */; };
+		0B02048E111F1DA000FB4E71 /* Toggle Button Tilt Auto.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020484111F1DA000FB4E71 /* Toggle Button Tilt Auto.png */; };
+		0B02048F111F1DA000FB4E71 /* Toggle Button Tilt On.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020485111F1DA000FB4E71 /* Toggle Button Tilt On.png */; };
+		0B020490111F1DA000FB4E71 /* Toggle Button Tilt.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020486111F1DA000FB4E71 /* Toggle Button Tilt.png */; };
+		0B020491111F1DA000FB4E71 /* Toggle Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020487111F1DA000FB4E71 /* Toggle Button.png */; };
+		0B02049B111F232500FB4E71 /* MultiStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B02049A111F232500FB4E71 /* MultiStateButton.m */; };
 		0B08BDE40FA447AA00BAF947 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */; };
 		0B54D5F21056024500540CC7 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16DB710514E310095D600 /* iTunesArtwork */; };
 		0B6340110FA8960000C511A9 /* LinearWheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6340100FA8960000C511A9 /* LinearWheelControl.m */; };
@@ -34,6 +44,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B02047E111F1DA000FB4E71 /* Toggle Button Center X Y.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button Center X Y.png"; path = "Images/Toggle Button Center X Y.png"; sourceTree = "<group>"; };
+		0B02047F111F1DA000FB4E71 /* Toggle Button Center X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button Center X.png"; path = "Images/Toggle Button Center X.png"; sourceTree = "<group>"; };
+		0B020480111F1DA000FB4E71 /* Toggle Button Center Y.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button Center Y.png"; path = "Images/Toggle Button Center Y.png"; sourceTree = "<group>"; };
+		0B020481111F1DA000FB4E71 /* Toggle Button Center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button Center.png"; path = "Images/Toggle Button Center.png"; sourceTree = "<group>"; };
+		0B020483111F1DA000FB4E71 /* Toggle Button Tilt Auto On.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button Tilt Auto On.png"; path = "Images/Toggle Button Tilt Auto On.png"; sourceTree = "<group>"; };
+		0B020484111F1DA000FB4E71 /* Toggle Button Tilt Auto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button Tilt Auto.png"; path = "Images/Toggle Button Tilt Auto.png"; sourceTree = "<group>"; };
+		0B020485111F1DA000FB4E71 /* Toggle Button Tilt On.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button Tilt On.png"; path = "Images/Toggle Button Tilt On.png"; sourceTree = "<group>"; };
+		0B020486111F1DA000FB4E71 /* Toggle Button Tilt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button Tilt.png"; path = "Images/Toggle Button Tilt.png"; sourceTree = "<group>"; };
+		0B020487111F1DA000FB4E71 /* Toggle Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button.png"; path = "Images/Toggle Button.png"; sourceTree = "<group>"; };
+		0B020499111F232500FB4E71 /* MultiStateButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiStateButton.h; path = Classes/MultiStateButton.h; sourceTree = "<group>"; };
+		0B02049A111F232500FB4E71 /* MultiStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiStateButton.m; path = Classes/MultiStateButton.m; sourceTree = "<group>"; };
 		0B08BDE20FA447AA00BAF947 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncUdpSocket.h; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.h"; sourceTree = "<group>"; };
 		0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncUdpSocket.m; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.m"; sourceTree = "<group>"; };
 		0B63400F0FA8960000C511A9 /* LinearWheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinearWheelControl.h; path = Classes/LinearWheelControl.h; sourceTree = "<group>"; };
@@ -131,6 +152,8 @@
 				0B6340100FA8960000C511A9 /* LinearWheelControl.m */,
 				0B6342690FA91BC200C511A9 /* TrackPadControl.h */,
 				0B63426A0FA91BC200C511A9 /* TrackPadControl.m */,
+				0B020499111F232500FB4E71 /* MultiStateButton.h */,
+				0B02049A111F232500FB4E71 /* MultiStateButton.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -206,6 +229,15 @@
 			isa = PBXGroup;
 			children = (
 				0BD16E2F105172F20095D600 /* local-help */,
+				0B02047E111F1DA000FB4E71 /* Toggle Button Center X Y.png */,
+				0B02047F111F1DA000FB4E71 /* Toggle Button Center X.png */,
+				0B020480111F1DA000FB4E71 /* Toggle Button Center Y.png */,
+				0B020481111F1DA000FB4E71 /* Toggle Button Center.png */,
+				0B020483111F1DA000FB4E71 /* Toggle Button Tilt Auto On.png */,
+				0B020484111F1DA000FB4E71 /* Toggle Button Tilt Auto.png */,
+				0B020485111F1DA000FB4E71 /* Toggle Button Tilt On.png */,
+				0B020486111F1DA000FB4E71 /* Toggle Button Tilt.png */,
+				0B020487111F1DA000FB4E71 /* Toggle Button.png */,
 				0BD16DB610514E310095D600 /* Icon.png */,
 				0BD16DB710514E310095D600 /* iTunesArtwork */,
 				0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */,
@@ -292,6 +324,15 @@
 				0B54D5F21056024500540CC7 /* iTunesArtwork in Resources */,
 				0B8BA85C10572D8A00D42EDD /* Default.png in Resources */,
 				0BBF387010E0FE63009371F9 /* CalibrationView.xib in Resources */,
+				0B020488111F1DA000FB4E71 /* Toggle Button Center X Y.png in Resources */,
+				0B020489111F1DA000FB4E71 /* Toggle Button Center X.png in Resources */,
+				0B02048A111F1DA000FB4E71 /* Toggle Button Center Y.png in Resources */,
+				0B02048B111F1DA000FB4E71 /* Toggle Button Center.png in Resources */,
+				0B02048D111F1DA000FB4E71 /* Toggle Button Tilt Auto On.png in Resources */,
+				0B02048E111F1DA000FB4E71 /* Toggle Button Tilt Auto.png in Resources */,
+				0B02048F111F1DA000FB4E71 /* Toggle Button Tilt On.png in Resources */,
+				0B020490111F1DA000FB4E71 /* Toggle Button Tilt.png in Resources */,
+				0B020491111F1DA000FB4E71 /* Toggle Button.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +368,7 @@
 				0B63426B0FA91BC200C511A9 /* TrackPadControl.m in Sources */,
 				0BD16E2E1051708A0095D600 /* HelpViewController.m in Sources */,
 				0BBF386C10E0FE0A009371F9 /* CalibrationViewController.m in Sources */,
+				0B02049B111F232500FB4E71 /* MultiStateButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

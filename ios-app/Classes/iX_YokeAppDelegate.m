@@ -27,7 +27,7 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
 
 
 @synthesize window;
-@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y, tilt_x, tilt_y, tilt_hold_x, tilt_hold_y, tilt_hold, auto_hold;
+@synthesize mainViewController, hostAddress, hostPort, touch_x, touch_y, tilt_x, tilt_y, tilt_hold_x, tilt_hold_y, tilt_hold, auto_hold, auto_center_x, auto_center_y;
 
 
 - (void)setHostAddress:(NSString *)addr
@@ -56,6 +56,8 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     [defaults setBool:auto_hold forKey:@"auto_hold"];
     [defaults setFloat:tilt_hold_x forKey:@"tilt_hold_x"];
     [defaults setFloat:tilt_hold_y forKey:@"tilt_hold_y"];
+    [defaults setBool:auto_center_x forKey:@"auto_center_x"];
+    [defaults setBool:auto_center_y forKey:@"auto_center_y"];
 }
 
 
@@ -75,6 +77,8 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     auto_hold = [defaults boolForKey:@"auto_hold"];
     tilt_hold_x = [defaults floatForKey:@"tilt_hold_x"];
     tilt_hold_y = [defaults floatForKey:@"tilt_hold_y"];
+    auto_center_x = [defaults boolForKey:@"auto_center_x"];
+    auto_center_y = [defaults boolForKey:@"auto_center_y"];
     NSArray *savedTiltMatrix = [defaults objectForKey:@"tiltTransformMatrix"];
     if ([savedTiltMatrix count] == 9)
     {
