@@ -18,6 +18,7 @@
 		0B020491111F1DA000FB4E71 /* Toggle Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020487111F1DA000FB4E71 /* Toggle Button.png */; };
 		0B02049B111F232500FB4E71 /* MultiStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B02049A111F232500FB4E71 /* MultiStateButton.m */; };
 		0B08BDE40FA447AA00BAF947 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */; };
+		0B0FC72312D935EE0023F712 /* libisimulate-4.x.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0FC72212D935EE0023F712 /* libisimulate-4.x.a */; };
 		0B54D5F21056024500540CC7 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16DB710514E310095D600 /* iTunesArtwork */; };
 		0B6340110FA8960000C511A9 /* LinearWheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6340100FA8960000C511A9 /* LinearWheelControl.m */; };
 		0B63404C0FA8A4C100C511A9 /* Default Linear Wheel BG.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */; };
@@ -26,7 +27,6 @@
 		0B8BA85C10572D8A00D42EDD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8BA85B10572D8A00D42EDD /* Default.png */; };
 		0BBF386C10E0FE0A009371F9 /* CalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */; };
 		0BBF387010E0FE63009371F9 /* CalibrationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BBF386F10E0FE63009371F9 /* CalibrationView.xib */; };
-		0BBF390710E26C6B009371F9 /* libisimulate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBF390610E26C6B009371F9 /* libisimulate.a */; };
 		0BBF391610E26CD7009371F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBF391510E26CD7009371F9 /* CoreLocation.framework */; };
 		0BD16DB810514E310095D600 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16DB610514E310095D600 /* Icon.png */; };
 		0BD16E2E1051708A0095D600 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD16E2D1051708A0095D600 /* HelpViewController.m */; };
@@ -57,6 +57,7 @@
 		0B02049A111F232500FB4E71 /* MultiStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiStateButton.m; path = Classes/MultiStateButton.m; sourceTree = "<group>"; };
 		0B08BDE20FA447AA00BAF947 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncUdpSocket.h; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.h"; sourceTree = "<group>"; };
 		0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncUdpSocket.m; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.m"; sourceTree = "<group>"; };
+		0B0FC72212D935EE0023F712 /* libisimulate-4.x.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libisimulate-4.x.a"; sourceTree = "<group>"; };
 		0B63400F0FA8960000C511A9 /* LinearWheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinearWheelControl.h; path = Classes/LinearWheelControl.h; sourceTree = "<group>"; };
 		0B6340100FA8960000C511A9 /* LinearWheelControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinearWheelControl.m; path = Classes/LinearWheelControl.m; sourceTree = "<group>"; };
 		0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default Linear Wheel BG.png"; path = "Images/Default Linear Wheel BG.png"; sourceTree = "<group>"; };
@@ -65,15 +66,9 @@
 		0B6342690FA91BC200C511A9 /* TrackPadControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrackPadControl.h; path = Classes/TrackPadControl.h; sourceTree = "<group>"; };
 		0B63426A0FA91BC200C511A9 /* TrackPadControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrackPadControl.m; path = Classes/TrackPadControl.m; sourceTree = "<group>"; };
 		0B8BA85B10572D8A00D42EDD /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Images/Default.png; sourceTree = "<group>"; };
-		0BBF33370FCCB95A00F4F71B /* base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = base.xcconfig; path = "Build Configuration/base.xcconfig"; sourceTree = "<group>"; };
-		0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = beta.xcconfig; path = "Build Configuration/beta.xcconfig"; sourceTree = "<group>"; };
-		0BBF333F0FCCB9D500F4F71B /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = "Build Configuration/debug.xcconfig"; sourceTree = "<group>"; };
-		0BBF33430FCCBB8500F4F71B /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = release.xcconfig; path = "Build Configuration/release.xcconfig"; sourceTree = "<group>"; };
-		0BBF33710FCCBE2600F4F71B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = "Build Configuration/Entitlements.plist"; sourceTree = "<group>"; };
 		0BBF386A10E0FE0A009371F9 /* CalibrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalibrationViewController.h; path = Classes/CalibrationViewController.h; sourceTree = "<group>"; };
 		0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalibrationViewController.m; path = Classes/CalibrationViewController.m; sourceTree = "<group>"; };
 		0BBF386F10E0FE63009371F9 /* CalibrationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CalibrationView.xib; path = Nibs/CalibrationView.xib; sourceTree = "<group>"; };
-		0BBF390610E26C6B009371F9 /* libisimulate.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libisimulate.a; sourceTree = "<group>"; };
 		0BBF391510E26CD7009371F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0BD16DB610514E310095D600 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/ICONS/Icon.png; sourceTree = "<group>"; };
 		0BD16DB710514E310095D600 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = file; name = iTunesArtwork; path = Images/ICONS/iTunesArtwork; sourceTree = "<group>"; };
@@ -107,8 +102,8 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */,
-				0BBF390710E26C6B009371F9 /* libisimulate.a in Frameworks */,
 				0BBF391610E26CD7009371F9 /* CoreLocation.framework in Frameworks */,
+				0B0FC72312D935EE0023F712 /* libisimulate-4.x.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,18 +153,6 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		0BBF33340FCCB8A200F4F71B /* Build Config */ = {
-			isa = PBXGroup;
-			children = (
-				0BBF33370FCCB95A00F4F71B /* base.xcconfig */,
-				0BBF33710FCCBE2600F4F71B /* Entitlements.plist */,
-				0BBF33430FCCBB8500F4F71B /* release.xcconfig */,
-				0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */,
-				0BBF333F0FCCB9D500F4F71B /* debug.xcconfig */,
-			);
-			name = "Build Config";
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,7 +187,6 @@
 			isa = PBXGroup;
 			children = (
 				0BD62FEF10E35FCC0006F74B /* Read Me.txt */,
-				0BBF33340FCCB8A200F4F71B /* Build Config */,
 				0B08BDD70FA447A000BAF947 /* 3rd Party */,
 				0B08BD2D0FA3CFE300BAF947 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -255,7 +237,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0BBF390610E26C6B009371F9 /* libisimulate.a */,
+				0B0FC72212D935EE0023F712 /* libisimulate-4.x.a */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765580DF743DE002DB57D /* CoreGraphics.framework */,
@@ -274,7 +256,6 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				0BD16DD110514FF60095D600 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -292,6 +273,7 @@
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Wi-Fly-app" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -338,22 +320,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		0BD16DD110514FF60095D600 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This doesn't seem to work -- gives error when installing on device...\nexit 0\n\nif [ \"$BUILD_STYLE\" = \"Beta\" ]; then\n\tcd \"${CONFIGURATION_BUILD_DIR}\"\n\tmkdir -p Payload\n\tcp -R \"${WRAPPER_NAME}\" Payload\n\tzip -r \"${PRODUCT_NAME}.ipa\" Payload\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -377,58 +343,99 @@
 /* Begin XCBuildConfiguration section */
 		0BA4147F0FEC660800A346AB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BBF333F0FCCB9D500F4F71B /* debug.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Daniel Dickison (732U6X5BAW)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iX_Yoke_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				OTHER_CFLAGS = "-Wall";
+				PROVISIONING_PROFILE = "53531307-1F81-4ECF-8A7F-1086786850D8";
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
 		0BA414800FEC660800A346AB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BBF333F0FCCB9D500F4F71B /* debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				INFOPLIST_FILE = "iX_Yoke-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
+				PRODUCT_NAME = WiFlyRemote;
 			};
 			name = Debug;
 		};
 		0BA414810FEC660B00A346AB /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Daniel Dickison";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iX_Yoke_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				OTHER_CFLAGS = "-Wall";
+				PROVISIONING_PROFILE = "61FDC3F7-B014-4B09-BE54-3CD88B6FE7E8";
+				SDKROOT = iphoneos;
 			};
 			name = Beta;
 		};
 		0BA414820FEC660B00A346AB /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BBF333B0FCCB98D00F4F71B /* beta.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				INFOPLIST_FILE = "iX_Yoke-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
+				PRODUCT_NAME = WiFlyRemote;
 			};
 			name = Beta;
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BBF33430FCCBB8500F4F71B /* release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				INFOPLIST_FILE = "iX_Yoke-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
+				PRODUCT_NAME = WiFlyRemote;
 			};
 			name = Release;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BBF33430FCCBB8500F4F71B /* release.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Daniel Dickison";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iX_Yoke_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				OTHER_CFLAGS = "-Wall";
+				PROVISIONING_PROFILE = "182A8EE8-51F4-439B-8C73-7224D843144A";
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
