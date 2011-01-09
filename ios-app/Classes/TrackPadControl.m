@@ -30,7 +30,7 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-    if (self = [super initWithCoder:coder])
+    if ((self = [super initWithCoder:coder]))
     {
         pointRadius = 8.0f;
     }
