@@ -1,8 +1,7 @@
 Wi-Fly
 =======
 
-Website: http://danieldickison.com/wifly/
-Contact: Daniel Dickison <danieldickison+wifly@gmail.com>
+* Website: http://danieldickison.com/wifly/
 
 This is an X-Plane plugin and an iPhone app that lets you use the iPhone as a remote control yoke/joystick for X-Plane.
 
