@@ -18,7 +18,7 @@
 		0B020491111F1DA000FB4E71 /* Toggle Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020487111F1DA000FB4E71 /* Toggle Button.png */; };
 		0B02049B111F232500FB4E71 /* MultiStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B02049A111F232500FB4E71 /* MultiStateButton.m */; };
 		0B08BDE40FA447AA00BAF947 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */; };
-		0B0FC72312D935EE0023F712 /* libisimulate-4.x.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0FC72212D935EE0023F712 /* libisimulate-4.x.a */; };
+		0B0FC7BC12D95B3C0023F712 /* libisimulate-4.x.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0FC7BB12D95B3C0023F712 /* libisimulate-4.x.a */; };
 		0B54D5F21056024500540CC7 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16DB710514E310095D600 /* iTunesArtwork */; };
 		0B6340110FA8960000C511A9 /* LinearWheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6340100FA8960000C511A9 /* LinearWheelControl.m */; };
 		0B63404C0FA8A4C100C511A9 /* Default Linear Wheel BG.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */; };
@@ -57,7 +57,7 @@
 		0B02049A111F232500FB4E71 /* MultiStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiStateButton.m; path = Classes/MultiStateButton.m; sourceTree = "<group>"; };
 		0B08BDE20FA447AA00BAF947 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncUdpSocket.h; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.h"; sourceTree = "<group>"; };
 		0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncUdpSocket.m; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.m"; sourceTree = "<group>"; };
-		0B0FC72212D935EE0023F712 /* libisimulate-4.x.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libisimulate-4.x.a"; sourceTree = "<group>"; };
+		0B0FC7BB12D95B3C0023F712 /* libisimulate-4.x.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libisimulate-4.x.a"; path = "3rd Party/libisimulate-4.x.a"; sourceTree = "<group>"; };
 		0B63400F0FA8960000C511A9 /* LinearWheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinearWheelControl.h; path = Classes/LinearWheelControl.h; sourceTree = "<group>"; };
 		0B6340100FA8960000C511A9 /* LinearWheelControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinearWheelControl.m; path = Classes/LinearWheelControl.m; sourceTree = "<group>"; };
 		0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default Linear Wheel BG.png"; path = "Images/Default Linear Wheel BG.png"; sourceTree = "<group>"; };
@@ -75,7 +75,6 @@
 		0BD16E2C1051708A0095D600 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpViewController.h; path = Classes/HelpViewController.h; sourceTree = "<group>"; };
 		0BD16E2D1051708A0095D600 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpViewController.m; path = Classes/HelpViewController.m; sourceTree = "<group>"; };
 		0BD16E2F105172F20095D600 /* local-help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "local-help"; sourceTree = "<group>"; };
-		0BD62FEF10E35FCC0006F74B /* Read Me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Read Me.txt"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iX_YokeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iX_YokeAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iX_YokeAppDelegate.m; sourceTree = "<group>"; };
@@ -103,7 +102,7 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */,
 				0BBF391610E26CD7009371F9 /* CoreLocation.framework in Frameworks */,
-				0B0FC72312D935EE0023F712 /* libisimulate-4.x.a in Frameworks */,
+				0B0FC7BC12D95B3C0023F712 /* libisimulate-4.x.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +185,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				0BD62FEF10E35FCC0006F74B /* Read Me.txt */,
 				0B08BDD70FA447A000BAF947 /* 3rd Party */,
 				0B08BD2D0FA3CFE300BAF947 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -237,7 +235,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0B0FC72212D935EE0023F712 /* libisimulate-4.x.a */,
+				0B0FC7BB12D95B3C0023F712 /* libisimulate-4.x.a */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765580DF743DE002DB57D /* CoreGraphics.framework */,
@@ -366,6 +364,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/3rd Party\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -398,6 +397,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/3rd Party\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -415,6 +415,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/3rd Party\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
