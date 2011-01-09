@@ -250,6 +250,7 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     NSLog(@"Calibration has been set:");
     NSLog(@"Center vector: <%f, %f, %f>", cv[0], cv[1], cv[2]);
     NSLog(@"Forward vector: <%f, %f, %f>", fv[0], fv[1], fv[2]);
+    NSLog(@"Rotation axis: <%f, %f, %f>", caxis[0], caxis[1], caxis[2]);
     NSLog(@"Forward vector rotated: <%f, %f, %f>", fvp[0], fvp[1], fvp[2]);
     NSLog(@"Rotation 1 angle: %f degrees", 180.0f * ctheta / M_PI);
     NSLog(@"Rotation 2 angle: %f degrees", 180.0f * ftheta / M_PI);
@@ -286,21 +287,30 @@ void matMult(float* outMatrix, float *A, float *B, int aCols_bRows, int aRows, i
 void rotMat(float* outMat9, const float* axis, float theta)
 {
     float mag = sqrtf(axis[0]*axis[0] + axis[1]*axis[1] + axis[2]*axis[2]);
-    float x = axis[0] / mag;
-    float y = axis[1] / mag;
-    float z = axis[2] / mag;
+    float x, y, z;
+    if (mag == 0)
+    {
+        x = 1;
+        y = z = 0;
+    }
+    else
+    {
+        x = axis[0] / mag;
+        y = axis[1] / mag;
+        z = axis[2] / mag;
+    }
     float s = sinf(theta);
     float c = cosf(theta);
     
     // See http://en.wikipedia.org/wiki/Rotation_matrix#Axis_of_a_rotation
-    outMat9[0] = x * x  +  (1.0f - x * x) * c;
-    outMat9[1] = x * y * (1.0f - c)  -  z * s;
-    outMat9[2] = x * z * (1.0f - c)  +  y * s;
-    outMat9[3] = x * y * (1.0f - c)  +  z * s;
-    outMat9[4] = y * y  +  (1.0f - y * y) * c;
-    outMat9[5] = y * z * (1.0f - c)  -  x * s;
-    outMat9[6] = x * z * (1.0f - c)  -  y * s;
-    outMat9[7] = y * z * (1.0f - c)  +  x * s;
-    outMat9[8] = z * z  +  (1.0f - z * z) * c;
+    outMat9[0] = (x*x)*(1-c) + c;
+    outMat9[1] = (x*y)*(1-c) - (z*s); //+-
+    outMat9[2] = (x*z)*(1-c) + (y*s); //+-
+    outMat9[3] = (x*y)*(1-c) + (z*s); //+-
+    outMat9[4] = (y*y)*(1-c) + c;
+    outMat9[5] = (y*z)*(1-c) - (x*s); //+-
+    outMat9[6] = (x*z)*(1-c) - (y*s); //+-
+    outMat9[7] = (y*z)*(1-c) + (x*s); //+-
+    outMat9[8] = (z*z)*(1-c) + c;
 }
 
