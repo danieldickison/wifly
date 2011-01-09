@@ -305,13 +305,20 @@ typedef enum AsyncUdpSocketError AsyncUdpSocketError;
 **/
 - (BOOL)setRunLoopModes:(NSArray *)runLoopModes;
 
+/**
+ * Returns the current run loop modes the AsyncSocket instance is operating in.
+ * The default set of run loop modes is NSDefaultRunLoopMode.
+**/
+- (NSArray *)runLoopModes;
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@interface NSObject (AsyncUdpSocketDelegate)
+@protocol AsyncUdpSocketDelegate
+@optional
 
 /**
  * Called when the datagram with the given tag has been sent.
