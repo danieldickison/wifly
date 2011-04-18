@@ -70,6 +70,12 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     [defaults setFloat:tilt_hold_y forKey:@"tilt_hold_y"];
     [defaults setBool:auto_center_x forKey:@"auto_center_x"];
     [defaults setBool:auto_center_y forKey:@"auto_center_y"];
+    [defaults synchronize];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [self applicationWillTerminate:application];
 }
 
 
