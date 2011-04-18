@@ -17,6 +17,8 @@
 		0B020490111F1DA000FB4E71 /* Toggle Button Tilt.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020486111F1DA000FB4E71 /* Toggle Button Tilt.png */; };
 		0B020491111F1DA000FB4E71 /* Toggle Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B020487111F1DA000FB4E71 /* Toggle Button.png */; };
 		0B02049B111F232500FB4E71 /* MultiStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B02049A111F232500FB4E71 /* MultiStateButton.m */; };
+		0B02FE60135CF42500C8ACD4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B02FE5E135CF42500C8ACD4 /* Icon.png */; };
+		0B02FE61135CF42500C8ACD4 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B02FE5F135CF42500C8ACD4 /* Icon@2x.png */; };
 		0B08BDE40FA447AA00BAF947 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */; };
 		0B0FC7BC12D95B3C0023F712 /* libisimulate-4.x.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0FC7BB12D95B3C0023F712 /* libisimulate-4.x.a */; };
 		0B54D5F21056024500540CC7 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16DB710514E310095D600 /* iTunesArtwork */; };
@@ -28,7 +30,6 @@
 		0BBF386C10E0FE0A009371F9 /* CalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */; };
 		0BBF387010E0FE63009371F9 /* CalibrationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BBF386F10E0FE63009371F9 /* CalibrationView.xib */; };
 		0BBF391610E26CD7009371F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBF391510E26CD7009371F9 /* CoreLocation.framework */; };
-		0BD16DB810514E310095D600 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16DB610514E310095D600 /* Icon.png */; };
 		0BD16E2E1051708A0095D600 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD16E2D1051708A0095D600 /* HelpViewController.m */; };
 		0BD16E33105172F20095D600 /* local-help in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16E2F105172F20095D600 /* local-help */; };
 		1D3623260D0F684500981E51 /* iX_YokeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */; };
@@ -55,6 +56,8 @@
 		0B020487111F1DA000FB4E71 /* Toggle Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button.png"; path = "Images/Toggle Button.png"; sourceTree = "<group>"; };
 		0B020499111F232500FB4E71 /* MultiStateButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiStateButton.h; path = Classes/MultiStateButton.h; sourceTree = "<group>"; };
 		0B02049A111F232500FB4E71 /* MultiStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiStateButton.m; path = Classes/MultiStateButton.m; sourceTree = "<group>"; };
+		0B02FE5E135CF42500C8ACD4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/ICONS/Icon.png; sourceTree = "<group>"; };
+		0B02FE5F135CF42500C8ACD4 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images/ICONS/Icon@2x.png"; sourceTree = "<group>"; };
 		0B08BDE20FA447AA00BAF947 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncUdpSocket.h; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.h"; sourceTree = "<group>"; };
 		0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncUdpSocket.m; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.m"; sourceTree = "<group>"; };
 		0B0FC7BB12D95B3C0023F712 /* libisimulate-4.x.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libisimulate-4.x.a"; path = "3rd Party/libisimulate-4.x.a"; sourceTree = "<group>"; };
@@ -70,7 +73,6 @@
 		0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalibrationViewController.m; path = Classes/CalibrationViewController.m; sourceTree = "<group>"; };
 		0BBF386F10E0FE63009371F9 /* CalibrationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CalibrationView.xib; path = Nibs/CalibrationView.xib; sourceTree = "<group>"; };
 		0BBF391510E26CD7009371F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		0BD16DB610514E310095D600 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/ICONS/Icon.png; sourceTree = "<group>"; };
 		0BD16DB710514E310095D600 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = file; name = iTunesArtwork; path = Images/ICONS/iTunesArtwork; sourceTree = "<group>"; };
 		0BD16E2C1051708A0095D600 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpViewController.h; path = Classes/HelpViewController.h; sourceTree = "<group>"; };
 		0BD16E2D1051708A0095D600 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpViewController.m; path = Classes/HelpViewController.m; sourceTree = "<group>"; };
@@ -218,16 +220,17 @@
 				0B020485111F1DA000FB4E71 /* Toggle Button Tilt On.png */,
 				0B020486111F1DA000FB4E71 /* Toggle Button Tilt.png */,
 				0B020487111F1DA000FB4E71 /* Toggle Button.png */,
-				0BD16DB610514E310095D600 /* Icon.png */,
 				0BD16DB710514E310095D600 /* iTunesArtwork */,
 				0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */,
 				0B63404B0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png */,
 				280E754A0DD40C5E005A515E /* FlipsideView.xib */,
 				280E754B0DD40C5E005A515E /* MainView.xib */,
 				280E754C0DD40C5E005A515E /* MainWindow.xib */,
-				8D1107310486CEB800E47090 /* iX_Yoke-Info.plist */,
-				0B8BA85B10572D8A00D42EDD /* Default.png */,
 				0BBF386F10E0FE63009371F9 /* CalibrationView.xib */,
+				8D1107310486CEB800E47090 /* iX_Yoke-Info.plist */,
+				0B02FE5E135CF42500C8ACD4 /* Icon.png */,
+				0B02FE5F135CF42500C8ACD4 /* Icon@2x.png */,
+				0B8BA85B10572D8A00D42EDD /* Default.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -299,7 +302,6 @@
 				280E754F0DD40C5E005A515E /* MainWindow.xib in Resources */,
 				0B63404C0FA8A4C100C511A9 /* Default Linear Wheel BG.png in Resources */,
 				0B63404D0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png in Resources */,
-				0BD16DB810514E310095D600 /* Icon.png in Resources */,
 				0BD16E33105172F20095D600 /* local-help in Resources */,
 				0B54D5F21056024500540CC7 /* iTunesArtwork in Resources */,
 				0B8BA85C10572D8A00D42EDD /* Default.png in Resources */,
@@ -313,6 +315,8 @@
 				0B02048F111F1DA000FB4E71 /* Toggle Button Tilt On.png in Resources */,
 				0B020490111F1DA000FB4E71 /* Toggle Button Tilt.png in Resources */,
 				0B020491111F1DA000FB4E71 /* Toggle Button.png in Resources */,
+				0B02FE60135CF42500C8ACD4 /* Icon.png in Resources */,
+				0B02FE61135CF42500C8ACD4 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,39 +378,6 @@
 			};
 			name = Debug;
 		};
-		0BA414810FEC660B00A346AB /* Beta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Daniel Dickison";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = iX_Yoke_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				OTHER_CFLAGS = "-Wall";
-				PROVISIONING_PROFILE = "61FDC3F7-B014-4B09-BE54-3CD88B6FE7E8";
-				SDKROOT = iphoneos;
-			};
-			name = Beta;
-		};
-		0BA414820FEC660B00A346AB /* Beta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				INFOPLIST_FILE = "iX_Yoke-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/3rd Party\"",
-				);
-				OTHER_LDFLAGS = (
-					"-all_load",
-					"-ObjC",
-				);
-				PRODUCT_NAME = WiFlyRemote;
-			};
-			name = Beta;
-		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -447,7 +418,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058950D05DD3E006BFB54 /* Release */,
-				0BA414820FEC660B00A346AB /* Beta */,
 				0BA414800FEC660800A346AB /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -457,7 +427,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF5008A954540054247B /* Release */,
-				0BA414810FEC660B00A346AB /* Beta */,
 				0BA4147F0FEC660800A346AB /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
