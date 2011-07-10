@@ -2,3 +2,5 @@
 *.mode1v3
 .DS_Store
 /ios-app/build/
+project.xcworkspace
+xcuserdata
