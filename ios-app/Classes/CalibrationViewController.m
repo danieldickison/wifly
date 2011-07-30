@@ -61,8 +61,8 @@ enum {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    SharedAppDelegate.tilt_hold = NO;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:SharedAppDelegate];
+    SharedAppDelegate.tiltController.hold = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:nil];
     currentStep = kStepOrientCenter;
     [self updateInstructions];
 }
@@ -76,15 +76,15 @@ enum {
 
 - (void)tiltUpdated:(NSNotification *)notification
 {
-    tiltView.xValue = SharedAppDelegate.tilt_x;
-    tiltView.yValue = 1.0f - SharedAppDelegate.tilt_y;
+    tiltView.xValue = SharedAppDelegate.tiltController.x;
+    tiltView.yValue = 1.0f - SharedAppDelegate.tiltController.y;
 }
 
 
 
 - (IBAction)done
 {
-    [SharedAppDelegate setCalibrationWithCenterVector:centerVector forwardVector:forwardVector];
+    [SharedAppDelegate.tiltController setPortraitCalibrationWithCenterVector:centerVector forwardVector:forwardVector];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -110,11 +110,11 @@ enum {
 {
     if (currentStep == kStepTapCenter)
     {
-        [SharedAppDelegate getAccelerationVector:centerVector];
+        [SharedAppDelegate.tiltController getAccelerationVector:centerVector];
     }
     else if (currentStep == kStepTapForward)
     {
-        [SharedAppDelegate getAccelerationVector:forwardVector];
+        [SharedAppDelegate.tiltController getAccelerationVector:forwardVector];
     }
     
     if (currentStep != kStepDone) currentStep++;

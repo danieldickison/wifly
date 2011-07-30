@@ -29,7 +29,7 @@
     TrackPadControl *tiltView;
     MultiStateButton *holdButton;
     MultiStateButton *autoCenterButton;
-    int trackpadTouchCount;
+    BOOL autoHold;
 }
 
 @property (nonatomic, retain) IBOutlet TrackPadControl *trackpad;

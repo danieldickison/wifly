@@ -59,12 +59,12 @@ enum {
     [super viewDidLoad];
     
     trackpad.interactionMode = TrackPadTouchesValueRelative;
-    trackpad.xValue = SharedAppDelegate.touch_x;
-    trackpad.yValue = SharedAppDelegate.touch_y;
+    trackpad.xValue = SharedAppDelegate.remoteController.trackpad1_x;
+    trackpad.yValue = SharedAppDelegate.remoteController.trackpad1_y;
     
     tiltView.interactionMode = TrackPadTouchesIgnored;
     tiltView.pointRadius = 5.0f;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:SharedAppDelegate];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:nil];
     
     [holdButton setImage:[UIImage imageNamed:@"Toggle Button Tilt On.png"] forState:kHoldStateOn];
     [holdButton setImage:[UIImage imageNamed:@"Toggle Button Tilt Auto.png"] forState:kHoldStateAuto];
@@ -90,7 +90,8 @@ enum {
 
 - (void)tiltUpdated:(NSNotification *)notification
 {
-    [tiltView setXValue:SharedAppDelegate.tilt_hold_x yValue:(1.0f - SharedAppDelegate.tilt_hold_y) xCrosshair:SharedAppDelegate.tilt_x yCrosshair:(1.0f - SharedAppDelegate.tilt_y)];
+    TiltController *tilt = SharedAppDelegate.tiltController;
+    [tiltView setXValue:tilt.hold_x yValue:(1.0f - tilt.hold_y) xCrosshair:tilt.x yCrosshair:(1.0f - tilt.y)];
 }
 
 
@@ -118,40 +119,26 @@ enum {
 
 - (IBAction)trackpadUpdated
 {
-    SharedAppDelegate.touch_x = trackpad.xValue;
-    SharedAppDelegate.touch_y = trackpad.yValue;
+    SharedAppDelegate.remoteController.trackpad1_x = trackpad.xValue;
+    SharedAppDelegate.remoteController.trackpad1_y = trackpad.yValue;
 }
 
 
 - (IBAction)trackpadTouchDown
 {
-    if (trackpadTouchCount == 0 &&
-        SharedAppDelegate.auto_hold)
+    if (autoHold)
     {
-        SharedAppDelegate.tilt_hold = NO;
+        SharedAppDelegate.tiltController.hold = NO;
         holdButton.customStates = self.holdButtonState;
     }
-    trackpadTouchCount++;
 }
 
 - (IBAction)trackpadTouchUp
 {
-    trackpadTouchCount--;
-    if (trackpadTouchCount == 0)
+    if (autoHold)
     {
-        if (SharedAppDelegate.auto_hold)
-        {
-            SharedAppDelegate.tilt_hold = YES;
-            holdButton.customStates = self.holdButtonState;
-        }
-        if (SharedAppDelegate.auto_center_x)
-        {
-            trackpad.xValue = SharedAppDelegate.touch_x = 0.5f;
-        }
-        if (SharedAppDelegate.auto_center_y)
-        {
-            trackpad.yValue = SharedAppDelegate.touch_y = 0.5f;
-        }
+        SharedAppDelegate.tiltController.hold = YES;
+        holdButton.customStates = self.holdButtonState;
     }
 }
 
@@ -159,56 +146,48 @@ enum {
 
 - (IBAction)holdAction
 {
-    if (SharedAppDelegate.auto_hold)
+    TiltController *tilt = SharedAppDelegate.tiltController;
+    if (autoHold)
     {
-        SharedAppDelegate.auto_hold = NO;
-        SharedAppDelegate.tilt_hold = YES;
+        autoHold = NO;
+        tilt.hold = YES;
     }
-    else if (SharedAppDelegate.tilt_hold)
+    else if (tilt.hold)
     {
-        SharedAppDelegate.auto_hold = NO;
-        SharedAppDelegate.tilt_hold = NO;
+        autoHold = NO;
+        tilt.hold = NO;
     }
     else
     {
-        SharedAppDelegate.auto_hold = YES;
-        SharedAppDelegate.tilt_hold = YES;
+        autoHold = YES;
+        tilt.hold = YES;
     }
     holdButton.customStates = self.holdButtonState;
 }
 
 - (IBAction)autoCenterAction
 {
-    if (SharedAppDelegate.auto_center_x && SharedAppDelegate.auto_center_y)
-    {
-        SharedAppDelegate.auto_center_x = NO;
-        SharedAppDelegate.auto_center_y = NO;
-    }
-    else if (!SharedAppDelegate.auto_center_x)
-    {
-        SharedAppDelegate.auto_center_x = YES;
-        trackpad.xValue = SharedAppDelegate.touch_x = 0.5f;
-    }
-    else
-    {
-        SharedAppDelegate.auto_center_x = NO;
-        SharedAppDelegate.auto_center_y = YES;
-        trackpad.yValue = SharedAppDelegate.touch_y = 0.5f;
-    }
+    trackpad.autoCenterMode = (trackpad.autoCenterMode == TrackPadAutoCenterOff ?
+                               TrackPadAutoCenterX :
+                               trackpad.autoCenterMode == TrackPadAutoCenterX ?
+                               TrackPadAutoCenterY :
+                               trackpad.autoCenterMode == TrackPadAutoCenterY ?
+                               TrackPadAutoCenterBoth :
+                               TrackPadAutoCenterOff);
     autoCenterButton.customStates = self.autoCenterButtonState;
 }
 
 
 - (UIControlState)holdButtonState
 {
-    return ((SharedAppDelegate.tilt_hold ? kHoldStateOn : 0) |
-            (SharedAppDelegate.auto_hold ? kHoldStateAuto : 0));
+    return ((SharedAppDelegate.tiltController.hold ? kHoldStateOn : 0) |
+            (autoHold ? kHoldStateAuto : 0));
 }
 
 - (UIControlState)autoCenterButtonState
 {
-    return ((SharedAppDelegate.auto_center_x ? kAutoCenterStateX : 0) |
-            (SharedAppDelegate.auto_center_y ? kAutoCenterStateY : 0));
+    return ((trackpad.autoCenterMode & TrackPadAutoCenterX ? kAutoCenterStateX : 0) |
+            (trackpad.autoCenterMode & TrackPadAutoCenterY ? kAutoCenterStateY : 0));
 }
 
 

@@ -33,12 +33,7 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 @implementation TrackPadControl
 
 @synthesize interactionMode, pointRadius;
-
-
-- (void)dealloc
-{
-    [super dealloc];
-}
+@synthesize  autoCenterMode;
 
 - (id)initWithCoder:(NSCoder *)coder
 {
@@ -82,6 +77,20 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     self.yValue = y;
     crosshairPoint.x = roundf(CGRectGetMinX(self.bounds) + pointRadius + (self.bounds.size.width - 2.0f*pointRadius) * cx);
     crosshairPoint.y = roundf(CGRectGetMaxY(self.bounds) - pointRadius - (self.bounds.size.height - 2.0f*pointRadius) * cy);
+}
+
+
+- (void)setAutoCenterMode:(TrackPadAutoCenterMode)mode
+{
+    autoCenterMode = mode;
+    if (autoCenterMode & TrackPadAutoCenterX)
+    {
+        self.xValue = 0.5;
+    }
+    if (autoCenterMode & TrackPadAutoCenterY)
+    {
+        self.yValue = 0.5;
+    }
 }
 
 
@@ -179,10 +188,11 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 {
     if (interactionMode == TrackPadTouchesIgnored) return;
     
-    for (int i = 0; i < [touches count]; i++)
+    if (touchCount == 0)
     {
         [self sendActionsForControlEvents:UIControlEventTouchDown];
     }
+    touchCount += [touches count];
     
     NSSet *myTouches = [event touchesForView:self];
     // Single-touch for moving; two-fingers used to be for zooming...not any more.
@@ -238,8 +248,17 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    for (int i = 0; i < [touches count]; i++)
+    touchCount -= [touches count];
+    if (touchCount == 0)
     {
+        if (autoCenterMode & TrackPadAutoCenterX)
+        {
+            self.xValue = 0.5;
+        }
+        if (autoCenterMode & TrackPadAutoCenterY)
+        {
+            self.yValue = 0.5;
+        }
         [self sendActionsForControlEvents:UIControlEventTouchUpInside];
     }
 }

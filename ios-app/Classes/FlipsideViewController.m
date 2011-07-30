@@ -44,10 +44,11 @@
     self.navigationItem.leftBarButtonItem = helpButton;
     self.title = NSLocalizedString(@"Setup", @"");
     
-    ipField.text = SharedAppDelegate.hostAddress;
+    RemoteController *remote = SharedAppDelegate.remoteController;
+    ipField.text = remote.hostAddress;
     portField.text =
-        (SharedAppDelegate.hostPort == 0 ? nil
-         : [NSString stringWithFormat:@"%d", SharedAppDelegate.hostPort]);
+        (remote.hostPort == 0 ? nil
+         : [NSString stringWithFormat:@"%d", remote.hostPort]);
 
     tiltView.interactionMode = TrackPadTouchesIgnored;
 }
@@ -65,7 +66,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:SharedAppDelegate];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -77,7 +78,8 @@
 
 - (void)tiltUpdated:(NSNotification *)notification
 {
-    [tiltView setXValue:SharedAppDelegate.tilt_hold_x yValue:(1.0f - SharedAppDelegate.tilt_hold_y) xCrosshair:SharedAppDelegate.tilt_x yCrosshair:(1.0f - SharedAppDelegate.tilt_y)];
+    TiltController *tilt = SharedAppDelegate.tiltController;
+    [tiltView setXValue:tilt.hold_x yValue:(1.0f - tilt.hold_y) xCrosshair:tilt.x yCrosshair:(1.0f - tilt.y)];
 }
 
 
@@ -97,12 +99,12 @@
 
 - (IBAction)ipFieldChanged
 {
-    SharedAppDelegate.hostAddress = ipField.text;
+    SharedAppDelegate.remoteController.hostAddress = ipField.text;
 }
 
 - (IBAction)portFieldChanged
 {
-    SharedAppDelegate.hostPort = [portField.text intValue];
+    SharedAppDelegate.remoteController.hostPort = [portField.text intValue];
 }
 
 

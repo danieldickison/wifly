@@ -27,18 +27,28 @@ typedef enum {
     TrackPadTouchesValueAbsolute
 } TrackPadInteractionMode;
 
+typedef enum {
+    TrackPadAutoCenterOff = 0,
+    TrackPadAutoCenterX = 1 << 0,
+    TrackPadAutoCenterY = 1 << 1,
+    TrackPadAutoCenterBoth = TrackPadAutoCenterX | TrackPadAutoCenterY
+} TrackPadAutoCenterMode;
+
 
 @interface TrackPadControl : UIControl
 {
     CGPoint valuePoint;
     CGPoint crosshairPoint;
     TrackPadInteractionMode interactionMode;
+    TrackPadAutoCenterMode autoCenterMode;
     CGFloat pointRadius;
+    int touchCount;
 }
 
 @property (nonatomic, assign) float xValue;
 @property (nonatomic, assign) float yValue;
 @property (nonatomic, assign) TrackPadInteractionMode interactionMode;
+@property (nonatomic, assign) TrackPadAutoCenterMode autoCenterMode;
 @property (nonatomic, assign) CGFloat pointRadius;
 
 // Use this if you want the crosshairs to be different from the value point.

@@ -29,6 +29,8 @@
 		0B8BA85C10572D8A00D42EDD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8BA85B10572D8A00D42EDD /* Default.png */; };
 		0BB1DFFE13E43BEF0020B3BA /* LandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB1DFFC13E43BEF0020B3BA /* LandscapeViewController.m */; };
 		0BB1DFFF13E43BEF0020B3BA /* LandscapeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BB1DFFD13E43BEF0020B3BA /* LandscapeViewController.xib */; };
+		0BB1E00213E4433A0020B3BA /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB1E00113E4433A0020B3BA /* RemoteController.m */; };
+		0BB1E00513E443640020B3BA /* TiltController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB1E00413E443640020B3BA /* TiltController.m */; };
 		0BBF386C10E0FE0A009371F9 /* CalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */; };
 		0BBF387010E0FE63009371F9 /* CalibrationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BBF386F10E0FE63009371F9 /* CalibrationView.xib */; };
 		0BBF391610E26CD7009371F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBF391510E26CD7009371F9 /* CoreLocation.framework */; };
@@ -74,6 +76,10 @@
 		0BB1DFFB13E43BEF0020B3BA /* LandscapeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LandscapeViewController.h; path = Classes/LandscapeViewController.h; sourceTree = "<group>"; };
 		0BB1DFFC13E43BEF0020B3BA /* LandscapeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LandscapeViewController.m; path = Classes/LandscapeViewController.m; sourceTree = "<group>"; };
 		0BB1DFFD13E43BEF0020B3BA /* LandscapeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LandscapeViewController.xib; path = Classes/LandscapeViewController.xib; sourceTree = "<group>"; };
+		0BB1E00013E4433A0020B3BA /* RemoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteController.h; sourceTree = "<group>"; };
+		0BB1E00113E4433A0020B3BA /* RemoteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteController.m; sourceTree = "<group>"; };
+		0BB1E00313E443640020B3BA /* TiltController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiltController.h; sourceTree = "<group>"; };
+		0BB1E00413E443640020B3BA /* TiltController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiltController.m; sourceTree = "<group>"; };
 		0BBF386A10E0FE0A009371F9 /* CalibrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalibrationViewController.h; path = Classes/CalibrationViewController.h; sourceTree = "<group>"; };
 		0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalibrationViewController.m; path = Classes/CalibrationViewController.m; sourceTree = "<group>"; };
 		0BBF386F10E0FE63009371F9 /* CalibrationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CalibrationView.xib; path = Nibs/CalibrationView.xib; sourceTree = "<group>"; };
@@ -121,6 +127,10 @@
 			children = (
 				1D3623240D0F684500981E51 /* iX_YokeAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */,
+				0BB1E00013E4433A0020B3BA /* RemoteController.h */,
+				0BB1E00113E4433A0020B3BA /* RemoteController.m */,
+				0BB1E00313E443640020B3BA /* TiltController.h */,
+				0BB1E00413E443640020B3BA /* TiltController.m */,
 			);
 			name = "Application Delegate";
 			path = Classes;
@@ -350,6 +360,8 @@
 				0BBF386C10E0FE0A009371F9 /* CalibrationViewController.m in Sources */,
 				0B02049B111F232500FB4E71 /* MultiStateButton.m in Sources */,
 				0BB1DFFE13E43BEF0020B3BA /* LandscapeViewController.m in Sources */,
+				0BB1E00213E4433A0020B3BA /* RemoteController.m in Sources */,
+				0BB1E00513E443640020B3BA /* TiltController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

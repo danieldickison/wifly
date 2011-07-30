@@ -32,7 +32,8 @@
 
 enum {
     kServerKillTag,
-    kProtocolVersion1Tag
+    kProtocolVersion1Tag,
+    kProtocolVersion2Tag
 };
 
 
