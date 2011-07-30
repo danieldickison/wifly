@@ -28,11 +28,13 @@
 #define SharedAppDelegate ((iX_YokeAppDelegate *)[UIApplication sharedApplication].delegate)
 
 @class MainViewController;
+@class LandscapeViewController;
 
 @interface iX_YokeAppDelegate : NSObject <UIApplicationDelegate>
 {
     UIWindow *window;
     MainViewController *mainViewController;
+    LandscapeViewController *landscapeViewController;
     RemoteController *remoteController;
     TiltController *tiltController;
 }

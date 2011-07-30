@@ -20,6 +20,7 @@
 
 #import "iX_YokeAppDelegate.h"
 #import "MainViewController.h"
+#import "LandscapeViewController.h"
 #import "AsyncUdpSocket.h"
 #include "iX_Yoke_Network.h"
 
@@ -53,9 +54,12 @@
 	MainViewController *aController = [[MainViewController alloc] initWithNibName:@"MainView" bundle:nil];
 	self.mainViewController = aController;
 	[aController release];
+    
+    landscapeViewController = [[LandscapeViewController alloc] initWithNibName:@"LandscapeViewController" bundle:nil];
 	
     mainViewController.view.frame = [UIScreen mainScreen].applicationFrame;
-	[window addSubview:[mainViewController view]];
+    landscapeViewController.view.frame = [UIScreen mainScreen].applicationFrame;
+	[window addSubview:[landscapeViewController view]];
     [window makeKeyAndVisible];
     
     if ([remoteController.hostAddress length] == 0)

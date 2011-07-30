@@ -7,14 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FlipsideViewController.h"
 
 @class TrackPadControl;
 
-@interface LandscapeViewController : UIViewController
+@interface LandscapeViewController : UIViewController <FlipsideViewControllerDelegate>
 
 @property (nonatomic, retain) IBOutlet TrackPadControl *leftTrackPad;
 @property (nonatomic, retain) IBOutlet TrackPadControl *rightTrackPad;
 
 - (IBAction)infoButtonAction;
+- (IBAction)leftTrackPadChanged;
+- (IBAction)leftTrackPadTouchDown;
+- (IBAction)leftTrackPadTouchUp;
+- (IBAction)rightTrackPadChanged;
+- (IBAction)rightTrackPadTouchDown;
+- (IBAction)rightTrackPadTouchUp;
 
 @end

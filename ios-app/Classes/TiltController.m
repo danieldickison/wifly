@@ -76,14 +76,25 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     acceleration[1] = (float)accel.y * kFilteringFactor + acceleration[1] * (1.0f - kFilteringFactor);
     acceleration[2] = (float)accel.z * kFilteringFactor + acceleration[2] * (1.0f - kFilteringFactor);
     
-    
-    // Apply the rotation matrix to center it about the z-axis.
-    float rotated[3];
-    matMult(rotated, portraitTransformMatrix, acceleration, 3, 3, 1);
-    
-    // Project to the xy plane for pitch & roll.
-    x = 0.5f * (1.0f + rotated[0]);
-    y = 0.5f * (1.0f - rotated[1]);
+    if (landscape)
+    {
+        x = 0.5 - 0.5*acceleration[1];
+        y = (acceleration[2] >= 0 ?
+             1 :
+             acceleration[0] > 0 ?
+             0 :
+             atanf(acceleration[0] / acceleration[2]) / M_PI_2);
+    }
+    else
+    {
+        // Apply the rotation matrix to center it about the z-axis.
+        float rotated[3];
+        matMult(rotated, portraitTransformMatrix, acceleration, 3, 3, 1);
+        
+        // Project to the xy plane for pitch & roll.
+        x = 0.5f * (1.0f + rotated[0]);
+        y = 0.5f * (1.0f - rotated[1]);
+    }
     
     x = MAX(0.0f, MIN(1.0f, x));
     y = MAX(0.0f, MIN(1.0f, y));

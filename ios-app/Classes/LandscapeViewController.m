@@ -8,6 +8,7 @@
 
 #import "LandscapeViewController.h"
 #import "TrackPadControl.h"
+#import "iX_YokeAppDelegate.h"
 
 @implementation LandscapeViewController
 @synthesize leftTrackPad;
@@ -16,18 +17,11 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self)
+    {
         // Custom initialization
     }
     return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
@@ -43,14 +37,17 @@
     [self setLeftTrackPad:nil];
     [self setRightTrackPad:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    SharedAppDelegate.tiltController.landscape = YES;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 - (void)dealloc {
@@ -58,6 +55,48 @@
     [rightTrackPad release];
     [super dealloc];
 }
-- (IBAction)infoButtonAction {
+
+- (IBAction)infoButtonAction
+{
+	FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
+	controller.delegate = self;
+    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    navController.navigationBar.barStyle = UIBarStyleBlack;
+	[self presentModalViewController:navController animated:YES];
+    
+    [controller release];
+	[navController release];
 }
+
+- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller {
+    
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (IBAction)leftTrackPadChanged
+{
+    SharedAppDelegate.remoteController.trackpad1_x = leftTrackPad.xValue;
+    SharedAppDelegate.remoteController.trackpad1_y = leftTrackPad.yValue;
+}
+
+- (IBAction)leftTrackPadTouchDown {
+}
+
+- (IBAction)leftTrackPadTouchUp {
+}
+
+- (IBAction)rightTrackPadChanged
+{
+    SharedAppDelegate.remoteController.trackpad2_x = rightTrackPad.xValue;
+    SharedAppDelegate.remoteController.trackpad2_y = rightTrackPad.yValue;
+}
+
+- (IBAction)rightTrackPadTouchDown {
+}
+
+- (IBAction)rightTrackPadTouchUp {
+}
+
 @end

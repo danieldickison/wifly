@@ -84,7 +84,7 @@
 - (void)setHostPort:(unsigned int)port
 {
     hostPort = port;
-    [[NSUserDefaults standardUserDefaults] setInteger:hostPort forKey:@"hostAddress"];
+    [[NSUserDefaults standardUserDefaults] setInteger:hostPort forKey:@"hostPort"];
 }
 
 @end

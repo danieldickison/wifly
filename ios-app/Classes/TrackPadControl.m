@@ -40,6 +40,7 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     if ((self = [super initWithCoder:coder]))
     {
         pointRadius = 8.0f;
+        interactionMode = TrackPadTouchesValueRelative;
     }
     return self;
 }
