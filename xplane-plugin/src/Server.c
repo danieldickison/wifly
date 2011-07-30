@@ -28,6 +28,8 @@
 #if APL || LIN
 #include <arpa/inet.h>
 #include <errno.h>
+#include <ifaddrs.h>
+#include <net/if.h>
 #endif
 
 #define PACKET_RATE_SENSITIVITY 0.2f
@@ -135,6 +137,7 @@ void get_server_info(char *hostname, size_t hostname_size,
     }
     else
     {
+#if IBM
         struct hostent *host = gethostbyname(hostname);
         if (host == NULL)
         {
@@ -155,6 +158,58 @@ void get_server_info(char *hostname, size_t hostname_size,
                 first_time = 0;
             }
         }
+#else
+        struct ifaddrs *myaddrs, *ifa;
+        void *in_addr;
+        char buf[64];
+        
+        if(getifaddrs(&myaddrs) != 0)
+        {
+            perror("getifaddrs");
+            exit(1);
+        }
+        
+        int first_time = 1;
+        for (ifa = myaddrs; ifa != NULL; ifa = ifa->ifa_next)
+        {
+            if (ifa->ifa_addr == NULL)
+                continue;
+            if (!(ifa->ifa_flags & IFF_UP))
+                continue;
+            if (strcmp("lo0", ifa->ifa_name) == 0)
+                continue;
+            
+            switch (ifa->ifa_addr->sa_family)
+            {
+                case AF_INET:
+                {
+                    struct sockaddr_in *s4 = (struct sockaddr_in *)ifa->ifa_addr;
+                    in_addr = &s4->sin_addr;
+                    break;
+                }   
+                default:
+                    continue;
+            }
+            
+            if (!first_time)
+            {
+                strlcat(ips, ", ", ips_size);
+            }
+            first_time = 0;
+            if (inet_ntop(ifa->ifa_addr->sa_family, in_addr, buf, sizeof(buf)))
+            {
+                //strlcat(ips, ifa->ifa_name, ips_size);
+                //strlcat(ips, "=", ips_size);
+                strlcat(ips, buf, ips_size);
+            }
+            else
+            {
+                strlcat(ips, "?", ips_size);
+            }
+        }
+        
+        freeifaddrs(myaddrs);
+#endif
     }
 }
 
@@ -169,7 +224,7 @@ void *server_loop(void *arg)
     
     struct sockaddr_in addr; 
     uint8_t buffer[kPacketSizeLimit];
-    size_t recv_size;
+    ssize_t recv_size;
     
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
@@ -194,36 +249,34 @@ void *server_loop(void *arg)
         }
         
         int i = 0;
-        while (i < recv_size)
+        uint8_t tag = ix_get_tag(buffer, &i, recv_size);
+        if (tag == kServerKillTag)
         {
-            uint8_t tag = ix_get_tag(buffer, &i);
-            if (tag == kServerKillTag)
+            server_error_string = "Server killed. Disable then re-enable plugin.";
+            goto stop_server;
+        }
+        else if (tag == kProtocolVersion1Tag ||
+                 tag == kProtocolVersion2Tag)
+        {
+            server_error_string = NULL;
+            for (int axis = 0; axis < kNumAxes; axis++)
             {
-                server_error_string = "Server killed. Disable then re-enable plugin.";
-                goto stop_server;
+                iXControlAxisRef axisRef = get_axis((iXControlAxisID)axis);
+                axisRef->prev_value = axisRef->value;
+                axisRef->value = ix_get_ratio(buffer, &i, recv_size);
             }
-            else if (tag == kProtocolVersion1Tag)
+            int prev_update_time = current_update_time;
+            current_update_time = get_ms_time();
+            if (prev_update_time != -1)
             {
-                server_error_string = NULL;
-                for (int axis = 0; axis < kNumAxes; axis++)
-                {
-                    iXControlAxisRef axisRef = get_axis((iXControlAxisID)axis);
-                    axisRef->prev_value = axisRef->value;
-                    axisRef->value = ix_get_ratio(buffer, &i);
-                }
-                int prev_update_time = current_update_time;
-                current_update_time = get_ms_time();
-                if (prev_update_time != -1)
-                {
-                    int delta = current_update_time - prev_update_time;
-                    avg_packet_latency = (PACKET_RATE_SENSITIVITY * delta +
-                                          (1 - PACKET_RATE_SENSITIVITY) * avg_packet_latency);
-                }
+                int delta = current_update_time - prev_update_time;
+                avg_packet_latency = (PACKET_RATE_SENSITIVITY * delta +
+                                      (1 - PACKET_RATE_SENSITIVITY) * avg_packet_latency);
             }
-            else
-            {
-                server_error_string = "New plugin required! http://danieldickison.com/wifly";
-            }
+        }
+        else
+        {
+            server_error_string = "New plugin required! http://danieldickison.com/wifly";
         }
     }
     

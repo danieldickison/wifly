@@ -61,7 +61,7 @@
     {
         uint8_t buffer[128];
         int i = 0;
-        ix_put_tag(buffer, &i, kProtocolVersion1Tag);
+        ix_put_tag(buffer, &i, kProtocolVersion2Tag);
         ix_put_ratio(buffer, &i, tilt_x);
         ix_put_ratio(buffer, &i, tilt_y);
         ix_put_ratio(buffer, &i, trackpad1_x);

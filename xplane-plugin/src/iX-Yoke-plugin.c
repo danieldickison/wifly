@@ -40,11 +40,13 @@ void menu_callback(void *menuRef, void *itemRef);
 
 // Axes
 
-iXControlAxis _axes[4] = {
+iXControlAxis _axes[] = {
     {kAxisControlRoll, 0.5f, 0.5f, -1.0f, 1.0f, "Tilt X",0,0,0,0},
     {kAxisControlPitch, 0.5f, 0.5f, -1.0f, 1.0f, "Tilt Y",0,0,0,0},
-    {kAxisControlYaw, 0.5f, 0.5f, -1.0f, 1.0f, "Touch X",0,0,0,0},
-    {kAxisControlThrottle, 0.0f, 0.0f, 0.0f, 1.0f, "Touch Y",0,0,0,0}
+    {kAxisControlYaw, 0.5f, 0.5f, -1.0f, 1.0f, "Trackpad 1 X",0,0,0,0},
+    {kAxisControlThrottle, 0.0f, 0.0f, 0.0f, 1.0f, "Trackpad 1 Y",0,0,0,0},
+    {kAxisControlYaw, 0.5f, 0.5f, -1.0f, 1.0f, "Trackpad 2 X",0,0,0,0},
+    {kAxisControlThrottle, 0.0f, 0.0f, 0.0f, 1.0f, "Trackpad 2 Y",0,0,0,0}
 };
 
 iXControlAxisRef get_axis(iXControlAxisID axis_id)
@@ -78,7 +80,7 @@ void apply_control_value(iXControlAxisRef control);
 
 void iXDebug(char *str)
 {
-    char cat[256] = "iX-Yoke: ";
+    char cat[256] = "Wi-Fly: ";
     strlcat(cat, str, 256-1);
     strcat(cat, "\n");
     XPLMDebugString(cat);

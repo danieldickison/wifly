@@ -78,7 +78,7 @@ void show_window()
         // Create config window.
         iXDebug("Creating config window...");
         
-        int x1=200, y1=530, x2=500, y2=40;
+        int x1=200, y1=310+55*kNumAxes, x2=500, y2=40;
         window_id = XPCreateWidget(x1, y1, x2, y2, 0, "Wi-Fly Remote", 1, NULL, xpWidgetClass_MainWindow);
         XPSetWidgetProperty(window_id, xpProperty_MainWindowHasCloseBoxes, 1);
         XPAddWidgetCallback(window_id, window_callback);

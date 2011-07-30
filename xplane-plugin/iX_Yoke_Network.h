@@ -37,15 +37,17 @@ enum {
 };
 
 
-static inline uint8_t ix_get_tag(uint8_t *buffer, int *i) {
-    return (uint8_t)buffer[(*i)++];
+static inline uint8_t ix_get_tag(uint8_t *buffer, int *i, int buffer_size) {
+    if (*i >= buffer_size) return 0;
+    else return (uint8_t)buffer[(*i)++];
 }
 static inline void ix_put_tag(uint8_t *buffer, int *i, int tag) {
     buffer[(*i)++] = tag;
 }
 
 // Ratios are represented as floats in the range [0, 1] and transmitted as unsigned big-endian 16-bit integers
-static inline float ix_get_ratio(uint8_t *buffer, int *i) {
+static inline float ix_get_ratio(uint8_t *buffer, int *i, int buffer_size) {
+    if (*i >= buffer_size-1) return 0;
     uint16_t n = (buffer[(*i)++] << 8);
     n |= buffer[(*i)++];
     return (float)n / 0xffff;

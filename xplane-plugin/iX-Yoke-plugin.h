@@ -137,8 +137,10 @@ typedef iXControlAxis * iXControlAxisRef;
 typedef enum {
     kAxisTiltX = 0,
     kAxisTiltY,
-    kAxisTouchX,
-    kAxisTouchY,
+    kAxisTouch1X,
+    kAxisTouch1Y,
+    kAxisTouch2X,
+    kAxisTouch2Y,
     kNumAxes
 } iXControlAxisID;
 
