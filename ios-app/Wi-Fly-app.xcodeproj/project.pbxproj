@@ -27,6 +27,8 @@
 		0B63404D0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B63404B0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png */; };
 		0B63426B0FA91BC200C511A9 /* TrackPadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B63426A0FA91BC200C511A9 /* TrackPadControl.m */; };
 		0B8BA85C10572D8A00D42EDD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8BA85B10572D8A00D42EDD /* Default.png */; };
+		0BB1DFFE13E43BEF0020B3BA /* LandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB1DFFC13E43BEF0020B3BA /* LandscapeViewController.m */; };
+		0BB1DFFF13E43BEF0020B3BA /* LandscapeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BB1DFFD13E43BEF0020B3BA /* LandscapeViewController.xib */; };
 		0BBF386C10E0FE0A009371F9 /* CalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */; };
 		0BBF387010E0FE63009371F9 /* CalibrationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BBF386F10E0FE63009371F9 /* CalibrationView.xib */; };
 		0BBF391610E26CD7009371F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBF391510E26CD7009371F9 /* CoreLocation.framework */; };
@@ -69,6 +71,9 @@
 		0B6342690FA91BC200C511A9 /* TrackPadControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrackPadControl.h; path = Classes/TrackPadControl.h; sourceTree = "<group>"; };
 		0B63426A0FA91BC200C511A9 /* TrackPadControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrackPadControl.m; path = Classes/TrackPadControl.m; sourceTree = "<group>"; };
 		0B8BA85B10572D8A00D42EDD /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Images/Default.png; sourceTree = "<group>"; };
+		0BB1DFFB13E43BEF0020B3BA /* LandscapeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LandscapeViewController.h; path = Classes/LandscapeViewController.h; sourceTree = "<group>"; };
+		0BB1DFFC13E43BEF0020B3BA /* LandscapeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LandscapeViewController.m; path = Classes/LandscapeViewController.m; sourceTree = "<group>"; };
+		0BB1DFFD13E43BEF0020B3BA /* LandscapeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LandscapeViewController.xib; path = Classes/LandscapeViewController.xib; sourceTree = "<group>"; };
 		0BBF386A10E0FE0A009371F9 /* CalibrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalibrationViewController.h; path = Classes/CalibrationViewController.h; sourceTree = "<group>"; };
 		0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalibrationViewController.m; path = Classes/CalibrationViewController.m; sourceTree = "<group>"; };
 		0BBF386F10E0FE63009371F9 /* CalibrationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CalibrationView.xib; path = Nibs/CalibrationView.xib; sourceTree = "<group>"; };
@@ -167,8 +172,10 @@
 			children = (
 				0BBF386A10E0FE0A009371F9 /* CalibrationViewController.h */,
 				0BBF386B10E0FE0A009371F9 /* CalibrationViewController.m */,
+				0BBF386F10E0FE63009371F9 /* CalibrationView.xib */,
 				289233AC0DB2D0DB0083E9F9 /* FlipsideViewController.h */,
 				289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */,
+				280E754A0DD40C5E005A515E /* FlipsideView.xib */,
 				0BD16E2C1051708A0095D600 /* HelpViewController.h */,
 				0BD16E2D1051708A0095D600 /* HelpViewController.m */,
 			);
@@ -180,6 +187,10 @@
 			children = (
 				289233A80DB2D0DB0083E9F9 /* MainViewController.h */,
 				289233A90DB2D0DB0083E9F9 /* MainViewController.m */,
+				280E754B0DD40C5E005A515E /* MainView.xib */,
+				0BB1DFFB13E43BEF0020B3BA /* LandscapeViewController.h */,
+				0BB1DFFC13E43BEF0020B3BA /* LandscapeViewController.m */,
+				0BB1DFFD13E43BEF0020B3BA /* LandscapeViewController.xib */,
 			);
 			name = "Main View";
 			sourceTree = "<group>";
@@ -223,10 +234,7 @@
 				0BD16DB710514E310095D600 /* iTunesArtwork */,
 				0B63404A0FA8A4C100C511A9 /* Default Linear Wheel BG.png */,
 				0B63404B0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png */,
-				280E754A0DD40C5E005A515E /* FlipsideView.xib */,
-				280E754B0DD40C5E005A515E /* MainView.xib */,
 				280E754C0DD40C5E005A515E /* MainWindow.xib */,
-				0BBF386F10E0FE63009371F9 /* CalibrationView.xib */,
 				8D1107310486CEB800E47090 /* iX_Yoke-Info.plist */,
 				0B02FE5E135CF42500C8ACD4 /* Icon.png */,
 				0B02FE5F135CF42500C8ACD4 /* Icon@2x.png */,
@@ -320,6 +328,7 @@
 				0B020491111F1DA000FB4E71 /* Toggle Button.png in Resources */,
 				0B02FE60135CF42500C8ACD4 /* Icon.png in Resources */,
 				0B02FE61135CF42500C8ACD4 /* Icon@2x.png in Resources */,
+				0BB1DFFF13E43BEF0020B3BA /* LandscapeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +349,7 @@
 				0BD16E2E1051708A0095D600 /* HelpViewController.m in Sources */,
 				0BBF386C10E0FE0A009371F9 /* CalibrationViewController.m in Sources */,
 				0B02049B111F232500FB4E71 /* MultiStateButton.m in Sources */,
+				0BB1DFFE13E43BEF0020B3BA /* LandscapeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
