@@ -4,3 +4,5 @@
 /ios-app/build/
 project.xcworkspace
 xcuserdata
+*.o
+Wi-Fly-*.xpl
