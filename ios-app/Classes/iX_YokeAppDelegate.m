@@ -21,7 +21,6 @@
 #import "iX_YokeAppDelegate.h"
 #import "MainViewController.h"
 #import "LandscapeViewController.h"
-#import "AsyncUdpSocket.h"
 #include "iX_Yoke_Network.h"
 
 

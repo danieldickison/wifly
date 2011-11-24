@@ -19,7 +19,6 @@
 		0B02049B111F232500FB4E71 /* MultiStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B02049A111F232500FB4E71 /* MultiStateButton.m */; };
 		0B02FE60135CF42500C8ACD4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B02FE5E135CF42500C8ACD4 /* Icon.png */; };
 		0B02FE61135CF42500C8ACD4 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B02FE5F135CF42500C8ACD4 /* Icon@2x.png */; };
-		0B08BDE40FA447AA00BAF947 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */; };
 		0B0FC7BC12D95B3C0023F712 /* libisimulate-4.x.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0FC7BB12D95B3C0023F712 /* libisimulate-4.x.a */; };
 		0B54D5F21056024500540CC7 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16DB710514E310095D600 /* iTunesArtwork */; };
 		0B6340110FA8960000C511A9 /* LinearWheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6340100FA8960000C511A9 /* LinearWheelControl.m */; };
@@ -27,6 +26,9 @@
 		0B63404D0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B63404B0FA8A4C100C511A9 /* Default Linear Wheel Thumb.png */; };
 		0B63426B0FA91BC200C511A9 /* TrackPadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B63426A0FA91BC200C511A9 /* TrackPadControl.m */; };
 		0B8BA85C10572D8A00D42EDD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8BA85B10572D8A00D42EDD /* Default.png */; };
+		0B8D512F147E9DFF004A551A /* libCocoaOSC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8D5126147E9DDC004A551A /* libCocoaOSC.a */; };
+		0B8D5131147E9E6F004A551A /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8D5130147E9E6F004A551A /* libicucore.dylib */; };
+		0B8D5133147E9E7F004A551A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8D5132147E9E7F004A551A /* CFNetwork.framework */; };
 		0BB1DFFE13E43BEF0020B3BA /* LandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB1DFFC13E43BEF0020B3BA /* LandscapeViewController.m */; };
 		0BB1DFFF13E43BEF0020B3BA /* LandscapeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BB1DFFD13E43BEF0020B3BA /* LandscapeViewController.xib */; };
 		0BB1E00213E4433A0020B3BA /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB1E00113E4433A0020B3BA /* RemoteController.m */; };
@@ -48,6 +50,44 @@
 		289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0B8D5125147E9DDC004A551A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B8D5119147E9DDC004A551A /* CocoaOSC.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0B5068C51460E41500BD27ED;
+			remoteInfo = "CocoaOSC-ios";
+		};
+		0B8D5127147E9DDC004A551A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B8D5119147E9DDC004A551A /* CocoaOSC.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0B4C46841460E8B9007B5E06;
+			remoteInfo = "CocoaOSC-mac";
+		};
+		0B8D5129147E9DDC004A551A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B8D5119147E9DDC004A551A /* CocoaOSC.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0B4C46C51460EAAF007B5E06;
+			remoteInfo = "CocoaOSCDemo-ios";
+		};
+		0B8D512B147E9DDC004A551A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B8D5119147E9DDC004A551A /* CocoaOSC.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0B4C46E41460EC07007B5E06;
+			remoteInfo = "CocoaOSCDemo-mac";
+		};
+		0B8D512D147E9DF0004A551A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B8D5119147E9DDC004A551A /* CocoaOSC.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B5068C41460E41500BD27ED;
+			remoteInfo = "CocoaOSC-ios";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0B02047E111F1DA000FB4E71 /* Toggle Button Center X Y.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button Center X Y.png"; path = "Images/Toggle Button Center X Y.png"; sourceTree = "<group>"; };
 		0B02047F111F1DA000FB4E71 /* Toggle Button Center X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Toggle Button Center X.png"; path = "Images/Toggle Button Center X.png"; sourceTree = "<group>"; };
@@ -62,8 +102,6 @@
 		0B02049A111F232500FB4E71 /* MultiStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiStateButton.m; path = Classes/MultiStateButton.m; sourceTree = "<group>"; };
 		0B02FE5E135CF42500C8ACD4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/ICONS/Icon.png; sourceTree = "<group>"; };
 		0B02FE5F135CF42500C8ACD4 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images/ICONS/Icon@2x.png"; sourceTree = "<group>"; };
-		0B08BDE20FA447AA00BAF947 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncUdpSocket.h; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.h"; sourceTree = "<group>"; };
-		0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncUdpSocket.m; path = "3rd Party/AsyncSocket-trunk/AsyncUdpSocket.m"; sourceTree = "<group>"; };
 		0B0FC7BB12D95B3C0023F712 /* libisimulate-4.x.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libisimulate-4.x.a"; path = "3rd Party/libisimulate-4.x.a"; sourceTree = "<group>"; };
 		0B63400F0FA8960000C511A9 /* LinearWheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinearWheelControl.h; path = Classes/LinearWheelControl.h; sourceTree = "<group>"; };
 		0B6340100FA8960000C511A9 /* LinearWheelControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinearWheelControl.m; path = Classes/LinearWheelControl.m; sourceTree = "<group>"; };
@@ -73,6 +111,9 @@
 		0B6342690FA91BC200C511A9 /* TrackPadControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrackPadControl.h; path = Classes/TrackPadControl.h; sourceTree = "<group>"; };
 		0B63426A0FA91BC200C511A9 /* TrackPadControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrackPadControl.m; path = Classes/TrackPadControl.m; sourceTree = "<group>"; };
 		0B8BA85B10572D8A00D42EDD /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Images/Default.png; sourceTree = "<group>"; };
+		0B8D5119147E9DDC004A551A /* CocoaOSC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocoaOSC.xcodeproj; path = CocoaOSC/CocoaOSC.xcodeproj; sourceTree = "<group>"; };
+		0B8D5130147E9E6F004A551A /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		0B8D5132147E9E7F004A551A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		0BB1DFFB13E43BEF0020B3BA /* LandscapeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LandscapeViewController.h; path = Classes/LandscapeViewController.h; sourceTree = "<group>"; };
 		0BB1DFFC13E43BEF0020B3BA /* LandscapeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LandscapeViewController.m; path = Classes/LandscapeViewController.m; sourceTree = "<group>"; };
 		0BB1DFFD13E43BEF0020B3BA /* LandscapeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LandscapeViewController.xib; path = Classes/LandscapeViewController.xib; sourceTree = "<group>"; };
@@ -111,11 +152,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B8D5133147E9E7F004A551A /* CFNetwork.framework in Frameworks */,
+				0B8D5131147E9E6F004A551A /* libicucore.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */,
 				0BBF391610E26CD7009371F9 /* CoreLocation.framework in Frameworks */,
 				0B0FC7BC12D95B3C0023F712 /* libisimulate-4.x.a in Frameworks */,
+				0B8D512F147E9DFF004A551A /* libCocoaOSC.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,15 +191,6 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		0B08BDD70FA447A000BAF947 /* 3rd Party */ = {
-			isa = PBXGroup;
-			children = (
-				0B08BDE20FA447AA00BAF947 /* AsyncUdpSocket.h */,
-				0B08BDE30FA447AA00BAF947 /* AsyncUdpSocket.m */,
-			);
-			name = "3rd Party";
-			sourceTree = "<group>";
-		};
 		0B63400C0FA8959F00C511A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +202,17 @@
 				0B02049A111F232500FB4E71 /* MultiStateButton.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		0B8D511A147E9DDC004A551A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0B8D5126147E9DDC004A551A /* libCocoaOSC.a */,
+				0B8D5128147E9DDC004A551A /* CocoaOSC.framework */,
+				0B8D512A147E9DDC004A551A /* CocoaOSCios.app */,
+				0B8D512C147E9DDC004A551A /* CocoaOSCmac.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -208,7 +254,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				0B08BDD70FA447A000BAF947 /* 3rd Party */,
 				0B08BD2D0FA3CFE300BAF947 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -256,7 +301,10 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0B8D5119147E9DDC004A551A /* CocoaOSC.xcodeproj */,
 				0B0FC7BB12D95B3C0023F712 /* libisimulate-4.x.a */,
+				0B8D5132147E9E7F004A551A /* CFNetwork.framework */,
+				0B8D5130147E9E6F004A551A /* libicucore.dylib */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765580DF743DE002DB57D /* CoreGraphics.framework */,
@@ -279,6 +327,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				0B8D512E147E9DF0004A551A /* PBXTargetDependency */,
 			);
 			name = "Wi-Fly-app";
 			productName = "iX-Yoke";
@@ -306,12 +355,49 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0B8D511A147E9DDC004A551A /* Products */;
+					ProjectRef = 0B8D5119147E9DDC004A551A /* CocoaOSC.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Wi-Fly-app */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0B8D5126147E9DDC004A551A /* libCocoaOSC.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCocoaOSC.a;
+			remoteRef = 0B8D5125147E9DDC004A551A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0B8D5128147E9DDC004A551A /* CocoaOSC.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaOSC.framework;
+			remoteRef = 0B8D5127147E9DDC004A551A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0B8D512A147E9DDC004A551A /* CocoaOSCios.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = CocoaOSCios.app;
+			remoteRef = 0B8D5129147E9DDC004A551A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0B8D512C147E9DDC004A551A /* CocoaOSCmac.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = CocoaOSCmac.app;
+			remoteRef = 0B8D512B147E9DDC004A551A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
@@ -353,7 +439,6 @@
 				1D3623260D0F684500981E51 /* iX_YokeAppDelegate.m in Sources */,
 				289233AE0DB2D0DB0083E9F9 /* MainViewController.m in Sources */,
 				289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */,
-				0B08BDE40FA447AA00BAF947 /* AsyncUdpSocket.m in Sources */,
 				0B6340110FA8960000C511A9 /* LinearWheelControl.m in Sources */,
 				0B63426B0FA91BC200C511A9 /* TrackPadControl.m in Sources */,
 				0BD16E2E1051708A0095D600 /* HelpViewController.m in Sources */,
@@ -367,6 +452,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0B8D512E147E9DF0004A551A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CocoaOSC-ios";
+			targetProxy = 0B8D512D147E9DF0004A551A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		0BA4147F0FEC660800A346AB /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -379,6 +472,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iX_Yoke_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				HEADER_SEARCH_PATHS = CocoaOSC;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				OTHER_CFLAGS = "-Wall";
 				PROVISIONING_PROFILE = "";
@@ -433,6 +527,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iX_Yoke_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				HEADER_SEARCH_PATHS = CocoaOSC;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				OTHER_CFLAGS = "-Wall";
 				PROVISIONING_PROFILE = "";

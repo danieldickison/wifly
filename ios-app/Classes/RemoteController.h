@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @class AsyncUdpSocket;
+@class OSCConnection;
 
 @interface RemoteController : NSObject
 {
     NSString *hostAddress;
     unsigned hostPort;
-    AsyncUdpSocket *socket;
+    OSCConnection *oscConnection;
     
     float tilt_x;
     float tilt_y;

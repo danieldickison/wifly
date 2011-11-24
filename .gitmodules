@@ -1,0 +1,3 @@
+[submodule "ios-app/CocoaOSC"]
+	path = ios-app/CocoaOSC
+	url = https://github.com/danieldickison/CocoaOSC.git

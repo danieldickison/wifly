@@ -8,7 +8,7 @@
 
 #import "RemoteController.h"
 #import "iX_Yoke_Network.h"
-#import "AsyncUdpSocket.h"
+#import <CocoaOSC/CocoaOSC.h>
 
 @implementation RemoteController
 
@@ -22,8 +22,6 @@
 {
     if ((self = [super init]))
     {
-        socket = [[AsyncUdpSocket alloc] initWithDelegate:self];
-        
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         hostAddress = [defaults stringForKey:@"hostAddress"];
         hostPort = [defaults integerForKey:@"hostPort"];
@@ -57,21 +55,34 @@
 
 - (void)send
 {
-    if (hostAddress)
-    {
-        uint8_t buffer[128];
-        int i = 0;
-        ix_put_tag(buffer, &i, kProtocolVersion2Tag);
-        ix_put_ratio(buffer, &i, tilt_x);
-        ix_put_ratio(buffer, &i, tilt_y);
-        ix_put_ratio(buffer, &i, trackpad1_x);
-        ix_put_ratio(buffer, &i, trackpad1_y);
-        ix_put_ratio(buffer, &i, trackpad2_x);
-        ix_put_ratio(buffer, &i, trackpad2_y);
-        NSData *data = [[NSData alloc] initWithBytes:buffer length:i];
-        [socket sendData:data toHost:hostAddress port:hostPort withTimeout:-1 tag:0];
-        [data release];
+    if (!hostAddress || !hostPort) {
+        NSLog(@"Cannot send packet unless address and port are specified!");
+        return;
     }
+    if (!oscConnection) {
+        oscConnection = [[OSCConnection alloc] init];
+        NSError *error;
+        if (![oscConnection connectToHost:hostAddress port:hostPort protocol:OSCConnectionUDP error:&error]) {
+            NSLog(@"Error connecting: %@", error);
+            [oscConnection release];
+            oscConnection = nil;
+            return;
+        }
+    }
+    
+    OSCMutableBundle *bundle = [[OSCMutableBundle alloc] init];
+    float values[] = {tilt_x, tilt_y, trackpad1_x, trackpad1_y, trackpad2_x, trackpad2_y};
+    NSString *addresses[] = {@"/tilt/x", @"/tilt/y", @"/trackpad/1/x", @"/trackpad/1/y", @"/trackpad/2/x", @"/trackpad/2/y"};
+    for (int i = 0; i < 6; i++) {
+        OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+        message.address = addresses[i];
+        [message addFloat:values[i]];
+        [bundle addChildPacket:message];
+        [message release];
+    }
+    
+    [oscConnection sendPacket:bundle];
+    [bundle release];
 }
 
 - (void)setHostAddress:(NSString *)address
