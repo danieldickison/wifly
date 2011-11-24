@@ -29,6 +29,8 @@
 		0B8D512F147E9DFF004A551A /* libCocoaOSC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8D5126147E9DDC004A551A /* libCocoaOSC.a */; };
 		0B8D5131147E9E6F004A551A /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8D5130147E9E6F004A551A /* libicucore.dylib */; };
 		0B8D5133147E9E7F004A551A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8D5132147E9E7F004A551A /* CFNetwork.framework */; };
+		0B8D514F147EB10C004A551A /* BonjourViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8D514D147EB10C004A551A /* BonjourViewController.m */; };
+		0B8D5150147EB10C004A551A /* BonjourViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B8D514E147EB10C004A551A /* BonjourViewController.xib */; };
 		0BB1DFFE13E43BEF0020B3BA /* LandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB1DFFC13E43BEF0020B3BA /* LandscapeViewController.m */; };
 		0BB1DFFF13E43BEF0020B3BA /* LandscapeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BB1DFFD13E43BEF0020B3BA /* LandscapeViewController.xib */; };
 		0BB1E00213E4433A0020B3BA /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB1E00113E4433A0020B3BA /* RemoteController.m */; };
@@ -114,6 +116,9 @@
 		0B8D5119147E9DDC004A551A /* CocoaOSC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocoaOSC.xcodeproj; path = CocoaOSC/CocoaOSC.xcodeproj; sourceTree = "<group>"; };
 		0B8D5130147E9E6F004A551A /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		0B8D5132147E9E7F004A551A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		0B8D514C147EB10C004A551A /* BonjourViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonjourViewController.h; path = Classes/BonjourViewController.h; sourceTree = "<group>"; };
+		0B8D514D147EB10C004A551A /* BonjourViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BonjourViewController.m; path = Classes/BonjourViewController.m; sourceTree = "<group>"; };
+		0B8D514E147EB10C004A551A /* BonjourViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BonjourViewController.xib; path = Classes/BonjourViewController.xib; sourceTree = "<group>"; };
 		0BB1DFFB13E43BEF0020B3BA /* LandscapeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LandscapeViewController.h; path = Classes/LandscapeViewController.h; sourceTree = "<group>"; };
 		0BB1DFFC13E43BEF0020B3BA /* LandscapeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LandscapeViewController.m; path = Classes/LandscapeViewController.m; sourceTree = "<group>"; };
 		0BB1DFFD13E43BEF0020B3BA /* LandscapeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LandscapeViewController.xib; path = Classes/LandscapeViewController.xib; sourceTree = "<group>"; };
@@ -234,6 +239,9 @@
 				280E754A0DD40C5E005A515E /* FlipsideView.xib */,
 				0BD16E2C1051708A0095D600 /* HelpViewController.h */,
 				0BD16E2D1051708A0095D600 /* HelpViewController.m */,
+				0B8D514C147EB10C004A551A /* BonjourViewController.h */,
+				0B8D514D147EB10C004A551A /* BonjourViewController.m */,
+				0B8D514E147EB10C004A551A /* BonjourViewController.xib */,
 			);
 			name = "Flipside View";
 			sourceTree = "<group>";
@@ -425,6 +433,7 @@
 				0B02FE60135CF42500C8ACD4 /* Icon.png in Resources */,
 				0B02FE61135CF42500C8ACD4 /* Icon@2x.png in Resources */,
 				0BB1DFFF13E43BEF0020B3BA /* LandscapeViewController.xib in Resources */,
+				0B8D5150147EB10C004A551A /* BonjourViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +456,7 @@
 				0BB1DFFE13E43BEF0020B3BA /* LandscapeViewController.m in Sources */,
 				0BB1E00213E4433A0020B3BA /* RemoteController.m in Sources */,
 				0BB1E00513E443640020B3BA /* TiltController.m in Sources */,
+				0B8D514F147EB10C004A551A /* BonjourViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

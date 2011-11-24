@@ -90,12 +90,16 @@
     [hostAddress autorelease];
     hostAddress = [address copy];
     [[NSUserDefaults standardUserDefaults] setObject:hostAddress forKey:@"hostAddress"];
+    [oscConnection release];
+    oscConnection = nil;
 }
 
 - (void)setHostPort:(unsigned int)port
 {
     hostPort = port;
     [[NSUserDefaults standardUserDefaults] setInteger:hostPort forKey:@"hostPort"];
+    [oscConnection release];
+    oscConnection = nil;
 }
 
 @end

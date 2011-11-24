@@ -43,6 +43,7 @@
 - (IBAction)ipFieldChanged;
 - (IBAction)portFieldChanged;
 - (IBAction)showHelp;
+- (IBAction)showBonjour;
 
 
 @end

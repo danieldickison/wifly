@@ -23,6 +23,7 @@
 #import "HelpViewController.h"
 #import "TrackPadControl.h"
 #import "CalibrationViewController.h"
+#import "BonjourViewController.h"
 
 
 @implementation FlipsideViewController
@@ -120,6 +121,13 @@
     HelpViewController *helpController = [[HelpViewController alloc] init];
     [self.navigationController pushViewController:helpController animated:YES];
     [helpController release];
+}
+
+- (IBAction)showBonjour
+{
+    BonjourViewController *c = [[BonjourViewController alloc] initWithNibName:@"BonjourViewController" bundle:nil];
+    [self.navigationController pushViewController:c animated:YES];
+    [c release];
 }
 
 
