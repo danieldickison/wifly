@@ -32,13 +32,9 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
         [UIAccelerometer sharedAccelerometer].updateInterval = (1.0 / kUpdateFrequency);
         [UIAccelerometer sharedAccelerometer].delegate = self;
         
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        landscape = [defaults boolForKey:@"landscape"];
-        hold_x = [defaults floatForKey:@"tilt_hold_x"];
-        hold_y = [defaults floatForKey:@"tilt_hold_y"];
-        x = y = 0.5;
+        x = y = center_x = center_y = tilt_x = tilt_y = hold_x = hold_y = 0.5;
         
-        NSArray *savedTiltMatrix = [defaults objectForKey:@"tiltTransformMatrix"];
+        NSArray *savedTiltMatrix = nil; //[defaults objectForKey:@"tiltTransformMatrix"];
         if ([savedTiltMatrix count] == 9)
         {
             for (int i = 0; i < 9; i++)
@@ -60,6 +56,23 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
 }
 
 
+- (void)setHold:(BOOL)newHold
+{
+    if (newHold != hold)
+    {
+        if (newHold) {
+            hold_x = x;
+            hold_y = y;
+        }
+        else {
+            center_x = tilt_x;
+            center_y = tilt_y;
+        }
+        hold = newHold;
+    }
+}
+
+
 - (void)getAccelerationVector:(float[3])outVector3
 {
     outVector3[0] = acceleration[0];
@@ -78,12 +91,9 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     
     if (landscape)
     {
-        x = 0.5 - 0.5*acceleration[1];
-        y = (acceleration[2] >= 0 ?
-             1 :
-             acceleration[0] > 0 ?
-             0 :
-             atanf(acceleration[0] / acceleration[2]) / M_PI_2);
+        tilt_x = 0.5 - 0.5*acceleration[1];
+        tilt_y = atanf(acceleration[0] / acceleration[2]) / M_PI_2;
+        if (acceleration[2] >= 0) tilt_y = 2 + tilt_y;
     }
     else
     {
@@ -96,14 +106,14 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
         y = 0.5f * (1.0f - rotated[1]);
     }
     
-    x = MAX(0.0f, MIN(1.0f, x));
-    y = MAX(0.0f, MIN(1.0f, y));
+    x = MAX(0.0f, MIN(1.0f, hold_x + (tilt_x - center_x)));
+    y = MAX(0.0f, MIN(1.0f, hold_y + (tilt_y - center_y)));
     
     RemoteController *remote = SharedAppDelegate.remoteController;
     if (!hold)
     {
-        remote.tilt_x = hold_x = x;
-        remote.tilt_y = hold_y = y;
+        remote.tilt_x = x;
+        remote.tilt_y = y;
     }
     [remote send];
     [[NSNotificationCenter defaultCenter] postNotificationName:iXTiltUpdatedNotification object:self];

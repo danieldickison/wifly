@@ -20,6 +20,10 @@
 
 #import <UIKit/UIKit.h>
 
+enum {
+    kHoldStateAuto = 1 << 16, // First bit of UIControlStateApplication
+    kHoldStateOn   = 1 << 17
+};
 
 @interface MultiStateButton : UIButton
 {
@@ -28,5 +32,8 @@
 
 @property (nonatomic, assign) UIControlState customStates;
 - (UIControlState)state;
+
+- (void)setupForTrackPadAutoCenter;
+- (void)setupForTiltHold;
 
 @end

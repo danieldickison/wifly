@@ -25,11 +25,6 @@
 
 
 enum {
-    kHoldStateAuto = 1 << 16, // First bit of UIControlStateApplication
-    kHoldStateOn   = 1 << 17
-};
-
-enum {
     kAutoCenterStateX = 1 << 16, // First bit of UIControlStateApplication
     kAutoCenterStateY = 1 << 17
 };

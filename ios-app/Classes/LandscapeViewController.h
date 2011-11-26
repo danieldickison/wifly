@@ -12,9 +12,17 @@
 @class TrackPadControl;
 
 @interface LandscapeViewController : UIViewController <FlipsideViewControllerDelegate>
+{
+    BOOL autoHold;
+    NSUInteger autoHoldTrigger;
+    BOOL touchingLeft;
+    BOOL touchingRight;
+}
 
-@property (nonatomic, retain) IBOutlet TrackPadControl *leftTrackPad;
-@property (nonatomic, retain) IBOutlet TrackPadControl *rightTrackPad;
+@property (nonatomic, assign) IBOutlet TrackPadControl *leftTrackPad;
+@property (nonatomic, assign) IBOutlet TrackPadControl *rightTrackPad;
+@property (nonatomic, assign) IBOutlet MultiStateButton *tiltButton;
+@property (nonatomic, assign) IBOutletCollection(MultiStateButton) NSArray *triggerButtons;
 
 - (IBAction)infoButtonAction;
 - (IBAction)leftTrackPadChanged;
@@ -23,5 +31,9 @@
 - (IBAction)rightTrackPadChanged;
 - (IBAction)rightTrackPadTouchDown;
 - (IBAction)rightTrackPadTouchUp;
+- (IBAction)tiltHoldAction;
+
+- (UIControlState)tiltButtonState;
+- (void)updateAutoHold;
 
 @end

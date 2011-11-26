@@ -24,17 +24,16 @@
 #import "TrackPadControl.h"
 #import "CalibrationViewController.h"
 #import "BonjourViewController.h"
+#import "MultiStateButton.h"
 
 
 @implementation FlipsideViewController
 
-@synthesize delegate, ipField, portField, tiltView, doneButton, helpButton;
+@synthesize autoCenterLeft;
+@synthesize autoCenterRight;
+@synthesize autoHoldTrigger;
 
-
-- (void)dealloc
-{
-    [super dealloc];
-}
+@synthesize delegate, ipField, portField, doneButton, helpButton;
 
 
 - (void)viewDidLoad
@@ -44,22 +43,26 @@
     self.navigationItem.rightBarButtonItem = doneButton;
     self.navigationItem.leftBarButtonItem = helpButton;
     self.title = NSLocalizedString(@"Setup", @"");
-    
-    RemoteController *remote = SharedAppDelegate.remoteController;
-    ipField.text = remote.hostAddress;
-    portField.text =
-        (remote.hostPort == 0 ? nil
-         : [NSString stringWithFormat:@"%d", remote.hostPort]);
 
-    tiltView.interactionMode = TrackPadTouchesIgnored;
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    
+    [autoCenterLeft setupForTrackPadAutoCenter];
+    autoCenterLeft.customStates = [prefs integerForKey:@"autoCenterLeft"];
+    
+    [autoCenterRight setupForTrackPadAutoCenter];
+    autoCenterRight.customStates = [prefs integerForKey:@"autoCenterRight"];
+    
+    autoHoldTrigger.selectedSegmentIndex = [prefs integerForKey:@"autoHoldTrigger"];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [self setAutoCenterRight:nil];
+    [self setAutoCenterLeft:nil];
+    [self setAutoHoldTrigger:nil];
     self.ipField = nil;
     self.portField = nil;
-    self.tiltView = nil;
     self.doneButton = nil;
     self.helpButton = nil;
 }
@@ -67,20 +70,17 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tiltUpdated:) name:iXTiltUpdatedNotification object:nil];
+    
+    RemoteController *remote = SharedAppDelegate.remoteController;
+    ipField.text = remote.hostAddress;
+    portField.text =
+    (remote.hostPort == 0 ? nil
+     : [NSString stringWithFormat:@"%d", remote.hostPort]);
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
-- (void)tiltUpdated:(NSNotification *)notification
-{
-    TiltController *tilt = SharedAppDelegate.tiltController;
-    [tiltView setXValue:tilt.hold_x yValue:(1.0f - tilt.hold_y) xCrosshair:tilt.x yCrosshair:(1.0f - tilt.y)];
 }
 
 
@@ -128,6 +128,27 @@
     BonjourViewController *c = [[BonjourViewController alloc] initWithNibName:@"BonjourViewController" bundle:nil];
     [self.navigationController pushViewController:c animated:YES];
     [c release];
+}
+
+- (IBAction)autoHoldTriggerChanged
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:autoHoldTrigger.selectedSegmentIndex forKey:@"autoHoldTrigger"];
+}
+
+- (IBAction)autoCenterLeftChanged
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:autoCenterLeft.customStates forKey:@"autoCenterLeft"];
+}
+
+- (IBAction)autoCenterRightChanged
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:autoCenterRight.customStates forKey:@"autoCenterRight"];
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
 

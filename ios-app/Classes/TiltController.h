@@ -19,6 +19,10 @@ extern NSString * const iXTiltUpdatedNotification;
     float y;
     float hold_x;
     float hold_y;
+    float tilt_x;
+    float tilt_y;
+    float center_x;
+    float center_y;
     BOOL hold;
     
     BOOL landscape;

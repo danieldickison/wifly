@@ -19,8 +19,27 @@
 //THE SOFTWARE.
 
 #import "MultiStateButton.h"
+#import "TrackPadControl.h"
 
 @implementation MultiStateButton
+
+
+- (void)setupForTrackPadAutoCenter
+{
+    [self setImage:[UIImage imageNamed:@"Toggle Button Center.png"] forState:UIControlStateNormal];
+    [self setImage:[UIImage imageNamed:@"Toggle Button Center X.png"] forState:TrackPadAutoCenterX];
+    [self setImage:[UIImage imageNamed:@"Toggle Button Center Y.png"] forState:TrackPadAutoCenterY];
+    [self setImage:[UIImage imageNamed:@"Toggle Button Center X Y.png"] forState:TrackPadAutoCenterX | TrackPadAutoCenterY];
+}
+
+- (void)setupForTiltHold
+{
+    [self setImage:[UIImage imageNamed:@"Toggle Button Tilt On.png"] forState:UIControlStateNormal];
+    [self setImage:[UIImage imageNamed:@"Toggle Button Tilt.png"] forState:kHoldStateOn];
+    [self setImage:[UIImage imageNamed:@"Toggle Button Tilt Auto On.png"] forState:kHoldStateAuto];
+    [self setImage:[UIImage imageNamed:@"Toggle Button Tilt Auto.png"] forState:kHoldStateOn | kHoldStateAuto];
+}
+
 
 - (UIControlState)customStates
 {

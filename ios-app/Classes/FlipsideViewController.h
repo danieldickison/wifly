@@ -20,30 +20,26 @@
 
 @protocol FlipsideViewControllerDelegate;
 @class TrackPadControl;
-
+@class MultiStateButton;
 
 @interface FlipsideViewController : UIViewController <UITextFieldDelegate>
-{
-	id <FlipsideViewControllerDelegate> delegate;
-    UITextField *ipField;
-    UITextField *portField;
-    TrackPadControl *tiltView;
-    UIBarButtonItem *doneButton;
-    UIBarButtonItem *helpButton;
-}
 
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
-@property (nonatomic, retain) IBOutlet UITextField *ipField;
-@property (nonatomic, retain) IBOutlet UITextField *portField;
-@property (nonatomic, retain) IBOutlet TrackPadControl *tiltView;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *helpButton;
+@property (nonatomic, assign) IBOutlet UITextField *ipField;
+@property (nonatomic, assign) IBOutlet UITextField *portField;
+@property (nonatomic, assign) IBOutlet MultiStateButton *autoCenterLeft;
+@property (nonatomic, assign) IBOutlet MultiStateButton *autoCenterRight;
+@property (nonatomic, assign) IBOutlet UISegmentedControl *autoHoldTrigger;
+@property (nonatomic, assign) IBOutlet UIBarButtonItem *doneButton;
+@property (nonatomic, assign) IBOutlet UIBarButtonItem *helpButton;
 - (IBAction)done;
-- (IBAction)calibrate;
 - (IBAction)ipFieldChanged;
 - (IBAction)portFieldChanged;
 - (IBAction)showHelp;
 - (IBAction)showBonjour;
+- (IBAction)autoHoldTriggerChanged;
+- (IBAction)autoCenterLeftChanged;
+- (IBAction)autoCenterRightChanged;
 
 
 @end

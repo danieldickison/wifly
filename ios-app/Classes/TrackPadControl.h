@@ -29,8 +29,8 @@ typedef enum {
 
 typedef enum {
     TrackPadAutoCenterOff = 0,
-    TrackPadAutoCenterX = 1 << 0,
-    TrackPadAutoCenterY = 1 << 1,
+    TrackPadAutoCenterX = 1 << 16,
+    TrackPadAutoCenterY = 1 << 17,
     TrackPadAutoCenterBoth = TrackPadAutoCenterX | TrackPadAutoCenterY
 } TrackPadAutoCenterMode;
 
