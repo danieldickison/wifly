@@ -41,8 +41,26 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     {
         pointRadius = 8.0f;
         interactionMode = TrackPadTouchesValueRelative;
+        
+        UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapped:)];
+        doubleTapRecognizer.numberOfTapsRequired = 2;
+        doubleTapRecognizer.cancelsTouchesInView = NO;
+        doubleTapRecognizer.delaysTouchesBegan = NO;
+        doubleTapRecognizer.delaysTouchesEnded = NO;
+        [self addGestureRecognizer:doubleTapRecognizer];
+        [doubleTapRecognizer release];
     }
     return self;
+}
+
+- (void)doubleTapped:(UITapGestureRecognizer *)gesture
+{
+    if (gesture.state == UIGestureRecognizerStateEnded)
+    {
+        self.xValue = 0.5;
+        self.yValue = 0.5;
+        [self sendActionsForControlEvents:UIControlEventValueChanged];
+    }
 }
 
 
@@ -247,7 +265,7 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
     }
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesFinished:(NSSet *)touches
 {
     touchCount -= [touches count];
     if (touchCount == 0)
@@ -263,6 +281,16 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
         [self sendActionsForControlEvents:UIControlEventValueChanged];
         [self sendActionsForControlEvents:UIControlEventTouchUpInside];
     }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self touchesFinished:touches];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self touchesFinished:touches];
 }
 
 @end
