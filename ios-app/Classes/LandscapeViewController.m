@@ -40,6 +40,13 @@ enum {
     [super viewDidLoad];
     
     [tiltButton setupForTiltHold];
+    tiltButton.customStates = self.tiltButtonState;
+    
+    leftTrackPad.xValue = SharedAppDelegate.remoteController.trackpad1_x;
+    leftTrackPad.yValue = SharedAppDelegate.remoteController.trackpad1_y;
+    
+    rightTrackPad.xValue = SharedAppDelegate.remoteController.trackpad2_x;
+    rightTrackPad.yValue = SharedAppDelegate.remoteController.trackpad2_y;
 }
 
 - (void)viewDidUnload
