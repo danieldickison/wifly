@@ -21,7 +21,6 @@ enum {
 @synthesize leftTrackPad;
 @synthesize rightTrackPad;
 @synthesize tiltButton;
-@synthesize triggerButtons;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,7 +53,6 @@ enum {
     [self setLeftTrackPad:nil];
     [self setRightTrackPad:nil];
     [self setTiltButton:nil];
-    [self setTriggerButtons:nil];
     [super viewDidUnload];
 }
 
@@ -74,6 +72,16 @@ enum {
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+}
+
+- (IBAction)triggerButtonDown:(UIButton *)button
+{
+    [SharedAppDelegate.remoteController setButton:button.tag touching:YES];
+}
+
+- (IBAction)triggerButtonUp:(UIButton *)button
+{
+    [SharedAppDelegate.remoteController setButton:button.tag touching:NO];
 }
 
 - (IBAction)infoButtonAction

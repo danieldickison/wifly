@@ -22,7 +22,6 @@
 @property (nonatomic, assign) IBOutlet TrackPadControl *leftTrackPad;
 @property (nonatomic, assign) IBOutlet TrackPadControl *rightTrackPad;
 @property (nonatomic, assign) IBOutlet MultiStateButton *tiltButton;
-@property (nonatomic, assign) IBOutletCollection(MultiStateButton) NSArray *triggerButtons;
 
 - (IBAction)infoButtonAction;
 - (IBAction)leftTrackPadChanged;
@@ -32,6 +31,9 @@
 - (IBAction)rightTrackPadTouchDown;
 - (IBAction)rightTrackPadTouchUp;
 - (IBAction)tiltHoldAction;
+
+- (IBAction)triggerButtonDown:(UIButton *)button;
+- (IBAction)triggerButtonUp:(UIButton *)button;
 
 - (UIControlState)tiltButtonState;
 - (void)updateAutoHold;

@@ -11,6 +11,8 @@
 @class AsyncUdpSocket;
 @class OSCConnection;
 
+#define kRemoteButtonCount 5
+
 @interface RemoteController : NSObject
 {
     NSString *hostAddress;
@@ -23,6 +25,8 @@
     float trackpad1_y;
     float trackpad2_x;
     float trackpad2_y;
+    
+    BOOL buttonTouchStates[kRemoteButtonCount];
 }
 
 @property (nonatomic, copy) NSString *hostAddress;
@@ -35,5 +39,7 @@
 @property (nonatomic, assign) float trackpad1_y;
 @property (nonatomic, assign) float trackpad2_x;
 @property (nonatomic, assign) float trackpad2_y;
+
+- (void)setButton:(NSUInteger)button touching:(BOOL)touching;
 
 @end

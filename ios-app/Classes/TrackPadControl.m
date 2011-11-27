@@ -260,6 +260,7 @@ static CGColorRef colorForActive(BOOL active, CGFloat alpha)
         {
             self.yValue = 0.5;
         }
+        [self sendActionsForControlEvents:UIControlEventValueChanged];
         [self sendActionsForControlEvents:UIControlEventTouchUpInside];
     }
 }

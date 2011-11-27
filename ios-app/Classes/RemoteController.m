@@ -53,6 +53,12 @@
     [defaults synchronize];
 }
 
+- (void)setButton:(NSUInteger)button touching:(BOOL)touching
+{
+    NSAssert(button >= 1 && button <= kRemoteButtonCount, @"Remote button %u out of range [1..%u]", button, kRemoteButtonCount);
+    buttonTouchStates[button - 1] = touching;
+}
+
 - (void)send
 {
     if (!hostAddress || !hostPort) {
@@ -77,6 +83,14 @@
         OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
         message.address = addresses[i];
         [message addFloat:values[i]];
+        [bundle addChildPacket:message];
+        [message release];
+    }
+    
+    for (int i = 1; i <= kRemoteButtonCount; i++) {
+        OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+        message.address = [NSString stringWithFormat:@"/button/%u/touch", i];
+        [message addInt:buttonTouchStates[i - 1] ? 1 : 0];
         [bundle addChildPacket:message];
         [message release];
     }
