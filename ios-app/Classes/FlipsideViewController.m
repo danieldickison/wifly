@@ -135,14 +135,25 @@
     [[NSUserDefaults standardUserDefaults] setInteger:autoHoldTrigger.selectedSegmentIndex forKey:@"autoHoldTrigger"];
 }
 
+- (void)updateAutoCenterButton:(MultiStateButton *)button key:(NSString *)key
+{
+    NSUInteger states = button.customStates;
+    if (states == TrackPadAutoCenterBoth) states = TrackPadAutoCenterOff;
+    else if (states & TrackPadAutoCenterX) states = TrackPadAutoCenterY;
+    else if (states & TrackPadAutoCenterY) states = TrackPadAutoCenterBoth;
+    else states = TrackPadAutoCenterX;
+    button.customStates = states;
+    [[NSUserDefaults standardUserDefaults] setInteger:states forKey:key];
+}
+
 - (IBAction)autoCenterLeftChanged
 {
-    [[NSUserDefaults standardUserDefaults] setInteger:autoCenterLeft.customStates forKey:@"autoCenterLeft"];
+    [self updateAutoCenterButton:autoCenterLeft key:@"autoCenterLeft"];
 }
 
 - (IBAction)autoCenterRightChanged
 {
-    [[NSUserDefaults standardUserDefaults] setInteger:autoCenterRight.customStates forKey:@"autoCenterRight"];
+    [self updateAutoCenterButton:autoCenterRight key:@"autoCenterRight"];
 }
 
 
