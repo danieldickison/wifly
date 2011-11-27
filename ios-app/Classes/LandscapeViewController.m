@@ -67,6 +67,7 @@ enum {
     
     autoHold = [prefs boolForKey:@"autoHold"];
     autoHoldTrigger = [prefs integerForKey:@"autoHoldTrigger"];
+    [self updateAutoHold];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -157,6 +158,7 @@ enum {
         autoHold = YES;
         tilt.hold = YES;
     }
+    [[NSUserDefaults standardUserDefaults] setBool:autoHold forKey:@"autoHold"];
     tiltButton.customStates = self.tiltButtonState;
 }
 
