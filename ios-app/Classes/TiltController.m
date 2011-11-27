@@ -92,8 +92,8 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     if (landscape)
     {
         tilt_x = 0.5 - 0.5*acceleration[1];
-        tilt_y = atanf(acceleration[0] / acceleration[2]) / M_PI_2;
-        if (acceleration[2] >= 0) tilt_y = 2 + tilt_y;
+        tilt_y = -atanf(acceleration[0] / acceleration[2]) / M_PI_2;
+        if (acceleration[2] >= 0) tilt_y = tilt_y - 2;
     }
     else
     {
