@@ -23,7 +23,7 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
 
 @implementation TiltController
 
-@synthesize x, y, hold_x, hold_y, hold, landscape;
+@synthesize x, y, hold_x, hold_y, hold, landscape, centerOnHold;
 
 - (id)init
 {
@@ -61,6 +61,9 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
     if (newHold != hold)
     {
         if (newHold) {
+            if (centerOnHold) {
+                [self center];
+            }
             hold_x = x;
             hold_y = y;
         }
@@ -70,6 +73,25 @@ static void rotMat(float* outMat9, const float* axis3, float theta);
         }
         hold = newHold;
     }
+}
+
+- (void)setCenterOnHold:(BOOL)newSetting
+{
+    centerOnHold = newSetting;
+    if (centerOnHold && hold)
+    {
+        [self center];
+    }
+}
+
+- (void)center
+{
+    hold_x = hold_y = x = y = 0.5;
+    RemoteController *remote = SharedAppDelegate.remoteController;
+    remote.tilt_x = x;
+    remote.tilt_y = y;
+    [remote send];
+    [[NSNotificationCenter defaultCenter] postNotificationName:iXTiltUpdatedNotification object:self];
 }
 
 

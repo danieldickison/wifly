@@ -59,9 +59,12 @@ enum {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    SharedAppDelegate.tiltController.landscape = YES;
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    
+    SharedAppDelegate.tiltController.landscape = YES;
+    SharedAppDelegate.tiltController.centerOnHold = [prefs boolForKey:@"centerOnHold"];
+    
     leftTrackPad.autoCenterMode = [prefs integerForKey:@"autoCenterLeft"];
     rightTrackPad.autoCenterMode = [prefs integerForKey:@"autoCenterRight"];
     

@@ -31,6 +31,7 @@
 
 @synthesize autoCenterLeft;
 @synthesize autoCenterRight;
+@synthesize centerOnHoldSwitch;
 @synthesize autoHoldTrigger;
 
 @synthesize delegate, ipField, portField, doneButton, helpButton;
@@ -52,6 +53,7 @@
     [autoCenterRight setupForTrackPadAutoCenter];
     autoCenterRight.customStates = [prefs integerForKey:@"autoCenterRight"];
     
+    centerOnHoldSwitch.on = [prefs boolForKey:@"centerOnHold"];
     autoHoldTrigger.selectedSegmentIndex = [prefs integerForKey:@"autoHoldTrigger"];
 }
 
@@ -60,6 +62,7 @@
     [super viewDidUnload];
     [self setAutoCenterRight:nil];
     [self setAutoCenterLeft:nil];
+    [self setCenterOnHoldSwitch:nil];
     [self setAutoHoldTrigger:nil];
     self.ipField = nil;
     self.portField = nil;
@@ -128,6 +131,11 @@
     BonjourViewController *c = [[BonjourViewController alloc] initWithNibName:@"BonjourViewController" bundle:nil];
     [self.navigationController pushViewController:c animated:YES];
     [c release];
+}
+
+- (IBAction)centerOnHoldChanged
+{
+    [[NSUserDefaults standardUserDefaults] setBool:self.centerOnHoldSwitch.on forKey:@"centerOnHold"];
 }
 
 - (IBAction)autoHoldTriggerChanged

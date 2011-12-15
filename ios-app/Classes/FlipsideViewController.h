@@ -29,6 +29,7 @@
 @property (nonatomic, assign) IBOutlet UITextField *portField;
 @property (nonatomic, assign) IBOutlet MultiStateButton *autoCenterLeft;
 @property (nonatomic, assign) IBOutlet MultiStateButton *autoCenterRight;
+@property (nonatomic, assign) IBOutlet UISwitch *centerOnHoldSwitch;
 @property (nonatomic, assign) IBOutlet UISegmentedControl *autoHoldTrigger;
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *doneButton;
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *helpButton;
@@ -37,6 +38,7 @@
 - (IBAction)portFieldChanged;
 - (IBAction)showHelp;
 - (IBAction)showBonjour;
+- (IBAction)centerOnHoldChanged;
 - (IBAction)autoHoldTriggerChanged;
 - (IBAction)autoCenterLeftChanged;
 - (IBAction)autoCenterRightChanged;
