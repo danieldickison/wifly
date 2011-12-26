@@ -17,11 +17,14 @@
     NSUInteger autoHoldTrigger;
     BOOL touchingLeft;
     BOOL touchingRight;
+    
+    id tiltObserver;
 }
 
 @property (nonatomic, assign) IBOutlet TrackPadControl *leftTrackPad;
 @property (nonatomic, assign) IBOutlet TrackPadControl *rightTrackPad;
 @property (nonatomic, assign) IBOutlet MultiStateButton *tiltButton;
+@property (nonatomic, assign) IBOutlet TrackPadControl *tiltIndicator;
 
 - (IBAction)infoButtonAction;
 - (IBAction)leftTrackPadChanged;

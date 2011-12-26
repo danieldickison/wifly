@@ -21,6 +21,7 @@ enum {
 @synthesize leftTrackPad;
 @synthesize rightTrackPad;
 @synthesize tiltButton;
+@synthesize tiltIndicator;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,13 +47,23 @@ enum {
     
     rightTrackPad.xValue = SharedAppDelegate.remoteController.trackpad2_x;
     rightTrackPad.yValue = SharedAppDelegate.remoteController.trackpad2_y;
+    
+    tiltIndicator.interactionMode = TrackPadTouchesIgnored;
+    tiltObserver = [[NSNotificationCenter defaultCenter] addObserverForName:iXTiltUpdatedNotification object:SharedAppDelegate.tiltController queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        TiltController *tilt = SharedAppDelegate.tiltController;
+        RemoteController *remote = SharedAppDelegate.remoteController;
+        [self.tiltIndicator setXValue:remote.tilt_x yValue:1.0-remote.tilt_y xCrosshair:tilt.x yCrosshair:1.0-tilt.y];
+    }];
 }
 
 - (void)viewDidUnload
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:tiltObserver];
+    tiltObserver = nil;
     [self setLeftTrackPad:nil];
     [self setRightTrackPad:nil];
     [self setTiltButton:nil];
+    [self setTiltIndicator:nil];
     [super viewDidUnload];
 }
 
