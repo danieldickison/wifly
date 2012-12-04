@@ -50,15 +50,9 @@
     remoteController = [[RemoteController alloc] init];
     tiltController = [[TiltController alloc] init];
     
-	MainViewController *aController = [[MainViewController alloc] initWithNibName:@"MainView" bundle:nil];
-	self.mainViewController = aController;
-	[aController release];
-    
     landscapeViewController = [[LandscapeViewController alloc] initWithNibName:@"LandscapeViewController" bundle:nil];
-	
-    mainViewController.view.frame = [UIScreen mainScreen].applicationFrame;
     landscapeViewController.view.frame = [UIScreen mainScreen].applicationFrame;
-	[window addSubview:[landscapeViewController view]];
+    window.rootViewController = landscapeViewController;
     [window makeKeyAndVisible];
     
     if ([remoteController.hostAddress length] == 0)

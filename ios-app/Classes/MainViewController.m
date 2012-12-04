@@ -72,16 +72,6 @@ enum {
     autoCenterButton.customStates = self.autoCenterButtonState;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    self.trackpad = nil;
-    self.tiltView = nil;
-    self.holdButton = nil;
-    self.autoCenterButton = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 
 - (void)tiltUpdated:(NSNotification *)notification
 {

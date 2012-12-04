@@ -40,6 +40,7 @@
 		0BBF391610E26CD7009371F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBF391510E26CD7009371F9 /* CoreLocation.framework */; };
 		0BD16E2E1051708A0095D600 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD16E2D1051708A0095D600 /* HelpViewController.m */; };
 		0BD16E33105172F20095D600 /* local-help in Resources */ = {isa = PBXBuildFile; fileRef = 0BD16E2F105172F20095D600 /* local-help */; };
+		0BF99FD7166E227000D2E02F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BF99FD6166E227000D2E02F /* Default-568h@2x.png */; };
 		1D3623260D0F684500981E51 /* iX_YokeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -134,6 +135,7 @@
 		0BD16E2C1051708A0095D600 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpViewController.h; path = Classes/HelpViewController.h; sourceTree = "<group>"; };
 		0BD16E2D1051708A0095D600 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpViewController.m; path = Classes/HelpViewController.m; sourceTree = "<group>"; };
 		0BD16E2F105172F20095D600 /* local-help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "local-help"; sourceTree = "<group>"; };
+		0BF99FD6166E227000D2E02F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iX_YokeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iX_YokeAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* iX_YokeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iX_YokeAppDelegate.m; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				0BF99FD6166E227000D2E02F /* Default-568h@2x.png */,
 				0B08BD2D0FA3CFE300BAF947 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -348,7 +351,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Wi-Fly-app" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -434,6 +437,7 @@
 				0B02FE61135CF42500C8ACD4 /* Icon@2x.png in Resources */,
 				0BB1DFFF13E43BEF0020B3BA /* LandscapeViewController.xib in Resources */,
 				0B8D5150147EB10C004A551A /* BonjourViewController.xib in Resources */,
+				0BF99FD7166E227000D2E02F /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,8 +498,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iX_Yoke-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -513,8 +518,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iX_Yoke-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",

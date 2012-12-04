@@ -72,6 +72,7 @@
             NSLog(@"Error connecting: %@", error);
             [oscConnection release];
             oscConnection = nil;
+            hostAddress = nil;
             return;
         }
     }
