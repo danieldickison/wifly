@@ -1,9 +1,9 @@
 {
-   Copyright 2005 Sandy Barbour and Ben Supnik
+   Copyright 2005-2012 Sandy Barbour and Ben Supnik
    
    All rights reserved.  See license.txt for usage.
    
-   X-Plane SDK Version: 1.0.2                                                  
+   X-Plane SDK Version: 2.1.1                                                  
 }
 
 UNIT XPLMMenus;
@@ -95,7 +95,10 @@ TYPE
     bar.  The menu's name is only used if the menu is in the menubar.  You also 
     pass a handler function and a menu reference value. Pass NULL for the 
     handler if you do not need callbacks from the menu (for example, if it only 
-    contains submenus).                                                         
+    contains submenus). 
+    
+    Important: you must pass a valid, non-empty menu title even if the menu is 
+    a submenu where the title is not visible.                                   
    }
    FUNCTION XPLMCreateMenu(
                                         inName              : Pchar;    
@@ -233,6 +236,23 @@ TYPE
                                        cdecl; external 'XPLM.DLL';
 {$ELSE}
                                        cdecl; external '';
+{$ENDIF}
+
+{$IFDEF XPLM210}
+   {
+    XPLMRemoveMenuItem
+    
+    Removes one item from a menu.  Note that all menu items below are moved up 
+    one; your plugin must track the change in index numbers.                    
+   }
+   PROCEDURE XPLMRemoveMenuItem(
+                                        inMenu              : XPLMMenuID;    
+                                        inIndex             : integer);    
+{$IFDEF DELPHI}
+                                       cdecl; external 'XPLM.DLL';
+{$ELSE}
+                                       cdecl; external '';
+{$ENDIF}
 {$ENDIF}
 
 IMPLEMENTATION

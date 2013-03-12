@@ -2,11 +2,11 @@
 #define _XPWidgetDefs_h_
 
 /*
- * Copyright 2005 Sandy Barbour and Ben Supnik
+ * Copyright 2005-2012 Sandy Barbour and Ben Supnik
  * 
  * All rights reserved.  See license.txt for usage.
  * 
- * X-Plane SDK Version: 1.0.2                                                  
+ * X-Plane SDK Version: 2.1.1                                                  
  *
  */
 
@@ -24,7 +24,7 @@ extern "C" {
 
 #if APL
 	#if XPWIDGETS
-        #if __GNUC__
+        #if __GNUC__ >= 4
             #define WIDGET_API __attribute__((visibility("default")))
         #elif __MACH__
 			#define WIDGET_API
@@ -42,7 +42,11 @@ extern "C" {
 	#endif
 #elif LIN
 	#if XPWIDGETS
-		#define WIDGET_API 
+		#if __GNUC__ >= 4
+			#define WIDGET_API __attribute__((visibility("default")))
+		#else
+			#define WIDGET_API 
+		#endif
 	#else
 		#define WIDGET_API 
 	#endif	
@@ -78,7 +82,7 @@ typedef void * XPWidgetID;
  * XPWidgetPropertyID
  * 
  * Properties are values attached to instances of your widgets.  A property is 
- * identified by a 32-bit ID and its value is also 32 bits.   
+ * identified by a 32-bit ID and its value is the width of a pointer.   
  * 
  * Each widget instance may have a property or not have it.  When you set a 
  * property on a widget for the first time, the property is added to the 
@@ -122,7 +126,7 @@ enum {
 
 
 };
-typedef long XPWidgetPropertyID;
+typedef int XPWidgetPropertyID;
 
 /*
  * XPMouseState_t
@@ -204,7 +208,7 @@ enum {
 
 
 };
-typedef long XPDispatchMode;
+typedef int XPDispatchMode;
 
 /*
  * XPWidgetClass
@@ -214,7 +218,7 @@ typedef long XPDispatchMode;
  * Most widgets can be made right from classes.                                
  *
  */
-typedef long XPWidgetClass;
+typedef int XPWidgetClass;
 
 /* An unspecified widget class.  Other widget classes are in                   *
  * XPStandardWidgets.h                                                         */
@@ -447,7 +451,7 @@ enum {
 
 
 };
-typedef long XPWidgetMessage;
+typedef int XPWidgetMessage;
 
 /***************************************************************************
  * WIDGET CALLBACK FUNCTION
@@ -463,7 +467,7 @@ typedef long XPWidgetMessage;
  * 
  * This function defines your custom widget's behavior.  It will be called by 
  * the widgets library to send messages to your widget.  The message and 
- * widget ID are passed in, as well as two 32-bit signed parameters whose 
+ * widget ID are passed in, as well as two ptr-width signed parameters whose 
  * meaning varies with the message.  Return 1 to indicate that you have 
  * processed the message, 0 to indicate that you have not.  For any message 
  * that is not understood, return 0.                                           
@@ -472,8 +476,8 @@ typedef long XPWidgetMessage;
 typedef int (* XPWidgetFunc_t)(
                                    XPWidgetMessage      inMessage,    
                                    XPWidgetID           inWidget,    
-                                   long                 inParam1,    
-                                   long                 inParam2);    
+                                   intptr_t             inParam1,    
+                                   intptr_t             inParam2);    
 
 #ifdef __cplusplus
 }

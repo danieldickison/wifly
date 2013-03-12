@@ -2,11 +2,11 @@
 #define _XPLMDefs_h_
 
 /*
- * Copyright 2005 Sandy Barbour and Ben Supnik
+ * Copyright 2005-2012 Sandy Barbour and Ben Supnik
  * 
  * All rights reserved.  See license.txt for usage.
  * 
- * X-Plane SDK Version: 1.0.2                                                  
+ * X-Plane SDK Version: 2.1.1                                                  
  *
  */
 
@@ -29,6 +29,8 @@ extern "C" {
 
 #if IBM
 #include <windows.h>
+#else
+#include <stdint.h>
 #endif
 /***************************************************************************
  * DLL Definitions
@@ -48,7 +50,7 @@ extern "C" {
 
 #ifdef __cplusplus
 	#if APL
-        #if __GNUC__
+        #if __GNUC__ >= 4
             #define PLUGIN_API extern "C" __attribute__((visibility("default")))
         #elif __MACH__
 			#define PLUGIN_API extern "C"
@@ -58,13 +60,17 @@ extern "C" {
 	#elif IBM
 		#define PLUGIN_API extern "C" __declspec(dllexport)
 	#elif LIN
-		#define PLUGIN_API extern "C"
+		#if __GNUC__ >= 4
+			#define PLUGIN_API extern "C" __attribute__((visibility("default")))
+		#else
+			#define PLUGIN_API extern "C"
+		#endif
 	#else
 		#error "Platform not defined!"
 	#endif
 #else
 	#if APL
-        #if __GNUC__
+        #if __GNUC__ >= 4
             #define PLUGIN_API __attribute__((visibility("default")))
         #elif __MACH__
 			#define PLUGIN_API 
@@ -74,7 +80,11 @@ extern "C" {
 	#elif IBM
 		#define PLUGIN_API __declspec(dllexport)
 	#elif LIN
-		#define PLUGIN_API
+        #if __GNUC__ >= 4
+            #define PLUGIN_API __attribute__((visibility("default")))
+		#else
+			#define PLUGIN_API
+		#endif		
 	#else
 		#error "Platform not defined!"
 	#endif
@@ -82,7 +92,7 @@ extern "C" {
 
 #if APL
 	#if XPLM
-        #if __GNUC__
+        #if __GNUC__ >= 4
             #define XPLM_API __attribute__((visibility("default")))
         #elif __MACH__
 			#define XPLM_API 
@@ -100,13 +110,18 @@ extern "C" {
 	#endif
 #elif LIN
 	#if XPLM
-		#define XPLM_API
+		#if __GNUC__ >= 4
+            #define XPLM_API __attribute__((visibility("default")))
+		#else
+			#define XPLM_API
+		#endif
 	#else
 		#define XPLM_API
 	#endif	
 #else
 	#error "Platform not defined!"
 #endif
+
 /***************************************************************************
  * GLOBAL DEFINITIONS
  ***************************************************************************/
@@ -140,8 +155,8 @@ typedef int XPLMPluginID;
 /* X-Plane itself                                                              */
 #define XPLM_PLUGIN_XPLANE   (0)
 
-/* The current XPLM revision is 2.00 (200).                                    */
-#define kXPLM_Version        (200)
+/* The current XPLM revision is 2.10 (210).                                    */
+#define kXPLM_Version        (210)
 
 /*
  * XPLMKeyFlags

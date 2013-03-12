@@ -1,9 +1,9 @@
 {
-   Copyright 2005 Sandy Barbour and Ben Supnik
+   Copyright 2005-2012 Sandy Barbour and Ben Supnik
    
    All rights reserved.  See license.txt for usage.
    
-   X-Plane SDK Version: 1.0.2                                                  
+   X-Plane SDK Version: 2.1.1                                                  
 }
 
 UNIT XPLMDataAccess;
@@ -326,7 +326,7 @@ TYPE
                                         inDataRef           : XPLMDataRef;    
                                         outValues           : Pinteger;    { Can be nil }
                                         inOffset            : integer;    
-                                        inMax               : integer) : longint;    
+                                        inMax               : integer) : integer;    
 {$IFDEF DELPHI}
                                        cdecl; external 'XPLM.DLL';
 {$ELSE}
@@ -378,7 +378,7 @@ TYPE
                                         inDataRef           : XPLMDataRef;    
                                         outValues           : Psingle;    { Can be nil }
                                         inOffset            : integer;    
-                                        inMax               : integer) : longint;    
+                                        inMax               : integer) : integer;    
 {$IFDEF DELPHI}
                                        cdecl; external 'XPLM.DLL';
 {$ELSE}
@@ -428,8 +428,8 @@ TYPE
    FUNCTION XPLMGetDatab(
                                         inDataRef           : XPLMDataRef;    
                                         outValue            : pointer;    { Can be nil }
-                                        inOffset            : longint;    
-                                        inMaxBytes          : longint) : longint;    
+                                        inOffset            : integer;    
+                                        inMaxBytes          : integer) : integer;    
 {$IFDEF DELPHI}
                                        cdecl; external 'XPLM.DLL';
 {$ELSE}
@@ -452,8 +452,8 @@ TYPE
    PROCEDURE XPLMSetDatab(
                                         inDataRef           : XPLMDataRef;    
                                         inValue             : pointer;    
-                                        inOffset            : longint;    
-                                        inLength            : longint);    
+                                        inOffset            : integer;    
+                                        inLength            : integer);    
 {$IFDEF DELPHI}
                                        cdecl; external 'XPLM.DLL';
 {$ELSE}
@@ -468,10 +468,17 @@ TYPE
    access via the above data access APIs.  Data references published by other 
    plugins operate the same as ones published by x-plane in all manners except 
    that your data reference will not be available to other plugins if/when 
-   your plugin is disabled. NEWINE You share data by registering data provider 
-   callback functions.  When a plug-in requests your data, these callbacks are 
-   then called.  You provide one callback to return the value when a plugin 
-   'reads' it and another to change the value when a plugin 'writes' it.       
+   your plugin is disabled. 
+   
+   You share data by registering data provider callback functions.  When a 
+   plug-in requests your data, these callbacks are then called.  You provide 
+   one callback to return the value when a plugin 'reads' it and another to 
+   change the value when a plugin 'writes' it. 
+   
+   Important: you must pick a prefix for your datarefs other than "sim/" - 
+   this prefix is reserved for X-Plane.  The X-Plane SDK website contains a 
+   registry where authors can select a unique first word for dataref names, to 
+   prevent dataref collisions between plugins.                                 
 }
 
 
@@ -542,7 +549,7 @@ TYPE
                                     inRefcon            : pointer;    
                                     outValues           : Pinteger;    { Can be nil }
                                     inOffset            : integer;    
-                                    inMax               : integer) : longint; cdecl;   
+                                    inMax               : integer) : integer; cdecl;   
 
    {
     XPLMSetDatavi_f
@@ -562,7 +569,7 @@ TYPE
                                     inRefcon            : pointer;    
                                     outValues           : Psingle;    { Can be nil }
                                     inOffset            : integer;    
-                                    inMax               : integer) : longint; cdecl;   
+                                    inMax               : integer) : integer; cdecl;   
 
    {
     XPLMSetDatavf_f
@@ -582,7 +589,7 @@ TYPE
                                     inRefcon            : pointer;    
                                     outValue            : pointer;    { Can be nil }
                                     inOffset            : integer;    
-                                    inMaxLength         : longint) : longint; cdecl;   
+                                    inMaxLength         : integer) : integer; cdecl;   
 
    {
     XPLMSetDatab_f
@@ -592,7 +599,7 @@ TYPE
                                     inRefcon            : pointer;    
                                     inValue             : pointer;    
                                     inOffset            : integer;    
-                                    inLength            : longint); cdecl;   
+                                    inLength            : integer); cdecl;   
 
    {
     XPLMRegisterDataAccessor

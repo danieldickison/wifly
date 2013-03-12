@@ -2,11 +2,11 @@
 #define _XPLMGraphics_h_
 
 /*
- * Copyright 2005 Sandy Barbour and Ben Supnik
+ * Copyright 2005-2012 Sandy Barbour and Ben Supnik
  * 
  * All rights reserved.  See license.txt for usage.
  * 
- * X-Plane SDK Version: 1.0.2                                                  
+ * X-Plane SDK Version: 2.1.1                                                  
  *
  */
 
@@ -193,7 +193,9 @@ XPLM_API int                  XPLMGetTexture(
  * XPLMWorldToLocal
  * 
  * This routine translates coordinates from latitude, longitude, and altitude 
- * to local scene coordinates.                                                 
+ * to local scene coordinates. Latitude and longitude are in decimal degrees, 
+ * and altitude is in meters MSL (mean sea level).  The XYZ coordinates are in 
+ * meters in the local OpenGL coordinate system.                               
  *
  */
 XPLM_API void                 XPLMWorldToLocal(
@@ -208,9 +210,12 @@ XPLM_API void                 XPLMWorldToLocal(
  * XPLMLocalToWorld
  * 
  * This routine translates a local coordinate triplet back into latitude, 
- * longitude, and altitude.  NOTE: world coordinates are less precise than 
- * local coordinates; you should try to avoid  round tripping from local to 
- * world and back.                                                             
+ * longitude, and altitude.  Latitude and longitude are in decimal degrees, 
+ * and altitude is in meters MSL (mean sea level).  The XYZ coordinates are in 
+ * meters in the local OpenGL coordinate system. 
+ * 
+ * NOTE: world coordinates are less precise than local coordinates; you should 
+ * try to avoid round tripping from local to world and back.                   
  *
  */
 XPLM_API void                 XPLMLocalToWorld(
